@@ -19,5 +19,5 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ] 
 }
