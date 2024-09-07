@@ -15,7 +15,7 @@ import {
 } from "lucide-react";
 import { createSuggestionItems } from "novel/extensions";
 import { Command, renderItems } from "novel/extensions";
-import { uploadFn } from "./editor/image-upload";
+import { uploadFn } from "./image-upload";
 
 export const suggestionItems = createSuggestionItems([
   {

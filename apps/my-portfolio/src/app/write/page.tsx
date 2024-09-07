@@ -22,7 +22,7 @@ import { handleImageDrop, handleImagePaste } from "novel/plugins";
 import GenerativeMenuSwitch from "../components/generative/generative-menu-switch";
 import { uploadFn } from "../components/editor/image-upload";
 import { TextButtons } from "../components/selectors/text-buttons";
-import { slashCommand, suggestionItems } from "../components/slash-command";
+import { slashCommand, suggestionItems } from "../components/editor/slash-command";
 import { Separator } from "@repo/ui/components/separator";
 import "./prosemirror.css";
 
