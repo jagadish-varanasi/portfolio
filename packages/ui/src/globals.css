@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Aspekta";
+  src: url("../../../apps/my-portfolio/public/AspektaVF.ttf");
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

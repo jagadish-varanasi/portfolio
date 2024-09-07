@@ -36,9 +36,9 @@ const config = [
     name: "Resume",
   },
   {
-    to: "/guestbook",
+    to: "/write",
     icon: <PaperPlaneIcon height="24px" width="24px" />,
-    name: "Guestbook",
+    name: "Write",
   },
 ];
 
@@ -54,8 +54,13 @@ function SideNav() {
                 <li className="md:py-2" key={route.name}>
                   <Link
                     className={cn(
-                      "w-full h-6 flex items-center justify-center  text-slate-400 dark:text-slate-500 dark:hover:text-slate-400 hover:text-slate-600",
-                      pathname === route.to && "text-yellow-500"
+                      "w-full h-6 flex items-center justify-center   ",
+                      pathname === route.to
+                        ? "text-yellow-500"
+                        : " text-slate-400 dark:text-slate-500",
+                      pathname === route.to
+                        ? "dark:text-yellow-500"
+                        : " dark:hover:text-slate-400 hover:text-slate-600"
                     )}
                     href={route.to}
                   >

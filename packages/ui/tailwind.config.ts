@@ -19,6 +19,9 @@ const config = {
         "2xl": "1400px",
       },
     },
+    fontFamily: {
+      aspekta: ["Aspekta"],
+    },
     extend: {
       colors: {
         border: "hsl(var(--border))",

@@ -1,27 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
+import useTheme from "../hooks/use-theme";
 
 function Header() {
-  const [darkTheme, setDarkTheme] = useState(true);
+  const [darkTheme, toggle] = useTheme();
 
-  useEffect(() => {
-    const theme = localStorage.getItem("theme");
-    if (theme === "dark") {
-      setDarkTheme(true);
-    } else {
-      setDarkTheme(false);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (darkTheme) {
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkTheme]);
+  console.log(darkTheme, "DT");
 
   return (
     <header>
@@ -32,9 +16,8 @@ function Header() {
               id="light-switch"
               className="light-switch sr-only"
               type="checkbox"
-              checked={false}
               name="light-switch"
-              onClick={() => setDarkTheme(!darkTheme)}
+              onClick={toggle}
             />
             <label
               className="relative cursor-pointer p-2"

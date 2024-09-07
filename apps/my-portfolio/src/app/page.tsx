@@ -7,11 +7,12 @@ import ProjectItem from "./components/project-item";
 import HobbyCard from "./components/hobby.-card";
 import Promotion from "./components/promotions";
 import CodingProfile from "./components/coding-profile";
+import Shadow from "./components/shadow";
 
 function Home() {
   return (
     <>
-      <section>
+      <section className="flex">
         <div className="max-w-[700px]">
           <div className="pt-8 pb-10">
             <div className="h-[270px] relative mb-8">
@@ -23,16 +24,23 @@ function Home() {
                 className="rounded-2xl shadow-lg"
               />
             </div>
-            <div className="mb-2 text-xl">Hi, I'm Jagadish</div>
-            <h1 className="h1 mb-5 text-5xl">
-              I make full-stack products that people love.
+            <div className="mb-2 text-xl font-aspekta">Hi, I'm Jagadish</div>
+            <h1 className="h1 mb-5 text-4xl md:text-5xl font-aspekta font-[650]">
+              I craft{" "}
+              <span className="inline-flex relative text-green-600 before:absolute before:inset-0 before:bg-green-200 dark:before:bg-green-500 before:opacity-10 before:-z-10 before:-rotate-1 before:translate-y-1/4">
+                full-stack
+              </span>{" "}
+              products that people <span className="text-pink-400"> love.</span>
             </h1>
-            <p className="text-lg text-slate-500 dark:text-slate-400">
+            <p className="text-lg text-slate-500 dark:text-slate-400 font-aspekta">
               Developer, working at HashedIn by Deloitte. I play read, write and
               travel for fun.
             </p>
           </div>
         </div>
+        {/* <div className="flex justify-center w-[200px] flex-1 items-center h-full">
+          <Shadow />
+        </div> */}
       </section>
       <div className="grow md:flex space-y-8 md:space-y-0 md:space-x-8 pb-16 md:pb-20">
         <div className="grow">
@@ -63,9 +71,9 @@ function Home() {
         </div>
         <aside className="md:w-[240px] lg:w-[300px] shrink-0">
           <div className="space-y-6">
-          <Promotion />
-          <HobbyCard />
-          <CodingProfile />
+            <Promotion />
+            <HobbyCard />
+            <CodingProfile />
           </div>
         </aside>
       </div>

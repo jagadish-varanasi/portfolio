@@ -1,6 +1,7 @@
 import React from "react";
 import Promotion from "../components/promotions";
 import HobbyCard from "../components/hobby.-card";
+import WorkExperience from "../components/work-experience";
 
 function About() {
   return (
@@ -100,92 +101,7 @@ function About() {
                 <h2 className="text-2xl font-[650] text-slate-800 dark:text-slate-100">
                   Work Experience
                 </h2>
-                <ul className="space-y-8">
-                  <div className="relative group">
-                    <div className="flex items-start before:absolute before:left-0 before:h-full before:w-px before:bg-slate-200 before:dark:bg-slate-800 before:self-start before:ml-[28px] before:-translate-x-1/2 before:translate-y-8 before:group-last-of-type:hidden">
-                      <div className="absolute left-0 h-14 w-14 flex items-center justify-center border border-slate-200 dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30 bg-white dark:bg-slate-900 rounded-full"></div>
-                      <div className="pl-20 space-y-1">
-                        <div className="text-xs text-slate-500 uppercase">
-                          Mar. 2023
-                          <span className="text-slate-400 dark:text-slate-600">
-                            {" . "}
-                          </span>
-                          Aug. 2023
-                        </div>
-                        <div className="font-[650] text-slate-800 dark:text-slate-100">
-                          Feature head and Full-Stack developer
-                        </div>
-                        <div className="text-sm font-medium text-slate-800 dark:text-slate-100">
-                          Hypefury
-                        </div>
-                        <div className="text-sm text-slate-500 dark:text-slate-400">
-                          As a Project Lead, my responsibility was to oversee
-                          and maintain all the codebase of one of Hypefury's
-                          core offerings. Typescript, Rust, Python were used in
-                          the infrastructure. We utilized NextJS with the “T-3
-                          stack” - ensuring developer productivity as well as a
-                          bug-free typesafe codebase.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="relative group">
-                    <div className="flex items-start before:absolute before:left-0 before:h-full before:w-px before:bg-slate-200 before:dark:bg-slate-800 before:self-start before:ml-[28px] before:-translate-x-1/2 before:translate-y-8 before:group-last-of-type:hidden">
-                      <div className="absolute left-0 h-14 w-14 flex items-center justify-center border border-slate-200 dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30 bg-white dark:bg-slate-900 rounded-full"></div>
-                      <div className="pl-20 space-y-1">
-                        <div className="text-xs text-slate-500 uppercase">
-                          Mar. 2023
-                          <span className="text-slate-400 dark:text-slate-600">
-                            {" . "}
-                          </span>
-                          Aug. 2023
-                        </div>
-                        <div className="font-[650] text-slate-800 dark:text-slate-100">
-                          Feature head and Full-Stack developer
-                        </div>
-                        <div className="text-sm font-medium text-slate-800 dark:text-slate-100">
-                          Hypefury
-                        </div>
-                        <div className="text-sm text-slate-500 dark:text-slate-400">
-                          As a Project Lead, my responsibility was to oversee
-                          and maintain all the codebase of one of Hypefury's
-                          core offerings. Typescript, Rust, Python were used in
-                          the infrastructure. We utilized NextJS with the “T-3
-                          stack” - ensuring developer productivity as well as a
-                          bug-free typesafe codebase.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="relative group">
-                    <div className="flex items-start before:absolute before:left-0 before:h-full before:w-px before:bg-slate-200 before:dark:bg-slate-800 before:self-start before:ml-[28px] before:-translate-x-1/2 before:translate-y-8 before:group-last-of-type:hidden">
-                      <div className="absolute left-0 h-14 w-14 flex items-center justify-center border border-slate-200 dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30 bg-white dark:bg-slate-900 rounded-full"></div>
-                      <div className="pl-20 space-y-1">
-                        <div className="text-xs text-slate-500 uppercase">
-                          Mar. 2023
-                          <span className="text-slate-400 dark:text-slate-600">
-                            {" . "}
-                          </span>
-                          Aug. 2023
-                        </div>
-                        <div className="font-[650] text-slate-800 dark:text-slate-100">
-                          Feature head and Full-Stack developer
-                        </div>
-                        <div className="text-sm font-medium text-slate-800 dark:text-slate-100">
-                          Hypefury
-                        </div>
-                        <div className="text-sm text-slate-500 dark:text-slate-400">
-                          As a Project Lead, my responsibility was to oversee
-                          and maintain all the codebase of one of Hypefury's
-                          core offerings. Typescript, Rust, Python were used in
-                          the infrastructure. We utilized NextJS with the “T-3
-                          stack” - ensuring developer productivity as well as a
-                          bug-free typesafe codebase.
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </ul>
+                <WorkExperience />
               </div>
               <div className="space-y-4">
                 <h2
