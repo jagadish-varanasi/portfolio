@@ -2,7 +2,7 @@ export interface Article {
   id: string;
   title: string;
   description: string;
-  tag: string;
+  topic: string;
   readDuration: string;
   date: string;
 }

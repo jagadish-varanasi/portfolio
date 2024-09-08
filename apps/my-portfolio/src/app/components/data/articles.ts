@@ -2,7 +2,7 @@ import { Article } from "./types";
 
 export const articles: Array<Article> = [
   {
-    id: "1",
+    id: "getting-started",
     date: "Apr 1, 2024",
     readDuration: "6 Min",
     title: "Getting Started with React",

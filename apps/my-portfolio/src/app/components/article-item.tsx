@@ -11,7 +11,7 @@ function ArticleItem({ data }: { data: Article }) {
         <div className="w-full">
           <div className="text-xs text-slate-500 uppercase mb-1">
             <span className="text-yellow-500">—</span>
-            <time>{data.date}</time>{" "}
+            {" "}<time>{data.date}</time>{" "}
             <span className="text-slate-400 dark:text-slate-600">·</span>{" "}
             {data.readDuration} read
           </div>

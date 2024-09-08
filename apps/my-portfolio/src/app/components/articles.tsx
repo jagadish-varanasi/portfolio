@@ -6,9 +6,36 @@ import {
 } from "@repo/ui/components/tabs";
 import React from "react";
 import ArticleItem from "./article-item";
-import { articles } from "./data/articles";
+import { promises as fs } from "fs";
+import path from "path";
+import { compileMDX } from "next-mdx-remote/rsc";
+import { Article } from "./data/types";
 
-function Articles() {
+
+async function Articles() {
+
+  const filenames = await fs.readdir(
+    path.join(process.cwd(), "src/app/blog/markdown")
+  );
+
+  const articles = await Promise.all(
+    filenames.map(async (filename) => {
+      const content = await fs.readFile(
+        path.join(process.cwd(), "src/app/blog/markdown", filename),
+        "utf-8"
+      );
+      const { frontmatter } = await compileMDX<Article>({
+        source: content,
+        options: { parseFrontmatter: true },
+      });
+      return {
+        ...frontmatter,
+        id: frontmatter.title.replace(".mdx", ""),
+        filename,
+      };
+    })
+  );
+
   return (
     <Tabs defaultValue="latest">
       <TabsList className="w-full mt-2">
@@ -29,56 +56,56 @@ function Articles() {
       </TabsContent>
       <TabsContent value="react">
         {articles
-          .filter((f) => f.tag === "React")
+          .filter((f) => f.topic === "react")
           .map((article) => (
             <ArticleItem data={article} key={article.id} />
           ))}
       </TabsContent>
       <TabsContent value="frontend">
         {articles
-          .filter((f) => f.tag === "Frontend")
+          .filter((f) => f.topic === "Frontend")
           .map((article) => (
             <ArticleItem data={article} key={article.id} />
           ))}
       </TabsContent>
       <TabsContent value="angular">
         {articles
-          .filter((f) => f.tag === "Angular")
+          .filter((f) => f.topic === "Angular")
           .map((article) => (
             <ArticleItem data={article} key={article.id} />
           ))}
       </TabsContent>
       <TabsContent value="javascript">
         {articles
-          .filter((f) => f.tag === "JavaScript")
+          .filter((f) => f.topic === "JavaScript")
           .map((article) => (
             <ArticleItem data={article} key={article.id} />
           ))}
       </TabsContent>
       <TabsContent value="system-design">
         {articles
-          .filter((f) => f.tag === "System Design")
+          .filter((f) => f.topic === "System Design")
           .map((article) => (
             <ArticleItem data={article} key={article.id} />
           ))}
       </TabsContent>
       <TabsContent value="sql">
         {articles
-          .filter((f) => f.tag === "SQL")
+          .filter((f) => f.topic === "SQL")
           .map((article) => (
             <ArticleItem data={article} key={article.id} />
           ))}
       </TabsContent>
       <TabsContent value="cloud">
         {articles
-          .filter((f) => f.tag === "Cloud")
+          .filter((f) => f.topic === "Cloud")
           .map((article) => (
             <ArticleItem data={article} key={article.id} />
           ))}
       </TabsContent>
       <TabsContent value="dsa">
         {articles
-          .filter((f) => f.tag === "DSA")
+          .filter((f) => f.topic === "DSA")
           .map((article) => (
             <ArticleItem data={article} key={article.id} />
           ))}
