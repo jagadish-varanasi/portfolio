@@ -8,7 +8,7 @@ export const articles: Array<Article> = [
     title: "Getting Started with React",
     description:
       "An introductory guide to building web applications using React.",
-    tag: "React",
+    topic: "React",
   },
   {
     id: "2",
@@ -17,7 +17,7 @@ export const articles: Array<Article> = [
     title: "Understanding Angular Directives",
     description:
       "A comprehensive look at Angular directives and how to use them.",
-    tag: "Angular",
+    topic: "Angular",
   },
   {
     id: "3",
@@ -25,7 +25,7 @@ export const articles: Array<Article> = [
     readDuration: "8 Min",
     title: "Frontend Development Best Practices",
     description: "Best practices for modern frontend development.",
-    tag: "Frontend",
+    topic: "Frontend",
   },
   {
     id: "4",
@@ -33,7 +33,7 @@ export const articles: Array<Article> = [
     readDuration: "9 Min",
     title: "Introduction to Cloud Computing",
     description: "A beginner's guide to understanding cloud computing.",
-    tag: "Cloud",
+    topic: "Cloud",
   },
   {
     id: "5",
@@ -41,7 +41,7 @@ export const articles: Array<Article> = [
     readDuration: "10 Min",
     title: "Mastering SQL Queries",
     description: "Tips and tricks for writing efficient SQL queries.",
-    tag: "SQL",
+    topic: "SQL",
   },
   {
     id: "6",
@@ -49,7 +49,7 @@ export const articles: Array<Article> = [
     readDuration: "11 Min",
     title: "React Hooks: An In-Depth Look",
     description: "Exploring the power of hooks in React.",
-    tag: "React",
+    topic: "React",
   },
   {
     id: "7",
@@ -57,7 +57,7 @@ export const articles: Array<Article> = [
     readDuration: "12 Min",
     title: "Building Single Page Applications with Angular",
     description: "A guide to building SPAs using Angular.",
-    tag: "Angular",
+    topic: "Angular",
   },
   {
     id: "8",
@@ -65,7 +65,7 @@ export const articles: Array<Article> = [
     readDuration: "13 Min",
     title: "CSS Grid vs Flexbox: Which One to Use?",
     description: "Comparing CSS Grid and Flexbox for layout design.",
-    tag: "Frontend",
+    topic: "Frontend",
   },
   {
     id: "9",
@@ -73,7 +73,7 @@ export const articles: Array<Article> = [
     readDuration: "14 Min",
     title: "Cloud Security Best Practices",
     description: "Ensuring security in cloud environments.",
-    tag: "Cloud",
+    topic: "Cloud",
   },
   {
     id: "10",
@@ -81,7 +81,7 @@ export const articles: Array<Article> = [
     readDuration: "15 Min",
     title: "Advanced SQL Techniques",
     description: "Advanced techniques for optimizing SQL queries.",
-    tag: "SQL",
+    topic: "SQL",
   },
   {
     id: "11",
@@ -89,7 +89,7 @@ export const articles: Array<Article> = [
     readDuration: "16 Min",
     title: "State Management in React",
     description: "Managing state effectively in React applications.",
-    tag: "React",
+    topic: "React",
   },
   {
     id: "12",
@@ -97,7 +97,7 @@ export const articles: Array<Article> = [
     readDuration: "17 Min",
     title: "Angular Services and Dependency Injection",
     description: "Understanding services and dependency injection in Angular.",
-    tag: "Angular",
+    topic: "Angular",
   },
   {
     id: "13",
@@ -105,7 +105,7 @@ export const articles: Array<Article> = [
     readDuration: "18 Min",
     title: "Modern JavaScript for Frontend Developers",
     description: "Essential JavaScript features for frontend development.",
-    tag: "Frontend",
+    topic: "Frontend",
   },
   {
     id: "14",
@@ -114,7 +114,7 @@ export const articles: Array<Article> = [
     title: "Migrating to the Cloud: A Step-by-Step Guide",
     description:
       "A comprehensive guide to migrating applications to the cloud.",
-    tag: "Cloud",
+    topic: "Cloud",
   },
   {
     id: "15",
@@ -122,7 +122,7 @@ export const articles: Array<Article> = [
     readDuration: "20 Min",
     title: "SQL Joins Explained",
     description: "A detailed explanation of SQL joins and their use cases.",
-    tag: "SQL",
+    topic: "SQL",
   },
   {
     id: "16",
@@ -131,7 +131,7 @@ export const articles: Array<Article> = [
     title: "React Performance Optimization",
     description:
       "Techniques for optimizing the performance of React applications.",
-    tag: "React",
+    topic: "React",
   },
   {
     id: "17",
@@ -139,7 +139,7 @@ export const articles: Array<Article> = [
     readDuration: "22 Min",
     title: "Angular Routing and Navigation",
     description: "Implementing routing and navigation in Angular applications.",
-    tag: "Angular",
+    topic: "Angular",
   },
   {
     id: "18",
@@ -147,7 +147,7 @@ export const articles: Array<Article> = [
     readDuration: "23 Min",
     title: "Building Responsive UIs with CSS",
     description: "Creating responsive user interfaces using CSS.",
-    tag: "Frontend",
+    topic: "Frontend",
   },
   {
     id: "19",
@@ -156,7 +156,7 @@ export const articles: Array<Article> = [
     title: "Cloud Cost Management Strategies",
     description:
       "Effective strategies for managing costs in cloud environments.",
-    tag: "Cloud",
+    topic: "Cloud",
   },
   {
     id: "20",
@@ -164,7 +164,7 @@ export const articles: Array<Article> = [
     readDuration: "25 Min",
     title: "SQL Indexing Best Practices",
     description: "Best practices for indexing in SQL databases.",
-    tag: "SQL",
+    topic: "SQL",
   },
   {
     id: "21",
@@ -172,7 +172,7 @@ export const articles: Array<Article> = [
     readDuration: "13 Min",
     title: "JavaScript Design Patterns",
     description: "Common design patterns used in JavaScript development.",
-    tag: "JavaScript",
+    topic: "JavaScript",
   },
   {
     id: "22",
@@ -180,7 +180,7 @@ export const articles: Array<Article> = [
     readDuration: "14 Min",
     title: "JavaScript Debugging Techniques",
     description: "Effective techniques for debugging JavaScript code.",
-    tag: "JavaScript",
+    topic: "JavaScript",
   },
   {
     id: "23",
@@ -188,7 +188,7 @@ export const articles: Array<Article> = [
     readDuration: "15 Min",
     title: "JavaScript and the DOM",
     description: "Manipulating the DOM using JavaScript.",
-    tag: "JavaScript",
+    topic: "JavaScript",
   },
   {
     id: "24",
@@ -197,7 +197,7 @@ export const articles: Array<Article> = [
     title: "JavaScript Modules",
     description:
       "How to use modules in JavaScript for better code organization.",
-    tag: "JavaScript",
+    topic: "JavaScript",
   },
   {
     id: "25",
@@ -206,7 +206,7 @@ export const articles: Array<Article> = [
     title: "JavaScript Regular Expressions",
     description:
       "Using regular expressions in JavaScript for pattern matching.",
-    tag: "JavaScript",
+    topic: "JavaScript",
   },
   {
     id: "26",
@@ -214,7 +214,7 @@ export const articles: Array<Article> = [
     readDuration: "18 Min",
     title: "JavaScript Error Handling",
     description: "Best practices for handling errors in JavaScript.",
-    tag: "JavaScript",
+    topic: "JavaScript",
   },
   {
     id: "27",
@@ -223,7 +223,7 @@ export const articles: Array<Article> = [
     title: "JavaScript Performance Optimization",
     description:
       "Techniques for optimizing the performance of JavaScript code.",
-    tag: "JavaScript",
+    topic: "JavaScript",
   },
   {
     id: "28",
@@ -231,7 +231,7 @@ export const articles: Array<Article> = [
     readDuration: "20 Min",
     title: "JavaScript Prototypes and Inheritance",
     description: "Understanding prototypes and inheritance in JavaScript.",
-    tag: "JavaScript",
+    topic: "JavaScript",
   },
   {
     id: "29",
@@ -239,7 +239,7 @@ export const articles: Array<Article> = [
     readDuration: "21 Min",
     title: "JavaScript Event Loop",
     description: "How the event loop works in JavaScript.",
-    tag: "JavaScript",
+    topic: "JavaScript",
   },
   {
     id: "30",
@@ -247,7 +247,7 @@ export const articles: Array<Article> = [
     readDuration: "22 Min",
     title: "JavaScript Functional Programming",
     description: "Applying functional programming concepts in JavaScript.",
-    tag: "JavaScript",
+    topic: "JavaScript",
   },
   {
     id: "31",
@@ -256,7 +256,7 @@ export const articles: Array<Article> = [
     title: "Designing Scalable Frontend Architectures",
     description:
       "Techniques for designing scalable and maintainable frontend architectures.",
-    tag: "System Design",
+    topic: "System Design",
   },
   {
     id: "32",
@@ -265,7 +265,7 @@ export const articles: Array<Article> = [
     title: "State Management in Large-Scale Applications",
     description:
       "Best practices for managing state in large-scale frontend applications.",
-    tag: "System Design",
+    topic: "System Design",
   },
   {
     id: "33",
@@ -274,7 +274,7 @@ export const articles: Array<Article> = [
     title: "Optimizing Frontend Performance",
     description:
       "Strategies for optimizing the performance of frontend applications.",
-    tag: "System Design",
+    topic: "System Design",
   },
   {
     id: "34",
@@ -283,7 +283,7 @@ export const articles: Array<Article> = [
     title: "Component-Based Architecture",
     description:
       "Building reusable and maintainable components in frontend systems.",
-    tag: "System Design",
+    topic: "System Design",
   },
   {
     id: "35",
@@ -292,7 +292,7 @@ export const articles: Array<Article> = [
     title: "Deploying Frontend Apps with CI/CD Pipelines",
     description:
       "How to set up CI/CD pipelines for seamless frontend deployments.",
-    tag: "Cloud",
+    topic: "Cloud",
   },
   {
     id: "36",
@@ -301,7 +301,7 @@ export const articles: Array<Article> = [
     title: "Best Practices for Frontend Deployment",
     description:
       "Best practices to ensure smooth and efficient frontend deployments.",
-    tag: "Cloud",
+    topic: "Cloud",
   },
   {
     id: "2",
@@ -310,7 +310,7 @@ export const articles: Array<Article> = [
     title: "Solving Array and String Problems in DSA",
     description:
       "Common techniques and strategies for solving array and string problems",
-    tag: "DSA",
+    topic: "DSA",
   },
   {
     id: "3",
@@ -319,6 +319,6 @@ export const articles: Array<Article> = [
     title: "Dynamic Programming: Popular Problems and Solutions",
     description:
       "An in-depth look at popular dynamic programming problems and their solutions.",
-    tag: "DSA",
+    topic: "DSA",
   },
 ];
