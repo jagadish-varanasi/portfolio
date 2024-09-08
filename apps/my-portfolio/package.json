@@ -9,8 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@mdx-js/loader": "^3.0.1",
+    "@mdx-js/react": "^3.0.1",
+    "@next/mdx": "^14.2.8",
     "@radix-ui/react-icons": "^1.3.0",
     "@repo/ui": "*",
+    "@types/mdx": "^2.0.13",
     "framer-motion": "^11.3.31",
     "next": "14.2.7",
     "react": "^18",

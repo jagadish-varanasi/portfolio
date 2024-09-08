@@ -81,12 +81,12 @@ const TailwindAdvancedEditor = () => {
     else setInitialContent(null);
   }, []);
 
-  if (!initialContent) return null;
+  if (!initialContent) return;
 
   return (
     <div className="relative w-full max-w-screen-lg ">
       <div className="mb-2 flex justify-end">
-          <Menu/>
+        <Menu />
       </div>
       <div className="flex absolute right-5 top-14 z-10 mb-5 gap-2">
         <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
