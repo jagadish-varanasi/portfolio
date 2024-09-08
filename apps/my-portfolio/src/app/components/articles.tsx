@@ -30,7 +30,7 @@ async function Articles() {
       });
       return {
         ...frontmatter,
-        id: frontmatter.title.replace(".mdx", ""),
+        id: filename.replace(".mdx", ""),
         filename,
       };
     })
