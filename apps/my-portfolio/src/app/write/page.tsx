@@ -22,9 +22,13 @@ import { handleImageDrop, handleImagePaste } from "novel/plugins";
 import GenerativeMenuSwitch from "../components/generative/generative-menu-switch";
 import { uploadFn } from "../components/editor/image-upload";
 import { TextButtons } from "../components/selectors/text-buttons";
-import { slashCommand, suggestionItems } from "../components/editor/slash-command";
+import {
+  slashCommand,
+  suggestionItems,
+} from "../components/editor/slash-command";
 import { Separator } from "@repo/ui/components/separator";
 import "./prosemirror.css";
+import { Menu } from "./components/menu";
 
 const hljs = require("highlight.js");
 
@@ -81,7 +85,10 @@ const TailwindAdvancedEditor = () => {
 
   return (
     <div className="relative w-full max-w-screen-lg ">
-      <div className="flex absolute right-5 top-5 z-10 mb-5 gap-2">
+      <div className="mb-2 flex justify-end">
+          <Menu/>
+      </div>
+      <div className="flex absolute right-5 top-14 z-10 mb-5 gap-2">
         <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
           {saveStatus}
         </div>

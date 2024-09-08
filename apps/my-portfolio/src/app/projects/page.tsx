@@ -3,6 +3,7 @@ import ProjectItem from "../components/project-item";
 import HobbyCard from "../components/hobby.-card";
 import Promotion from "../components/promotions";
 import CodingProfile from "../components/coding-profile";
+import {projects} from "../components/data/projects";
 
 function Projects() {
   return (
@@ -14,9 +15,9 @@ function Projects() {
           </h1>
           <section>
             <div className="grid sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-5">
-              <ProjectItem />
-              <ProjectItem />
-              <ProjectItem />
+              {projects.map((project) => (
+                <ProjectItem data={project} key={project.id} />
+              ))}
             </div>
           </section>
         </div>

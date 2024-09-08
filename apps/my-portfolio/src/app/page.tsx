@@ -8,6 +8,7 @@ import HobbyCard from "./components/hobby.-card";
 import Promotion from "./components/promotions";
 import CodingProfile from "./components/coding-profile";
 import Shadow from "./components/shadow";
+import { projects } from "./components/data/projects";
 
 function Home() {
   return (
@@ -61,9 +62,9 @@ function Home() {
               <section>
                 <h2 className="text-xl font-[650] mb-5">Latest Projects</h2>
                 <div className="grid sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-5">
-                  <ProjectItem />
-                  <ProjectItem />
-                  <ProjectItem />
+                  {projects.map((project) => (
+                    <ProjectItem data={project} key={project.id} />
+                  ))}
                 </div>
               </section>
             </div>
