@@ -15,6 +15,7 @@ import {
   TextQuote,
   Twitter,
   Youtube,
+  Table,
 } from "lucide-react";
 import { createSuggestionItems } from "novel/extensions";
 import { Command, renderItems } from "novel/extensions";
@@ -252,6 +253,25 @@ export const suggestionItems = createSuggestionItems([
         }
       }
     },
+  },
+  {
+    title: "Table",
+    description: "Insert Table.",
+    searchTerms: ["insert", "table"],
+    icon: <Table size={18} />,
+    command: ({ editor, range }) =>
+      editor
+        .chain()
+        .focus()
+        .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+        .run(),
+  },
+  {
+    title: "Delete Table",
+    description: "Delete Table.",
+    searchTerms: ["delete", "table"],
+    icon: <Table size={18} />,
+    command: ({ editor, range }) => editor.chain().focus().deleteTable().run(),
   },
 ]);
 

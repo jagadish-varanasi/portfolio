@@ -45,7 +45,7 @@ async function Articles() {
         <TabsTrigger value="angular">Angular</TabsTrigger>
         <TabsTrigger value="javascript">Javascript</TabsTrigger>
         <TabsTrigger value="system-design">System Design</TabsTrigger>
-        <TabsTrigger value="sql">SQL</TabsTrigger>
+        <TabsTrigger value="db">Databases</TabsTrigger>
         <TabsTrigger value="cloud">Cloud</TabsTrigger>
         <TabsTrigger value="dsa">DSA</TabsTrigger>
       </TabsList>
@@ -89,9 +89,9 @@ async function Articles() {
             <ArticleItem data={article} key={article.id} />
           ))}
       </TabsContent>
-      <TabsContent value="sql">
+      <TabsContent value="db">
         {articles
-          .filter((f) => f.topic === "SQL")
+          .filter((f) => f.topic === "db")
           .map((article) => (
             <ArticleItem data={article} key={article.id} />
           ))}
