@@ -171,12 +171,11 @@ function Resume() {
                             GCP
                           </div>
                           <div className="text-sm text-slate-500 dark:text-slate-400">
-                            As a Project Lead, my responsibility was to oversee
-                            and maintain all the codebase of one of Hypefury's
-                            core offerings. Typescript, Rust, Python were used
-                            in the infrastructure. We utilized NextJS with the
-                            “T-3 stack” - ensuring developer productivity as
-                            well as a bug-free typesafe codebase.
+                            Successfully achieved the GCP Associate Cloud
+                            Engineer certification, demonstrating proficiency in
+                            deploying applications, monitoring operations, and
+                            managing enterprise solutions using Google Cloud
+                            technologies.
                           </div>
                         </div>
                       </div>
@@ -207,12 +206,19 @@ function Resume() {
                             Coursera
                           </div>
                           <div className="text-sm text-slate-500 dark:text-slate-400">
-                            As a Project Lead, my responsibility was to oversee
-                            and maintain all the codebase of one of Hypefury's
-                            core offerings. Typescript, Rust, Python were used
-                            in the infrastructure. We utilized NextJS with the
-                            “T-3 stack” - ensuring developer productivity as
-                            well as a bug-free typesafe codebase.
+                            Completed the Machine Learning course by Andrew Ng
+                            on Coursera, gaining a comprehensive understanding
+                            of key machine learning concepts and techniques.
+                            Developed proficiency in supervised learning
+                            algorithms such as linear regression, logistic
+                            regression, neural networks, and support vector
+                            machines, as well as unsupervised learning methods
+                            including k-means clustering and principal component
+                            analysis (PCA). Acquired hands-on experience with
+                            Octave/Matlab for implementing machine learning
+                            models and applied these techniques to practical
+                            problems in anomaly detection, recommender systems,
+                            and natural language processing.
                           </div>
                         </div>
                       </div>

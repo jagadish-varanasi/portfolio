@@ -22,79 +22,69 @@ function About() {
                   Short Bio
                 </h2>
                 <p>
-                  I'm a product maker (... and full stack developer) currently
-                  based in Arizona, USA. I'm passionate about building products
-                  that help people and make a difference in the world. I'm also
-                  a big fan of open source software - which is why{" "}
+                  I'm a product maker (... and a professional software engineer)
+                  currently working at HashedIn by Deloitte in Bengaluru. With
+                  ~3 years of industry experience, mostly solving problem
+                  statements related to frontend, Web Performance, Server Driven
+                  UI and Web Security and Animations. Bridging the gap between
+                  engineering and design. I'm passionate about building products
+                  that help people and make a difference in the world.{" "}
                   <a
                     className="text-yellow-500"
                     href="https://github.com/dhravya"
-                  >
-                    almost everything I build is open source!
-                  </a>{" "}
+                  ></a>{" "}
                   I also love educating others about technology and programming,
-                  which is why I'm a{" "}
-                  <a
-                    className="text-yellow-500"
-                    href="https://instagram.com/dhravya.dev"
-                  >
-                    content creator
-                  </a>{" "}
-                  and{" "}
+                  which is why I{"  "}
                   <a className="text-yellow-500" href="/blog">
                     write blogs
                   </a>{" "}
                   in my free time. <br />I mainly write code in the{" "}
                   <a href="https://create.t3.gg" className="text-yellow-500">
-                    T3 Stack
+                    Javascript
                   </a>
                 </p>
               </div>
               <div className="space-y-4">
                 <h2 className="text-2xl font-[650]  text-slate-800 dark:text-slate-100">
-                  Career
+                  Expertise
                 </h2>
                 <p>
-                  I sold my first venture,{" "}
-                  <a
-                    className="text-yellow-500"
-                    href="https://epikhost.dhravya.dev/"
-                  >
-                    Epikhost
-                  </a>
-                  , at an age of 16. And then went on to build and{" "}
-                  <a
-                    href="https://x.com/DhravyaShah/status/1622132126354386944?s=20"
-                    className="text-yellow-500"
-                  >
-                    fail a lot of times.
-                  </a>{" "}
-                  I also worked as a freelancer, creating and selling discord
-                  bots and landing pages. Then, I went on to work as an app
-                  developer for Commnete, a startup based in Mumbai, India.
+                  As a seasoned Frontend Developer with extensive experience in
+                  <span className="text-yellow-500">
+                    {" "}
+                    React, JavaScript, React Native, Next.js, Angular and
+                    TypeScript
+                  </span>
+                  , I bring a robust skill set and a proven track record of
+                  delivering high-quality, user-centric{" "}
+                  <span className="text-yellow-500">web and mobile </span>
+                  applications. My expertise lies in developing responsive,
+                  scalable, and maintainable code, leveraging modern frameworks
+                  and libraries to enhance user experience and performance. With
+                  a deep understanding of state management, component lifecycle,
+                  and asynchronous programming, I excel in building{" "}
+                  <span className="text-yellow-500">
+                    complex, interactive interfaces.
+                  </span>
                 </p>
                 <p>
-                  My second exit was{" "}
-                  <a className="text-yellow-500" href="https://tweets.beauty">
-                    Tweets.beauty
-                  </a>
-                  , a tool to beautify tweets and other web content. I sold it
-                  to{" "}
-                  <a className="text-yellow-500" href="https://hypefury.com">
-                    Hypefury
-                  </a>{" "}
-                  in 2023, and I got an opportunity to work with them as a full
-                  stack developer.
+                  Additionally, I possess a solid understanding of backend
+                  systems, particularly with{" "}
+                  <span className="text-yellow-500">Node.js</span>, allowing me
+                  to develop and integrate efficient server-side logic. My
+                  knowledge extends to cloud services in{" "}
+                  <span className="text-yellow-500">
+                    Google Cloud Platform{" "}
+                  </span>
+                  (GCP), where I have experience deploying, managing, and
+                  optimizing applications for scalability and performance.
                 </p>
                 <p>
-                  I've won several hackathons as well, like{" "}
-                  <a className="text-yellow-500" href="https://calhacks.io">
-                    Calhacks, by UC Berkeley
-                  </a>
-                  , which was the biggest college hackathon of the time, and{" "}
-                  <a className="text-yellow-500" href="https://sunhacks.io">
-                    Sunhacks, by ASU
-                  </a>
+                  I am passionate about collaborating with like-minded
+                  professionals to innovate and build impactful products. I
+                  thrive in cross-functional team environments, implementing
+                  best practices, and continuously optimizing code for better
+                  performance and usability.
                 </p>
               </div>
               <div className="space-y-8">
@@ -111,7 +101,7 @@ function About() {
                   Let's Connect
                 </h2>
                 <p>
-                  I'm excited to connect with others via{" "}
+                  I'm excited to connect via{" "}
                   <a
                     className="font-medium text-yellow-500 hover:underline"
                     href="mailto:hi@dhravya.dev"
@@ -125,10 +115,10 @@ function About() {
                   >
                     LinkedIn
                   </a>{" "}
-                  to chat about projects and ideas. Currently, I'm not taking on
-                  freelance projects, but I am open to hearing about potential
-                  opportunities, discussing them with you and then potentially
-                  collaborating if it's a good fit.
+                  to chat about projects and ideas. Whether you have a concept
+                  in mind or are looking for freelance expertise, let's chat
+                  about how we can work together to turn great ideas into
+                  successful realities.
                 </p>
               </div>
             </div>

@@ -28,13 +28,13 @@ function Home() {
             <h1 className="h1 mb-5 text-4xl md:text-5xl font-aspekta font-[650]">
               I craft{" "}
               <span className="inline-flex relative text-green-600 before:absolute before:inset-0 before:bg-green-200 dark:before:bg-green-500 before:opacity-10 before:-z-10 before:-rotate-1 before:translate-y-1/4">
-                full-stack
+                {/* full-stack */} products
               </span>{" "}
-              products that people <span className="text-pink-400"> love.</span>
+              that people <span className="text-pink-400"> love.</span>
             </h1>
             <p className="text-lg text-slate-500 dark:text-slate-400 font-aspekta">
-              Developer, working at HashedIn by Deloitte. I play read, write and
-              travel for fun.
+              Software Engineer, working at HashedIn by Deloitte. I play read,
+              write and travel for fun.
             </p>
           </div>
         </div>
@@ -46,10 +46,8 @@ function Home() {
               <Socials />
               <p className="text-lg text-slate-900 dark:text-slate-300 mt-4">
                 I also create content to inspire and help others get started
-                with coding, and share my experiences as a developer and
-                entrepreneur. With more than 20,000 followers on instagram, I
-                have a small but growing community of developers. Check it out
-                here.
+                with coding, and share my experiences as a engineer. Check it
+                out here.
               </p>
               <section>
                 <h2 className="text-xl font-[650] mb-3">Latest Articles</h2>

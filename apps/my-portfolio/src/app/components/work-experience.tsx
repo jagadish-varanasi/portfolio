@@ -68,12 +68,18 @@ function WorkExperience() {
                       </div>
                       <div className="text-sm font-medium text-slate-800 dark:text-slate-100"></div>
                       <div className="text-sm text-slate-500 dark:text-slate-400">
-                        As a Project Lead, my responsibility was to oversee and
-                        maintain all the codebase of one of Hypefury's core
-                        offerings. Typescript, Rust, Python were used in the
-                        infrastructure. We utilized NextJS with the “T-3 stack”
-                        - ensuring developer productivity as well as a bug-free
-                        typesafe codebase.
+                        As a Software Engineer, I am part of the development
+                        team for an application that leverages generative AI to
+                        produce business-related documents such as Minutes of
+                        Meetings (MOM) and User Stories. Additionally, I
+                        contributed to the development of a cost optimization
+                        tool for airline networks. My role primarily involved
+                        frontend development using React and Redux, ensuring a
+                        seamless and efficient user experience. My
+                        responsibilities included requirement gathering, task
+                        estimation, development, design reviews, code reviews,
+                        and conducting demos of developed features, followed by
+                        a feedback cycle to ensure continuous improvement.
                       </div>
                     </div>
                   </div>
@@ -94,12 +100,21 @@ function WorkExperience() {
                       </div>
                       <div className="text-sm font-medium text-slate-800 dark:text-slate-100"></div>
                       <div className="text-sm text-slate-500 dark:text-slate-400">
-                        As a Project Lead, my responsibility was to oversee and
-                        maintain all the codebase of one of Hypefury's core
-                        offerings. Typescript, Rust, Python were used in the
-                        infrastructure. We utilized NextJS with the “T-3 stack”
-                        - ensuring developer productivity as well as a bug-free
-                        typesafe codebase.
+                        <p>
+                          Successfully developed and enhanced frontend
+                          applications for healthcare domain app, internal
+                          employee engagement tools, and client's employee
+                          learning platforms(web/mobile). Utilized React and
+                          Angular frameworks with Redux for efficient state
+                          management.
+                        </p>
+                        <p>
+                          Implemented real-time features, modular architecture,
+                          and CI/CD pipelines for seamless deployment and
+                          testing. Demonstrated strong skills in optimizing code
+                          quality, performance, and maintaining comprehensive
+                          documentation.
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -120,12 +135,16 @@ function WorkExperience() {
                       </div>
                       <div className="text-sm font-medium text-slate-800 dark:text-slate-100"></div>
                       <div className="text-sm text-slate-500 dark:text-slate-400">
-                        As a Project Lead, my responsibility was to oversee and
-                        maintain all the codebase of one of Hypefury's core
-                        offerings. Typescript, Rust, Python were used in the
-                        infrastructure. We utilized NextJS with the “T-3 stack”
-                        - ensuring developer productivity as well as a bug-free
-                        typesafe codebase.
+                        As a software engineer intern, I completed an intensive
+                        bootcamp HashedIn University (HU), which involved
+                        rigorous training in HTML/CSS/JavaScript, Angular, Java,
+                        Google Cloud Platform (GCP), and data science.
+                        Demonstrating exceptional learning agility, all
+                        assignments were completed in a short span, and
+                        significant contributions were made to a product month.
+                        This comprehensive training and practical experience
+                        have equipped me with a robust skill set, making me a
+                        valuable asset to any software development team.
                       </div>
                     </div>
                   </div>
