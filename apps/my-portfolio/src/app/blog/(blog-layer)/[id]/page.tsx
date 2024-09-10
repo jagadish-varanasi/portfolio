@@ -28,7 +28,11 @@ async function Page({ params }: { params: { id: string } }) {
     path.join(process.cwd(), "src/app/blog/markdown", `${params.id}.mdx`),
     "utf-8"
   );
-  const data = await compileMDX<{ title: string; description: string }>({
+  const data = await compileMDX<{
+    title: string;
+    description: string;
+    url: string;
+  }>({
     source: content,
     options: {
       parseFrontmatter: true,
@@ -36,7 +40,7 @@ async function Page({ params }: { params: { id: string } }) {
   });
   return (
     <>
-      <Header image={"/tech/react-svgrepo-com.svg"} />
+      <Header image={`/${data.frontmatter.url}`} />
       <MdxLayout>{data.content}</MdxLayout>
     </>
   );
