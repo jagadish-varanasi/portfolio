@@ -50,10 +50,13 @@ function Resume() {
                             May. 2021
                           </div>
                           <div className="font-[650] text-slate-800 dark:text-slate-100">
-                            Nitte Meenakshi Institute of Technology
+                            Nitte Meenakshi Institute of Technology, Bengaluru
                           </div>
                           <div className="text-sm font-medium text-slate-800 dark:text-slate-100">
                             Bachelor of Engineering (Comp sci.)
+                          </div>
+                          <div className="text-xs font-light text-slate-800 dark:text-slate-100">
+                            Grade: 9.4
                           </div>
                           <div className="text-sm text-slate-500 dark:text-slate-400">
                             Throughout my years at NMIT, I immersed myself in a
@@ -95,6 +98,9 @@ function Resume() {
                           <div className="text-sm font-medium text-slate-800 dark:text-slate-100">
                             PCMC.
                           </div>
+                          <div className="text-xs font-light text-slate-800 dark:text-slate-100">
+                            Grade: 90.4%
+                          </div>
                           <div className="text-sm text-slate-500 dark:text-slate-400">
                             Completed by pre-university in science combination
                             of Physiscs, Chemisty, Mathand Computer science.
@@ -132,8 +138,12 @@ function Resume() {
                           <div className="text-sm font-medium text-slate-800 dark:text-slate-100">
                             Schooling
                           </div>
+                          <div className="text-xs font-light text-slate-800 dark:text-slate-100">
+                            Grade: 85.4%
+                          </div>
                           <div className="text-sm text-slate-500 dark:text-slate-400">
-                            Completed by Schooling.
+                            Completed by Schooling. Been part of many art events
+                            representing school.
                           </div>
                         </div>
                       </div>

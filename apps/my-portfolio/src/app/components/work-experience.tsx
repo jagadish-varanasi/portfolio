@@ -66,6 +66,7 @@ function WorkExperience() {
                       <div className="font-[650] text-slate-800 dark:text-slate-100">
                         Software Engineer II
                       </div>
+                  
                       <div className="text-sm font-medium text-slate-800 dark:text-slate-100"></div>
                       <div className="text-sm text-slate-500 dark:text-slate-400">
                         As a Software Engineer, I am part of the development
