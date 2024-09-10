@@ -2,16 +2,25 @@ import { ArrowRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import React from "react";
 import { Article } from "./data/types";
+import Image from "next/image";
 
 function ArticleItem({ data }: { data: Article }) {
   return (
     <article className="py-5 border-b border-slate-100 dark:border-slate-800">
       <div className="flex items-center">
-        <div className="rounded w-16 h-16 sm:w-[88px] sm:h-[88px] object-cover mr-6 bg-gray-400" />
+        <div className="rounded w-16 h-16 sm:w-[98px] sm:h-[88px] object-cover mr-6 relative">
+          {data?.url && (
+            <Image
+              src={`/${data.url}`}
+              alt={"blog-image"}
+              layout="fill"
+              style={{ height: "100%", width: "100%"}}
+            />
+          )}
+        </div>
         <div className="w-full">
           <div className="text-xs text-slate-500 uppercase mb-1">
-            <span className="text-yellow-500">—</span>
-            {" "}<time>{data.date}</time>{" "}
+            <span className="text-yellow-500">—</span> <time>{data.date}</time>{" "}
             <span className="text-slate-400 dark:text-slate-600">·</span>{" "}
             {data.readDuration} read
           </div>

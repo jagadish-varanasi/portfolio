@@ -5,6 +5,7 @@ export interface Article {
   topic: string;
   readDuration: string;
   date: string;
+  url: string;
 }
 
 export interface Project {
@@ -12,5 +13,5 @@ export interface Project {
   title: string;
   description: string;
   icon: string;
-  url:string;
+  url: string;
 }
