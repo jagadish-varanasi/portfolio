@@ -1,0 +1,232 @@
+---
+title: Continuous Integration and Continuous Deployment (CI/CD)
+description: This comprehensive guide walks you through setting up a CI/CD pipeline for a React application using GitHub Actions and Netlify.
+topic: cloud
+readDuration: 20 Mins
+date: Sept 11, 2024
+url: ci-cd.png
+---
+
+## **Continuous Integration and Continuous Deployment (CI/CD) for Frontend Development**
+
+### **Introduction**
+
+In the fast-paced world of software development, delivering high-quality applications quickly and efficiently is paramount. Continuous Integration (CI) and Continuous Deployment (CD) are essential practices that help achieve this goal. This blog will serve as a one-stop solution for everything related to CI and CD, with a special focus on frontend deployment using GitHub Actions.
+
+### **What is CI/CD?**
+
+#### **Continuous Integration (CI)**
+
+Continuous Integration is a development practice where developers frequently integrate their code changes into a shared repository, often multiple times a day. Each integration is automatically verified by running tests to detect integration errors as quickly as possible.
+
+#### **Continuous Deployment (CD)**
+
+Continuous Deployment extends Continuous Integration by automatically deploying all code changes to a testing or production environment after the build stage. This ensures that the software is always in a deployable state.
+
+### **Benefits of CI/CD**
+
+- **Faster Time to Market**: Automating the integration and deployment processes allows for quicker releases.
+- **Improved Quality**: Automated testing ensures that bugs are caught early in the development cycle.
+- **Reduced Manual Effort**: Automation reduces the need for manual intervention, minimizing human error.
+- **Enhanced Collaboration**: CI/CD fosters better collaboration among team members by integrating changes frequently.
+
+### **Key Components of a CI/CD Pipeline**
+
+1. **Source Code Repository**: A version control system (e.g., Git) where the codebase is stored.
+2. **CI/CD Tool**: A system that automates the build, test, and deployment processes (e.g., GitHub Actions).
+3. **Testing Framework**: Tools and frameworks for automated testing (e.g., Jest, Mocha).
+4. **Linting Tools**: Tools to ensure code quality and consistency (e.g., ESLint).
+5. **Deployment Platform**: A platform that automates the deployment process (e.g., Netlify, Vercel).
+
+### **Setting Up a CI/CD Pipeline for Frontend Deployment with GitHub Actions**
+
+#### **Step 1: Version Control with GitHub**
+
+1. **Create a new repository on GitHub**:
+
+   - Go to GitHub and create a new repository for your React project.
+
+2. **Clone the repository locally**:
+
+   ```
+   git clone https://github.com/your-username/your-repo-name.git
+   cd your-repo-name
+   ```
+
+3. **Initialize a new React project**:
+
+   ```
+   npx create-react-app my-app
+   cd my-appp
+   ```
+
+4. **Push the initial code to GitHub**:
+
+   ```
+   git add .
+   git commit -m "Initial commit"
+   git push origin main
+   ```
+
+#### **Step 2: Configure GitHub Actions**
+
+1. **Create a GitHub Actions workflow file**:
+
+   - In the root of your project, create a directory called `.github/workflows`.
+   - Inside this directory, create a file named `ci.yml`.
+
+2. **Define the CI workflow in** `ci.yml`:
+
+   ```
+   name: CI
+
+   on:
+     push:
+       branches: [main]
+     pull_request:
+       branches: [main]
+
+   jobs:
+     build:
+
+       runs-on: ubuntu-latest
+
+       steps:
+       - name: Checkout code
+         uses: actions/checkout@v2
+
+       - name: Set up Node.js
+         uses: actions/setup-node@v2
+         with:
+           node-version: '14'
+
+       - name: Install dependencies
+         run: npm install
+
+       - name: Run linters
+         run: npm run lint
+
+       - name: Run tests
+         run: npm test
+
+       - name: Build project
+         run: npm run build
+   ```
+
+3. **Commit and push the** `ci.yml` **file**:
+
+   ```
+   git add .github/workflows/ci.yml
+   git commit -m "Add GitHub Actions CI workflow"
+   git push origin main
+   ```
+
+#### **Step 3: Set Up Linting and Testing**
+
+1. **Install ESLint for linting**:
+
+   ```
+   npm install eslint --save-dev
+   npx eslint --init
+   ```
+
+2. **Add a lint script to** `package.json`:
+
+   ```
+   "scripts": {
+     "lint": "eslint 'src/**/*.{js,jsx}'"
+   }
+   ```
+
+3. **Ensure you have tests in your React app**:
+
+   - Create a simple test in `src/App.test.js`:
+
+     ```
+     import { render, screen } from '@testing-library/react';
+     import App from './App';
+
+     test('renders learn react link', () => {
+       render(<App />);
+       const linkElement = screen.getByText(/learn react/i);
+       expect(linkElement).toBeInTheDocument();
+     });
+
+     ```
+
+4. **Run the tests locally to ensure they pass**:
+
+   ```
+   npm test
+   ```
+
+#### **Step 4: Configure Deployment with Netlify**
+
+1. **Sign in to Netlify**:
+
+   - Go to [Netlify](https://www.netlify.com/) and sign in with your GitHub account.
+
+2. **Create a new site**:
+
+   - Click on "New site from Git" and select your GitHub repository.
+
+3. **Configure build settings**:
+
+   - Build command: `npm run build`
+   - Publish directory: `build`
+
+4. **Deploy the site**:
+
+   - Netlify will automatically build and deploy your site whenever you push changes to the repository.
+
+5. **Step 5: Verify the CI/CD Pipeline**
+
+   1. **Push a change to your repository**:
+
+      - Make a small change to `src/App.js`:
+
+        ```
+        function App() {
+          return (
+            <div className="App">
+              <header className="App-header">
+                <p>
+                  Edit <code>src/App.js</code> and save to reload.
+                </p>
+                <a
+                  className="App-link"
+                  href="https://reactjs.org"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Learn React with CI/CD
+                </a>
+              </header>
+            </div>
+          );
+        }
+
+        ```
+
+   2. **Commit and push the change**:
+
+      ```
+      git add src/App.js
+      git commit -m "Update App.js"
+      git push origin main
+      ```
+
+   3. **Monitor the CI/CD process**:
+
+      - Go to the Actions tab in your GitHub repository to see the build and test process.
+      - Once the build is successful, go to Netlify to see the deployment status.
+
+   4. **Verify the deployment**:
+
+      - Visit the URL provided by Netlify to see your updated React application.
+
+   ### **Conclusion**
+
+   By following these steps, you have set up a CI/CD pipeline for a React application using GitHub, GitHub Actions, and Netlify. This pipeline ensures that every code change is automatically linted, tested, and deployed, providing a seamless and efficient development workflow.
+
+   Remember, the key to a successful CI/CD pipeline is continuous improvement. Regularly review and enhance your pipeline to adapt to new requirements and technologies. Happy coding!

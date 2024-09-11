@@ -98,14 +98,14 @@ async function Articles() {
       </TabsContent>
       <TabsContent value="cloud">
         {articles
-          .filter((f) => f.topic === "Cloud")
+          .filter((f) => f.topic === "cloud")
           .map((article) => (
             <ArticleItem data={article} key={article.id} />
           ))}
       </TabsContent>
       <TabsContent value="dsa">
         {articles
-          .filter((f) => f.topic === "DSA")
+          .filter((f) => f.topic === "dsa")
           .map((article) => (
             <ArticleItem data={article} key={article.id} />
           ))}

@@ -1,0 +1,167 @@
+---
+title: Implementing an LRU Cache in JavaScript.
+description: Discover how to efficiently manage data storage with an LRU cache in JavaScript.
+topic: dsa
+readDuration: 20 Mins
+date: Sept 10, 2024
+url: cache.png
+---
+
+## **LRU Cache Problem**
+
+#### **Overview**
+
+The Least Recently Used (LRU) cache is a data structure that stores a limited number of items and evicts the least recently used item when the cache reaches its capacity. This is useful in scenarios where you want to keep a limited amount of data readily accessible and discard the least important data when necessary.
+
+#### **Key Concepts**
+
+1. **Cache Capacity**: The maximum number of items the cache can hold.
+2. **Cache Hit**: When the requested data is found in the cache.
+3. **Cache Miss**: When the requested data is not found in the cache.
+4. **Eviction Policy**: The strategy used to remove items from the cache when it is full. For LRU, the least recently used item is removed.
+
+#### **Operations**
+
+1. **Get(key)**: Retrieve the value associated with the key if it exists in the cache; otherwise, return -1.
+2. **Put(key, value)**: Insert or update the value associated with the key. If the cache is full, evict the least recently used item before inserting the new item.
+
+#### **Data Structures**
+
+To efficiently implement an LRU cache, you typically use:
+
+1. **HashMap (or Dictionary)**: For O(1) average time complexity for get and put operations.
+2. **Doubly Linked List**: To keep track of the order of usage. The most recently used items are moved to the front, and the least recently used items are moved to the back.
+
+### **Conceptual Implementation Steps**
+
+1. **Initialization**:
+
+   - Create a HashMap to store key-value pairs.
+   - Create a Doubly Linked List to maintain the order of usage.
+
+2. **Get Operation**:
+
+   - Check if the key exists in the HashMap.
+   - If it exists, move the corresponding node to the front of the Doubly Linked List (indicating recent use).
+   - Return the value.
+   - If it does not exist, return -1.
+
+3. **Put Operation**:
+
+   - Check if the key already exists in the HashMap.
+   - If it exists, update the value and move the corresponding node to the front of the Doubly Linked List.
+   - If it does not exist, check if the cache is at capacity.
+   - If at capacity, remove the node at the back of the Doubly Linked List (least recently used) and delete its entry from the HashMap.
+   - Insert the new key-value pair into the HashMap and add a new node to the front of the Doubly Linked List.
+
+
+### **Example Scenario**
+
+Let's say we have a cache with a capacity of 2:
+
+1. **Put(1, 1)**: Cache is (1=1)
+2. **Put(2, 2)**: Cache is (1=1, 2=2)
+3. **Get(1)**: Returns 1, Cache is (2=2, 1=1) (1 is now most recently used)
+4. **Put(3, 3)**: Cache is full, evicts key 2, Cache is (1=1, 3=3)
+5. **Get(2)**: Returns -1 (not found)
+6. **Put(4, 4)**: Cache is full, evicts key 1, Cache is (3=3, 4=4)
+7. **Get(1)**: Returns -1 (not found)
+8. **Get(3)**: Returns 3, Cache is (4=4, 3=3) (3 is now most recently used)
+9. **Get(4)**: Returns 4, Cache is (3=3, 4=4) (4 is now most recently used)
+
+
+### **Key Components for LRU Cache Implementation**
+
+1. **Doubly Linked List**:
+
+   - Each node contains a key, value, a pointer to the next node, and a pointer to the previous node.
+   - The head of the list represents the most recently used item, and the tail represents the least recently used item.
+
+2. **HashMap**:
+
+   - Stores key-node pairs for O(1) access to nodes.
+
+### **Conceptual Steps**
+
+1. **Node Class**:
+
+   - Represents each entry in the doubly linked list.
+
+2. **Doubly Linked List Class**:
+
+   - Methods to add, remove, and move nodes to the front.
+
+3. **LRU Cache Class**:
+
+   - Methods for `get` and `put` operations.
+   - Maintains the doubly linked list and hashmap.
+
+### **Example Pseudocode**
+
+##### **Node Class**
+
+```
+class Node {
+    constructor(key, value) {
+        this.key = key;
+        this.value = value;
+        this.prev = null;
+        this.next = null;
+    }
+}
+```
+
+##### **Doubly Linked List Class**
+
+```
+class DoublyLinkedList {
+    constructor() {
+        this.head = null;
+        this.tail = null;
+    }
+
+    addNode(node) {
+        // Add node to the front (head) of the list
+    }
+
+    removeNode(node) {
+        // Remove node from the list
+    }
+
+    moveToHead(node) {
+        // Move existing node to the front (head) of the list
+    }
+
+    removeTail() {
+        // Remove the tail node and return it
+    }
+}
+```
+
+##### **LRU Cache Class**
+
+```
+class LRUCache {
+    constructor(capacity) {
+        this.capacity = capacity;
+        this.cache = new Map();
+        this.dll = new DoublyLinkedList();
+    }
+
+    get(key) {
+        // Retrieve value from cache if exists, move node to head
+    }
+
+    put(key, value) {
+        // Insert or update value in cache, handle capacity
+    }
+}
+```
+
+### **Explanation**
+
+- **Node Class**: Represents each cache entry.
+- **Doubly Linked List Class**: Manages the order of cache entries.
+- **LRU Cache Class**: Integrates the doubly linked list and hashmap to provide efficient cache operations.
+
+By combining these data structures, the LRU cache can achieve the desired performance characteristics.
