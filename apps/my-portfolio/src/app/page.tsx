@@ -8,7 +8,9 @@ import HobbyCard from "./components/hobby.-card";
 import Promotion from "./components/promotions";
 import CodingProfile from "./components/coding-profile";
 import { projects } from "./components/data/projects";
-
+import { TextGenerateEffect } from "@repo/ui/components/text-generate-effect";
+const BIO =
+  "Software Engineer, working at HashedIn by Deloitte. I play read, write and travel for fun.";
 function Home() {
   return (
     <>
@@ -32,10 +34,10 @@ function Home() {
               </span>{" "}
               that people <span className="text-pink-400"> love.</span>
             </h1>
-            <p className="text-lg text-slate-500 dark:text-slate-400 font-aspekta">
-              Software Engineer, working at HashedIn by Deloitte. I play read,
-              write and travel for fun.
-            </p>
+            <TextGenerateEffect
+              className="text-lg text-slate-500 dark:text-slate-400 font-aspekta"
+              words={BIO}
+            />
           </div>
         </div>
       </section>

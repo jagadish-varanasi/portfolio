@@ -11,9 +11,7 @@ import path from "path";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { Article } from "./data/types";
 
-
 async function Articles() {
-
   const filenames = await fs.readdir(
     path.join(process.cwd(), "src/app/blog/markdown")
   );

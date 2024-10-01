@@ -7,11 +7,22 @@ import {
   PaperPlaneIcon,
   ReaderIcon,
 } from "@radix-ui/react-icons";
+import { FloatingDock } from "@repo/ui/components/floating-dock";
 import { Separator } from "@repo/ui/components/separator";
 import { cn } from "@repo/ui/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
+import {
+  IconBrandGithub,
+  IconBrandX,
+  IconExchange,
+  IconHome,
+  IconNewSection,
+  IconTerminal2,
+} from "@tabler/icons-react";
+import Image from "next/image";
+
 
 const config = [
   { to: "/", icon: <HomeIcon width="24px" height="24px" />, name: "Home" },
@@ -42,12 +53,69 @@ const config = [
   },
 ];
 
+const links = [
+  {
+    title: "Home",
+    icon: (
+      <IconHome className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
+    href: "#",
+  },
+
+  {
+    title: "Products",
+    icon: (
+      <IconTerminal2 className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
+    href: "#",
+  },
+  {
+    title: "Components",
+    icon: (
+      <IconNewSection className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
+    href: "#",
+  },
+  {
+    title: "Aceternity UI",
+    icon: (
+      <IconExchange className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
+    href: "#",
+  },
+  {
+    title: "Changelog",
+    icon: (
+      <IconExchange className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
+    href: "#",
+  },
+
+  {
+    title: "Twitter",
+    icon: (
+      <IconBrandX className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
+    href: "#",
+  },
+  {
+    title: "GitHub",
+    icon: (
+      <IconBrandGithub className="h-full w-full text-neutral-500 dark:text-neutral-300" />
+    ),
+    href: "#",
+  },
+];
+
 function SideNav() {
   const pathname = usePathname();
+
+
   return (
     <div className="fixed w-full md:sticky bottom-0 md:top-0 h-16 md:w-24 shrink-0 md:h-screen overflow-y-auto no-scrollbar border-r dark:border-slate-800 z-50 backdrop-filter backdrop-blur-lg">
       <div className="h-full w-full flex flex-row md:flex-col justify-between">
         <div className="flex-1 grow flex items-center w-full">
+         
           <nav className="w-full">
             <ul className="md:space-y-4 flex flex-row items-center w-screen justify-evenly md:flex-col md:justify-start md:items-center md:w-24">
               {config.map((route) => (
@@ -71,6 +139,11 @@ function SideNav() {
               ))}
             </ul>
           </nav>
+          {/* <div className="flex items-center justify-center h-screen w-full">
+            <FloatingDock
+              items={links}
+            />
+          </div> */}
         </div>
       </div>
     </div>

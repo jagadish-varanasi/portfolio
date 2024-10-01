@@ -3,7 +3,8 @@ import ProjectItem from "../components/project-item";
 import HobbyCard from "../components/hobby.-card";
 import Promotion from "../components/promotions";
 import CodingProfile from "../components/coding-profile";
-import {projects} from "../components/data/projects";
+import { projects } from "../components/data/projects";
+import { ExpandableCards } from "./components/expandable-cards";
 
 function Projects() {
   return (

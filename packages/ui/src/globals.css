@@ -146,3 +146,13 @@
   background: orange;
   cursor: pointer;
 }
+
+.progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: gold;
+  transform-origin: 0%;
+}

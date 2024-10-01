@@ -4,7 +4,8 @@ import { promises as fs } from "fs";
 import path from "path";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { Article } from "@/app/components/data/types";
-import remarkGfm from 'remark-gfm';
+import remarkGfm from "remark-gfm";
+
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const content = await fs.readFile(
@@ -34,9 +35,9 @@ async function Page({ params }: { params: { id: string } }) {
     source: content,
     options: {
       parseFrontmatter: true,
-      mdxOptions:{
-        remarkPlugins:[remarkGfm]
-      }
+      mdxOptions: {
+        remarkPlugins: [remarkGfm],
+      },
     },
   });
   return (

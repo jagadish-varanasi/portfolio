@@ -5,6 +5,16 @@ import remarkGfm from "remark-gfm";
 const nextConfig = {
   pageExtensions: ["js", "jsx", "md", "mdx", "ts", "tsx"],
   transpilePackages: ["@repo/ui"],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "assets.aceternity.com",
+        port: "",
+        pathname: "**",
+      },
+    ],
+  },
 };
 
 const withMDX = createMDX({

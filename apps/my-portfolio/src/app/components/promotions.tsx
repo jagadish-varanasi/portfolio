@@ -1,8 +1,27 @@
-"use client"
+"use client";
 import React from "react";
-import  SliderDesign  from "./tech-ani";
+import SliderDesign from "./tech-ani";
+import { PlaceholdersAndVanishInput } from "@repo/ui/components/placeholders-and-vanish-input";
 
 function Promotion() {
+  const placeholders = [
+    "Your email..",
+    "Must Learn HTML tags and usage..",
+    "Must know JS concepts..",
+    "Your email..",
+    "Top 5 design practices..",
+    "CSS Pro tips..",
+    "React Pro dev..",
+  ];
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value);
+  };
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("submitted");
+  };
+
   return (
     <>
       <div>
@@ -17,25 +36,21 @@ function Promotion() {
             Free guide, I curated on Frontend prep, based on my experiences.
           </p>
         </div>
-        <form>
-          <div className="mb-2">
-            <label className="sr-only" htmlFor="newsletter">
-              Your email…
-            </label>
-            <input
-              id="newsletter"
-              type="email"
-              className="text-xs  bg-gray-100 py-2 px-4 w-full rounded-2xl focus:outline-none"
-              placeholder="  Your email…"
-            />
-          </div>
-          <button
-            className="btn-sm w-full  text-slate-100 bg-yellow-500 hover:bg-yellow-600"
-            type="submit"
-          >
-            Subscribe
-          </button>
-        </form>
+        <PlaceholdersAndVanishInput
+          placeholders={placeholders}
+          onChange={handleChange}
+          onSubmit={onSubmit}
+          renderSubmitButton={() => {
+            return (
+              <button
+                className="btn-sm w-full  text-slate-100 bg-yellow-500 hover:bg-yellow-600 mt-2"
+                type="submit"
+              >
+                Subscribe
+              </button>
+            );
+          }}
+        />
       </div>
     </>
   );

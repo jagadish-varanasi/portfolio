@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import useTheme from "../hooks/use-theme";
+import { Button } from "@repo/ui/components/moving-border";
 
 function Header() {
   const [darkTheme, toggle] = useTheme();
@@ -58,10 +59,15 @@ function Header() {
           </div>
           <div>
             <a
-              className="btn-sm text-slate-100 bg-yellow-500 hover:bg-yellow-600"
+              // className="btn-sm text-slate-100 bg-yellow-500 hover:bg-yellow-600"
               href="/guestbook"
             >
-              Download Resume
+              <Button
+                borderRadius="1.75rem"
+                className="bg-white dark:bg-slate-900 text-black dark:text-white border-neutral-200 dark:border-slate-800"
+              >
+                Download Resume
+              </Button>
             </a>
           </div>
         </div>
