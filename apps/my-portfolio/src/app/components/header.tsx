@@ -9,8 +9,8 @@ function Header() {
   console.log(darkTheme, "DT");
 
   return (
-    <header>
-      <div className="flex items-center justify-between h-16 before:block">
+    <header className="w-full">
+      <div className="flex items-center justify-between h-16 before:block w-full">
         <div className="grow flex justify-between md:justify-end space-x-4">
           <div className="flex flex-col justify-center ml-3">
             <input
