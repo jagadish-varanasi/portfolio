@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@repo/rich-text-editor": "*",
     "react": "^18",
     "react-dom": "^18",
     "next": "14.2.8"
