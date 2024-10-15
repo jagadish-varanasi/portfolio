@@ -5,8 +5,6 @@ import SideNav from "./components/side-nav";
 import { Separator } from "@repo/ui/components/separator";
 import Header from "./components/header";
 import Promotion from "./components/promotions";
-import Wrapper from "./components/wrapper";
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

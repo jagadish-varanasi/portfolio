@@ -104,7 +104,7 @@ function WorkExperience() {
                         <p>
                           Successfully developed and enhanced frontend
                           applications for healthcare domain app, internal
-                          employee engagement tools, and client's employee
+                          employee engagement tools, and client&apos;s employee
                           learning platforms(web/mobile). Utilized React and
                           Angular frameworks with Redux for efficient state
                           management.

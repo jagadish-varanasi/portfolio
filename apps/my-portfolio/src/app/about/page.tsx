@@ -22,13 +22,14 @@ function About() {
                   Short Bio
                 </h2>
                 <p>
-                  I'm a product maker (... and a professional software engineer)
-                  currently working at HashedIn by Deloitte in Bengaluru. With
-                  ~3 years of industry experience, mostly solving problem
-                  statements related to frontend, Web Performance, Server Driven
-                  UI and Web Security and Animations. Bridging the gap between
-                  engineering and design. I'm passionate about building products
-                  that help people and make a difference in the world.{" "}
+                   I&apos;m a product maker (... and a professional software
+                  engineer) currently working at HashedIn by Deloitte in
+                  Bengaluru. With ~3 years of industry experience, mostly
+                  solving problem statements related to frontend, Web
+                  Performance, Server Driven UI and Web Security and Animations.
+                  Bridging the gap between engineering and design. I&apos;m
+                  passionate about building products that help people and make a
+                  difference in the world.{" "}
                   <a
                     className="text-yellow-500"
                     href="https://github.com/dhravya"
@@ -98,10 +99,10 @@ function About() {
                   id="lets-connect"
                   className="text-2xl font-[650]  text-slate-800 dark:text-slate-100"
                 >
-                  Let's Connect
+                  Let&apos;s Connect
                 </h2>
                 <p>
-                  I'm excited to connect via{" "}
+                  I&apos;m excited to connect via{" "}
                   <a
                     className="font-medium text-yellow-500 hover:underline"
                     href="mailto:hi@dhravya.dev"
@@ -116,7 +117,7 @@ function About() {
                     LinkedIn
                   </a>{" "}
                   to chat about projects and ideas. Whether you have a concept
-                  in mind or are looking for freelance expertise, let's chat
+                  in mind or are looking for freelance expertise, let&apos;s chat
                   about how we can work together to turn great ideas into
                   successful realities.
                 </p>

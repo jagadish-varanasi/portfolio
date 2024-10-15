@@ -4,12 +4,12 @@ import React from "react";
 function Home() {
   return (
     <div>
-      <Image
+      {/* <Image
         src={require("../../images/home.jfif")}
         width={300}
         height={200}
         alt="home"
-      />
+      /> */}
     </div>
   );
 }

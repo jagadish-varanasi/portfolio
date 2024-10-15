@@ -26,8 +26,8 @@ export function HeroCard() {
               }}
               className="relative flex flex-col gap-4 items-center justify-center px-4"
             >
-              <div className="text-3xl md:text-2xl font-bold text-yellow-500 dark:text-white text-center ">
-                Think Design Build Repeat.
+              <div className="text-3xl md:text-2xl font-bold text-black dark:text-white text-center ">
+                Think  Design  Build  Repeat.
               </div>
               {/* <div className="font-extralight text-base md:text-xl dark:text-neutral-200 py-4">
                     .
@@ -36,7 +36,7 @@ export function HeroCard() {
           </div>
         </AuroraBackground>
         <div className="mt-4">
-          <div className="mb-2 text-xl font-aspekta">Hi, I'm Jagadish</div>
+          <div className="mb-2 text-xl font-aspekta">Hi, I&apos;m Jagadish</div>
           <h1 className="h1 mb-5 text-4xl md:text-5xl font-aspekta font-[650]">
             I craft{" "}
             <span className="inline-flex relative text-green-600 before:absolute before:inset-0 before:bg-green-200 dark:before:bg-green-500 before:opacity-10 before:-z-10 before:-rotate-1 before:translate-y-1/4">

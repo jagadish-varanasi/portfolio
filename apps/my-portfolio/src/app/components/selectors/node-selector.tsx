@@ -31,89 +31,89 @@ const items: SelectorItem[] = [
   {
     name: "Text",
     icon: TextIcon,
-    command: (editor) => editor.chain().focus().clearNodes().run(),
+    command: (editor) => editor?.chain().focus().clearNodes().run(),
     // I feel like there has to be a more efficient way to do this – feel free to PR if you know how!
     isActive: (editor) =>
-      editor.isActive("paragraph") &&
-      !editor.isActive("bulletList") &&
-      !editor.isActive("orderedList"),
+      (editor as NonNullable<typeof editor>).isActive("paragraph") &&
+      !(editor as NonNullable<typeof editor>).isActive("bulletList") &&
+      !(editor as NonNullable<typeof editor>).isActive("orderedList"),
   },
   {
     name: "Heading 1",
     icon: Heading1,
     command: (editor) =>
-      editor.chain().focus().clearNodes().toggleHeading({ level: 1 }).run(),
-    isActive: (editor) => editor.isActive("heading", { level: 1 }),
+      editor?.chain().focus().clearNodes().toggleHeading({ level: 1 }).run(),
+    isActive: (editor) => (editor as NonNullable<typeof editor>).isActive("heading", { level: 1 }),
   },
   {
     name: "Heading 2",
     icon: Heading2,
     command: (editor) =>
-      editor.chain().focus().clearNodes().toggleHeading({ level: 2 }).run(),
-    isActive: (editor) => editor.isActive("heading", { level: 2 }),
+      editor?.chain().focus().clearNodes().toggleHeading({ level: 2 }).run(),
+    isActive: (editor) =>(editor as NonNullable<typeof editor>).isActive("heading", { level: 2 }),
   },
   {
     name: "Heading 3",
     icon: Heading3,
     command: (editor) =>
-      editor.chain().focus().clearNodes().toggleHeading({ level: 3 }).run(),
-    isActive: (editor) => editor.isActive("heading", { level: 3 }),
+      editor?.chain().focus().clearNodes().toggleHeading({ level: 3 }).run(),
+    isActive: (editor) =>(editor as NonNullable<typeof editor>).isActive("heading", { level: 3 }),
   },
   {
     name: "Heading 4",
     icon: Heading4,
     command: (editor) =>
-      editor.chain().focus().clearNodes().toggleHeading({ level: 4 }).run(),
-    isActive: (editor) => editor.isActive("heading", { level: 4 }),
+      editor?.chain().focus().clearNodes().toggleHeading({ level: 4 }).run(),
+    isActive: (editor) =>(editor as NonNullable<typeof editor>).isActive("heading", { level: 4 }),
   },
   {
     name: "Heading 5",
     icon: Heading5,
     command: (editor) =>
-      editor.chain().focus().clearNodes().toggleHeading({ level: 5 }).run(),
-    isActive: (editor) => editor.isActive("heading", { level: 5 }),
+      editor?.chain().focus().clearNodes().toggleHeading({ level: 5 }).run(),
+    isActive: (editor) => (editor as NonNullable<typeof editor>).isActive("heading", { level: 5 }),
   },
   {
     name: "Heading 6",
     icon: Heading6,
     command: (editor) =>
-      editor.chain().focus().clearNodes().toggleHeading({ level: 6 }).run(),
-    isActive: (editor) => editor.isActive("heading", { level: 6 }),
+      editor?.chain().focus().clearNodes().toggleHeading({ level: 6 }).run(),
+    isActive: (editor) => (editor as NonNullable<typeof editor>).isActive("heading", { level: 6 }),
   },
   {
     name: "To-do List",
     icon: CheckSquare,
     command: (editor) =>
-      editor.chain().focus().clearNodes().toggleTaskList().run(),
-    isActive: (editor) => editor.isActive("taskItem"),
+      editor?.chain().focus().clearNodes().toggleTaskList().run(),
+    isActive: (editor) =>(editor as NonNullable<typeof editor>).isActive("taskItem"),
   },
   {
     name: "Bullet List",
     icon: ListOrdered,
     command: (editor) =>
-      editor.chain().focus().clearNodes().toggleBulletList().run(),
-    isActive: (editor) => editor.isActive("bulletList"),
+      editor?.chain().focus().clearNodes().toggleBulletList().run(),
+    isActive: (editor) =>(editor as NonNullable<typeof editor>).isActive("bulletList"),
   },
   {
     name: "Numbered List",
     icon: ListOrdered,
     command: (editor) =>
-      editor.chain().focus().clearNodes().toggleOrderedList().run(),
-    isActive: (editor) => editor.isActive("orderedList"),
+      editor?.chain().focus().clearNodes().toggleOrderedList().run(),
+    isActive: (editor) =>(editor as NonNullable<typeof editor>).isActive("orderedList"),
   },
   {
     name: "Quote",
     icon: TextQuote,
     command: (editor) =>
-      editor.chain().focus().clearNodes().toggleBlockquote().run(),
-    isActive: (editor) => editor.isActive("blockquote"),
+      editor?.chain().focus().clearNodes().toggleBlockquote().run(),
+    isActive: (editor) =>(editor as NonNullable<typeof editor>).isActive("blockquote"),
   },
   {
     name: "Code",
     icon: Code,
     command: (editor) =>
-      editor.chain().focus().clearNodes().toggleCodeBlock().run(),
-    isActive: (editor) => editor.isActive("codeBlock"),
+      editor?.chain().focus().clearNodes().toggleCodeBlock().run(),
+    isActive: (editor) => (editor as NonNullable<typeof editor>).isActive("codeBlock"),
   },
 ];
 interface NodeSelectorProps {

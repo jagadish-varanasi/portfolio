@@ -12,7 +12,7 @@ function Projects() {
       <div className="grow">
         <div className="max-w-[700px]">
           <h1 className="mb-12 text-5xl font-[600]">
-            Some cool stuff I've built
+            Some cool stuff I&apos;ve built
           </h1>
           <section>
             <div className="grid sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2 gap-5">

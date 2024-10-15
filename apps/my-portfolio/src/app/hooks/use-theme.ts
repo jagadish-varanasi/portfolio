@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
-function useTheme() {
+type UseThemeReturnType = [boolean, () => void];
+
+function useTheme(): UseThemeReturnType {
   const [darkTheme, setDarkTheme] = useState(true);
 
   useEffect(() => {

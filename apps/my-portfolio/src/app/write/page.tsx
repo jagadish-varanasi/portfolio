@@ -105,7 +105,7 @@ const TailwindAdvancedEditor = () => {
       <EditorRoot>
         <EditorContent
           initialContent={initialContent}
-          extensions={extensions}
+          extensions={extensions as any}
           className="relative min-h-screen w-full max-w-screen-lg border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg"
           editorProps={{
             handleDOMEvents: {
