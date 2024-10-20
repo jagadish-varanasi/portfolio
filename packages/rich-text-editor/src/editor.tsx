@@ -32,7 +32,7 @@ const hljs = require("highlight.js");
 
 const extensions = [...defaultExtensions, slashCommand];
 
-const TailwindAdvancedEditor = () => {
+const TailwindAdvancedEditor = ({showActions}:{showActions:boolean}) => {
   const [initialContent, setInitialContent] = useState<null | JSONContent>(
     null
   );
@@ -83,7 +83,7 @@ const TailwindAdvancedEditor = () => {
 
   return (
     <div className="relative w-full max-w-screen-lg ">
-      <div className="mb-2 flex justify-end">Menu</div>
+      {showActions&&<div className="mb-2 flex justify-end">Menu</div>}
       <div className="flex absolute right-5 top-14 z-10 mb-5 gap-2">
         <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
           {saveStatus}
