@@ -211,49 +211,69 @@ mark[style] > strong {
   color: inherit;
 }
 
-.editor-container {
-  h1 {
-    font-size: 48px;
+pre {
+  background: #0d0d0d;
+  border-radius: 0.5rem;
+  color: #fff;
+  font-family: "JetBrainsMono", monospace;
+  padding: 0.75rem 1rem;
+
+  code {
+    background: none;
+    color: inherit;
+    font-size: 0.8rem;
+    padding: 0;
   }
 
-  h2 {
-    font-size: 30px;
+  .hljs-comment,
+  .hljs-quote {
+    color: #616161;
   }
 
-  h3 {
-    font-size: 24px;
+  .hljs-variable,
+  .hljs-template-variable,
+  .hljs-attribute,
+  .hljs-tag,
+  .hljs-name,
+  .hljs-regexp,
+  .hljs-link,
+  .hljs-name,
+  .hljs-selector-id,
+  .hljs-selector-class {
+    color: #f98181;
   }
 
-  h4 {
-    font-size: 24px;
+  .hljs-number,
+  .hljs-meta,
+  .hljs-built_in,
+  .hljs-builtin-name,
+  .hljs-literal,
+  .hljs-type,
+  .hljs-params {
+    color: #fbbc88;
   }
 
-  h5 {
-    font-size: 20px;
+  .hljs-string,
+  .hljs-symbol,
+  .hljs-bullet {
+    color: #b9f18d;
   }
 
-  h6 {
-    font-size: 16px;
+  .hljs-title,
+  .hljs-section {
+    color: #faf594;
   }
 
-  ul,
-  ol {
-    display: block;
-    list-style: disc outside none;
-    margin: 1em 0;
-    padding: 0 0 0 40px;
-  }
-  ol {
-    list-style-type: decimal;
+  .hljs-keyword,
+  .hljs-selector-tag {
+    color: #70cff8;
   }
 
-  li {
-    display: list-item;
-    margin-bottom:4px;
+  .hljs-emphasis {
+    font-style: italic;
   }
 
-  p{
-    margin-top: 2px;
-    margin-bottom: 2px;
+  .hljs-strong {
+    font-weight: 700;
   }
 }

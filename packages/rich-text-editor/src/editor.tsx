@@ -27,22 +27,30 @@ import {
 } from "./components/editor/slash-command";
 import { Separator } from "@repo/ui/components/separator";
 import "./prosemirror.css";
-
-const hljs = require("highlight.js");
+import hljs from "highlight.js";
 
 const extensions = [...defaultExtensions, slashCommand];
 
-const TailwindAdvancedEditor = ({showActions}:{showActions:boolean}) => {
-  const [initialContent, setInitialContent] = useState<null | JSONContent>(
-    null
-  );
+const TailwindAdvancedEditor = ({
+  showActions,
+  noteId,
+  defaultValue,
+}: {
+  showActions: boolean;
+  noteId: number;
+  defaultValue: JSONContent;
+}) => {
+  const [initialContent, setInitialContent] = useState<JSONContent>();
   const [saveStatus, setSaveStatus] = useState("Saved");
-  const [charsCount, setCharsCount] = useState();
+  const [charsCount, setCharsCount] = useState<number>();
 
   const [openNode, setOpenNode] = useState(false);
   const [openColor, setOpenColor] = useState(false);
   const [openLink, setOpenLink] = useState(false);
   const [openAI, setOpenAI] = useState(false);
+
+  const key = `novel-content-${noteId}`;
+  const markdownKey = `markdown-${noteId}`;
 
   //Apply Codeblock Highlighting on the HTML from editor.getHTML()
   const highlightCodeblocks = (content: string) => {
@@ -63,9 +71,9 @@ const TailwindAdvancedEditor = ({showActions}:{showActions:boolean}) => {
         "html-content",
         highlightCodeblocks(editor.getHTML())
       );
-      window.localStorage.setItem("novel-content", JSON.stringify(json));
+      window.localStorage.setItem(key, JSON.stringify(json));
       window.localStorage.setItem(
-        "markdown",
+        markdownKey,
         editor.storage.markdown.getMarkdown()
       );
       setSaveStatus("Saved");
@@ -74,21 +82,27 @@ const TailwindAdvancedEditor = ({showActions}:{showActions:boolean}) => {
   );
 
   useEffect(() => {
-    const content = window.localStorage.getItem("novel-content");
-    if (content) setInitialContent(JSON.parse(content));
-    else setInitialContent(null);
-  }, []);
+    const content = window.localStorage.getItem(key);
+    console.log(content, key, "Mark");
+    setCharsCount(0)
+    if (content) {
+      setInitialContent(JSON.parse(content));
+    } else setInitialContent(defaultValue);
+  }, [showActions, noteId]);
 
-  //   if (!initialContent) return;
+  if (!initialContent) return null;
+
+  const renderKey = `${JSON.stringify(initialContent) || markdownKey}-${key}`;
 
   return (
     <div className="relative w-full max-w-screen-lg ">
-      {showActions&&<div className="mb-2 flex justify-end">Menu</div>}
+      {showActions && <div className="mb-2 flex justify-end">Menu</div>}
       <div className="flex absolute right-5 top-14 z-10 mb-5 gap-2">
         <div className="rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground">
           {saveStatus}
         </div>
         <div
+          key={renderKey}
           className={
             charsCount
               ? "rounded-lg bg-accent px-2 py-1 text-sm text-muted-foreground"
@@ -100,6 +114,7 @@ const TailwindAdvancedEditor = ({showActions}:{showActions:boolean}) => {
       </div>
       <EditorRoot>
         <EditorContent
+          key={renderKey}
           initialContent={initialContent}
           extensions={extensions as any}
           className="relative min-h-screen w-full max-w-screen-lg border-muted bg-background sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg"
