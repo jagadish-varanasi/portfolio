@@ -1,11 +1,11 @@
 import "./App.css";
 import Canvas from "./components/Canvas";
-import { Clear } from "./components/Clear";
+import { Toolbar } from "./components/Toolbar";
 
 function App() {
   return (
     <>
-      <Clear />
+      <Toolbar />
       <Canvas />
     </>
   );

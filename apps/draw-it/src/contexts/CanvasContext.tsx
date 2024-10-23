@@ -11,6 +11,7 @@ interface CanvasContextType {
   undo: () => void;
   redo: () => void;
   erase: () => void;
+  download: () => void;
   isEraseActive: boolean;
 }
 
@@ -123,6 +124,16 @@ export const CanvasProvider: React.FC<{ children: React.ReactNode }> = ({
     setIsEraseActive(erase);
   };
 
+  const download = () => {
+    if (!canvasRef.current) return;
+    const canvas = canvasRef.current;
+    const URL = canvas.toDataURL();
+    const anchor = document.createElement("a");
+    anchor.href = URL;
+    anchor.download = "sketch.jpg";
+    anchor.click();
+  };
+
   return (
     <CanvasContext.Provider
       value={{
@@ -136,6 +147,7 @@ export const CanvasProvider: React.FC<{ children: React.ReactNode }> = ({
         undo,
         redo,
         erase,
+        download,
         isEraseActive,
       }}
     >
