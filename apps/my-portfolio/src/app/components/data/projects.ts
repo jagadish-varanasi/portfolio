@@ -23,4 +23,12 @@ export const projects = [
     icon: "/trackEase.svg",
     url: process.env.NEXT_PUBLIC_TRACKEASE,
   },
+  {
+    id: "4",
+    title: "DrawIt",
+    description:
+      "Unleash your creativity and challenge your friends with DrawDash, the ultimate Pictionary app!",
+    icon: "/drawit.png",
+    url: process.env.NEXT_PUBLIC_DRAW_IT,
+  },
 ];
