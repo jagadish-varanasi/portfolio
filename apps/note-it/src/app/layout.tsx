@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "@repo/ui/globals.css";
+import { Suspense } from "react";
 import Notes from "./components/notes";
 
 const geistSans = localFont({
@@ -31,7 +32,9 @@ export default function RootLayout({
         suppressHydrationWarning={true}
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Notes>{children}</Notes>
+        <Suspense>
+          <Notes>{children}</Notes>
+        </Suspense>
       </body>
     </html>
   );

@@ -6,8 +6,6 @@ import { Button } from "@repo/ui/components/moving-border";
 function Header() {
   const [darkTheme, toggle] = useTheme();
 
-  console.log(darkTheme, "DT");
-
   return (
     <header className="w-full">
       <div className="flex items-center justify-between h-16 before:block w-full">
