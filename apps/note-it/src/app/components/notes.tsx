@@ -38,6 +38,8 @@ function Notes({ children }: { children: React.ReactNode }) {
   const handleDelete = (id: number | null) => {
     const newNotes = notes.filter((note) => note.id !== id);
     setNotes(newNotes);
+    window.localStorage.removeItem(`markdown-${id}`);
+    window.localStorage.removeItem(`novel-content-${id}`);
   };
 
   const handleEdit = (id: number | null) => {
@@ -60,6 +62,9 @@ function Notes({ children }: { children: React.ReactNode }) {
       );
       if (currentNote) {
         setCurrentNote(currentNote);
+      }
+      if (!noteId) {
+        router.push(`?noteId=${currNoteId}`);
       }
     }
   }, [router, noteId]);
@@ -92,7 +97,7 @@ function Notes({ children }: { children: React.ReactNode }) {
         <div className="md:w-[40%] md:ml-8">
           {notes.map((note) => (
             <div
-              className={`border border-gray-300 rounded-md p-2 w-full flex justify-between items-center mb-2 ${note.id === currentNote?.id && "bg-[#1F2937] dark:bg-[#192335] text-white"}`}
+              className={`border border-gray-300 rounded-md p-2 w-full flex justify-between items-center mb-2 shadow-md ${note.id === currentNote?.id && "bg-[#1F2937] dark:bg-[#192335] text-white"}`}
               key={note.id}
             >
               <Input
