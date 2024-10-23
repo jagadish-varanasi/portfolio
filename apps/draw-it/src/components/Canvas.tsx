@@ -1,11 +1,11 @@
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { useCanvas } from "../contexts/CanvasContext";
 
 function Canvas() {
-  const { canvasRef, prepareCanvas, startDrawing, finishDrawing, draw } =
+  const { canvasRef, prepareCanvas, startDrawing, finishDrawing, draw, } =
     useCanvas();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     prepareCanvas();
   }, []);
 
