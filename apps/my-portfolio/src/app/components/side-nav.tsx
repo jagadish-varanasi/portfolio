@@ -124,10 +124,10 @@ function SideNav() {
                     className={cn(
                       "w-full h-6 flex items-center justify-center   ",
                       pathname === route.to
-                        ? "text-yellow-500"
+                        ? "text-gold"
                         : " text-slate-400 dark:text-slate-500",
                       pathname === route.to
-                        ? "dark:text-yellow-500"
+                        ? "dark:text-gold"
                         : " dark:hover:text-slate-400 hover:text-slate-600"
                     )}
                     href={route.to}
@@ -139,11 +139,6 @@ function SideNav() {
               ))}
             </ul>
           </nav>
-          {/* <div className="flex items-center justify-center h-screen w-full">
-            <FloatingDock
-              items={links}
-            />
-          </div> */}
         </div>
       </div>
     </div>

@@ -36,6 +36,9 @@
     --destructive: 0 100% 50%;
     --destructive-foreground: 210 40% 98%;
 
+    --gold: 48 97% 48%;
+    --gold-foreground: 210 40% 98%;
+    
     --ring: 215 20.2% 65.1%;
 
     --radius: 0.5rem;
@@ -68,6 +71,9 @@
 
     --destructive: 0 63% 31%;
     --destructive-foreground: 210 40% 98%;
+
+    --gold: 48  97% 48%;
+    --gold-foreground: 210 40% 98%;
 
     --ring: 216 34% 17%;
 

@@ -31,7 +31,7 @@ function ProjectItem({ data }: { data: Project }) {
             {data?.description}
           </p>
         </div>
-        <div className="text-yellow-500 flex justify-end">
+        <div className="text-gold flex justify-end">
           <ArrowRightIcon className="w-12 h-5" />
         </div>
       </div>

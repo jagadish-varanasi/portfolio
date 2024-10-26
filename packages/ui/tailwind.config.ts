@@ -12,6 +12,8 @@ const config = {
     "./components/**/*.{ts,tsx}",
     "./app/**/*.{ts,tsx}",
     "./src/**/*.{ts,tsx}",
+    "../my-portfolio/src/**/*.{ts,tsx}",
+    "../../apps/my-portfolio/src/**/*.{ts,tsx}",
     "../../packages/ui/src/**/*.{ts,tsx}",
     "../../packages/rich-text-editor/src/**/*.{ts,tsx}",
   ],
@@ -62,6 +64,11 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        gold: {
+          DEFAULT: "hsl(var(--gold))",
+          foreground: "hsl(var(--gold-foreground))",
+        },
+        golden: "#F7E28E",
       },
       borderRadius: {
         lg: "var(--radius)",

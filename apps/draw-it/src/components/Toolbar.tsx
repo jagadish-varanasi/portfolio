@@ -16,7 +16,7 @@ export const Toolbar = () => {
     <>
       <div className="absolute w-7 h-7 top-8 left-8">
         <div className="flex items-center gap-1">
-          <img src="drawit.png" className=" rounded-full" />
+          <img src="drawit.png" className=" rounded-xl" />
           <div className="font-bold">DrawIt.</div>
         </div>
       </div>

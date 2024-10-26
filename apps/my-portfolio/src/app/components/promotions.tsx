@@ -2,6 +2,7 @@
 import React from "react";
 import SliderDesign from "./tech-ani";
 import { PlaceholdersAndVanishInput } from "@repo/ui/components/placeholders-and-vanish-input";
+import { Button } from "@repo/ui/components/button";
 
 function Promotion() {
   const placeholders = [
@@ -42,12 +43,13 @@ function Promotion() {
           onSubmit={onSubmit}
           renderSubmitButton={() => {
             return (
-              <button
-                className="btn-sm w-full  text-slate-100 bg-yellow-500 hover:bg-yellow-600 mt-2"
+              <Button
+                className="btn-sm w-full mt-2 h-8"
                 type="submit"
+                variant="gold"
               >
                 Subscribe
-              </button>
+              </Button>
             );
           }}
         />
