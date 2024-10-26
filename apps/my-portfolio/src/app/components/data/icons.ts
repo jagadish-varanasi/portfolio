@@ -53,7 +53,7 @@ export const slides = [
     width: 30,
     height: 30,
     name: "Redux",
-    description: "State Management",
+    description: "Store Mgmt",
   },
   {
     icon: "typescript",

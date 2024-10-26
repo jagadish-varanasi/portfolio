@@ -6,7 +6,7 @@ import { slides } from "./data/icons";
 
 const SliderDesign = ({ showTitle = false }: { showTitle?: boolean }) => {
   const duplicatedSlides = [...slides, ...slides];
-  const WIDTH = showTitle ? 350 : 100;
+  const WIDTH = showTitle ? 400 : 100;
 
   return (
     <div
@@ -18,7 +18,7 @@ const SliderDesign = ({ showTitle = false }: { showTitle?: boolean }) => {
       <motion.div
         className="flex"
         animate={{
-          x: ["0%", "-100%"],
+          x: ["0%", `-${WIDTH}%`],
           transition: {
             ease: "linear",
             duration: 15,
