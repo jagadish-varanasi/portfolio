@@ -5,6 +5,7 @@ import Promotion from "../components/promotions";
 import CodingProfile from "../components/coding-profile";
 import { projects } from "../components/data/projects";
 import { ExpandableCards } from "./components/expandable-cards";
+import SliderDesign from "../components/tech-ani";
 
 function Projects() {
   return (
@@ -25,6 +26,7 @@ function Projects() {
       </div>
       <aside className="md:w-[240px] lg:w-[300px] shrink-0">
         <div className="space-y-6">
+          <SliderDesign showTitle={true}/>
           <Promotion />
           <HobbyCard />
           <CodingProfile />

@@ -1,10 +1,12 @@
+"use client";
 import Image from "next/image";
 import React from "react";
 import { motion } from "framer-motion";
 import { slides } from "./data/icons";
 
-const SliderDesign = () => {
+const SliderDesign = ({ showTitle = false }: { showTitle?: boolean }) => {
   const duplicatedSlides = [...slides, ...slides];
+  const WIDTH = showTitle ? 350 : 100;
 
   return (
     <div
@@ -28,15 +30,22 @@ const SliderDesign = () => {
           <div
             key={index}
             className="flex-shrink-0"
-            style={{ width: `${100 / slides.length}%` }}
+            style={{ width: `${WIDTH / slides.length}%` }}
           >
-            <div className="flex items-center justify-center h-full gap-4">
+            <div className="flex items-center justify-center h-full gap-2">
               <Image
                 src={slide.url}
                 alt="react"
                 width={slide.width}
                 height={slide.height}
               />
+              {showTitle && (
+                <div className="flex flex-col">
+                  <div className="text-xs font-bold">{slide.name}</div>
+                  <div className="text-xs font-light">{slide.description}</div>
+                  <div></div>
+                </div>
+              )}
             </div>
           </div>
         ))}
