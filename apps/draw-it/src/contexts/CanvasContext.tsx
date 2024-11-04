@@ -33,8 +33,8 @@ export const CanvasProvider: React.FC<{ children: React.ReactNode }> = ({
   const prepareCanvas = () => {
     const canvas = canvasRef.current;
     if (canvas) {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      canvas.width = document.documentElement.clientWidth;
+      canvas.height = document.documentElement.clientHeight;
 
       const context = canvas.getContext("2d");
       if (context) {

@@ -1,6 +1,12 @@
-/* button {
-  position: absolute;
-  top: 30px;
-  left: 30px;
-  font-size: 32px;
-} */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+}
