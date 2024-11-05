@@ -41,6 +41,7 @@
     "lucide-react": "^0.437.0",
     "next-themes": "^0.3.0",
     "react": "^18.2.0",
+    "sonner": "^1.7.0",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7"
   },
