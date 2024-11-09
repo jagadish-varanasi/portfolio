@@ -2,7 +2,7 @@ import Link from "next/link";
 import React from "react";
 import DashboardItems from "../components/dashboard/DashboardItems";
 import { Home, Globe, DollarSign, CircleUserIcon } from "lucide-react";
-import { ModeToggle } from "../components/dashboard/ThemeToggle";
+import { ThemeToggle } from "../components/dashboard/ThemeToggle";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -50,7 +50,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
       <div className="flex flex-col">
         <header className="flex h-14 items-center gap-4 border-b bbg-muted/40 px-4 lg:h-[60px] lg-px-6">
           <div className="ml-auto flex items-center gap-x-5">
-            <ModeToggle />
+            <ThemeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button

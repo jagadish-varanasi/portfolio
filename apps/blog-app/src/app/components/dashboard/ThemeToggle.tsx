@@ -11,7 +11,7 @@ import {
   DropdownMenuTrigger,
 } from "@repo/ui/components/dropdown-menu";
 
-export function ModeToggle() {
+export function ThemeToggle() {
   const { setTheme } = useTheme();
 
   return (

@@ -71,7 +71,7 @@ async function SitePage({ params }: { params: { siteId: string } }) {
     <>
       <div className="flex w-full justify-end gap-x-4">
         <Button asChild variant="secondary">
-          <Link href="#">
+          <Link href={`/blog/${data?.subdirectory}`}>
             <Book className="size-4 mr-2" />
             View Blog
           </Link>
@@ -83,7 +83,7 @@ async function SitePage({ params }: { params: { siteId: string } }) {
           </Link>
         </Button>
         <Button asChild>
-          <Link href="#">
+          <Link href={`/dashboard/sites/${params.siteId}/create`}>
             <PlusCircle className="size-4 mr-2" />
             Create Article
           </Link>

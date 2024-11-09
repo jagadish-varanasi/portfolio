@@ -14,6 +14,7 @@
     "@kinde-oss/kinde-auth-nextjs": "^2.4.4",
     "@prisma/client": "^5.21.1",
     "@repo/ui": "*",
+    "@tiptap/html": "^2.9.1",
     "@uploadthing/react": "^7.1.0",
     "lucide-react": "^0.454.0",
     "next": "15.0.2",
@@ -23,6 +24,7 @@
     "react-dom": "19.0.0-rc-02c0e824-20241028",
     "react-slugify": "^4.0.1",
     "sonner": "^1.7.0",
+    "stripe": "^17.3.1",
     "uploadthing": "^7.2.0",
     "zod": "^3.23.8"
   },
