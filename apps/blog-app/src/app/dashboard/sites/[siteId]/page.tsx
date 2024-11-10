@@ -57,7 +57,13 @@ async function getData(userId: string, siteId: string) {
   return data;
 }
 
-async function SitePage({ params }: { params: { siteId: string } }) {
+type Props = {
+  params: Promise<{ siteId: string; articleId: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+async function SitePage({ params }: Props) {
+  const param = await params;
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
@@ -65,7 +71,7 @@ async function SitePage({ params }: { params: { siteId: string } }) {
     return redirect("/api/auth/login");
   }
 
-  const data = await getData(user.id, params.siteId);
+  const data = await getData(user.id, param.siteId);
 
   return (
     <>
@@ -77,13 +83,13 @@ async function SitePage({ params }: { params: { siteId: string } }) {
           </Link>
         </Button>
         <Button asChild variant="secondary">
-          <Link href={`/dashboard/sites/${params.siteId}/settings`}>
+          <Link href={`/dashboard/sites/${param.siteId}/settings`}>
             <Settings className="size-4 mr-2" />
             Settings
           </Link>
         </Button>
         <Button asChild>
-          <Link href={`/dashboard/sites/${params.siteId}/create`}>
+          <Link href={`/dashboard/sites/${param.siteId}/create`}>
             <PlusCircle className="size-4 mr-2" />
             Create Article
           </Link>
@@ -95,7 +101,7 @@ async function SitePage({ params }: { params: { siteId: string } }) {
           title="You dont have any Articles created"
           description="You currently dont have any articles. please create some so that you can see them right here"
           buttonText="Create Article"
-          href={`/dashboard/sites/${params.siteId}/create`}
+          href={`/dashboard/sites/${param.siteId}/create`}
         />
       ) : (
         <div>
@@ -118,63 +124,71 @@ async function SitePage({ params }: { params: { siteId: string } }) {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {data.posts.map((item) => (
-                    <TableRow key={item.id}>
-                      <TableCell>
-                        <Image
-                          src={item.image}
-                          width={64}
-                          height={64}
-                          alt="Article Cover Image"
-                          className="size-16 rounded-md object-cover"
-                        />
-                      </TableCell>
-                      <TableCell className="font-medium">
-                        {item.title}
-                      </TableCell>
-                      <TableCell>
-                        <Badge
-                          variant="outline"
-                          className="bg-green-500/10 text-green-500"
-                        >
-                          Published
-                        </Badge>
-                      </TableCell>
-                      <TableCell>
-                        {new Intl.DateTimeFormat("en-US", {
-                          dateStyle: "medium",
-                        }).format(item.createdAt)}
-                      </TableCell>
+                  {data.posts.map(
+                    (item: {
+                      id: string;
+                      image: string;
+                      title: string;
+                      createdAt: Date;
+                      siteId: string;
+                    }) => (
+                      <TableRow key={item.id}>
+                        <TableCell>
+                          <Image
+                            src={item.image}
+                            width={64}
+                            height={64}
+                            alt="Article Cover Image"
+                            className="size-16 rounded-md object-cover"
+                          />
+                        </TableCell>
+                        <TableCell className="font-medium">
+                          {item.title}
+                        </TableCell>
+                        <TableCell>
+                          <Badge
+                            variant="outline"
+                            className="bg-green-500/10 text-green-500"
+                          >
+                            Published
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          {new Intl.DateTimeFormat("en-US", {
+                            dateStyle: "medium",
+                          }).format(item.createdAt)}
+                        </TableCell>
 
-                      <TableCell className="text-end">
-                        <DropdownMenu>
-                          <DropdownMenuTrigger asChild>
-                            <Button size="icon" variant="ghost">
-                              <MoreHorizontal className="size-4" />
-                            </Button>
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="end">
-                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                            <DropdownMenuSeparator />
-                            <DropdownMenuItem asChild>
-                              <Link
-                                href={`/dashboard/sites/${params.siteId}/${item.id}`}
-                              >
-                                Edit
-                              </Link>
-                            </DropdownMenuItem>
-                            <DropdownMenuItem asChild>
-                              <Link
-                                href={`/dashboard/sites/${params.siteId}/${item.id}/delete`}
-                              >
-                                Delete
-                              </Link>
-                            </DropdownMenuItem>
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      </TableCell>
-                    </TableRow>
-                  ))}
+                        <TableCell className="text-end">
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button size="icon" variant="ghost">
+                                <MoreHorizontal className="size-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                              <DropdownMenuSeparator />
+                              <DropdownMenuItem asChild>
+                                <Link
+                                  href={`/dashboard/sites/${param.siteId}/${item.id}`}
+                                >
+                                  Edit
+                                </Link>
+                              </DropdownMenuItem>
+                              <DropdownMenuItem asChild>
+                                <Link
+                                  href={`/dashboard/sites/${param.siteId}/${item.id}/delete`}
+                                >
+                                  Delete
+                                </Link>
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  )}
                 </TableBody>
               </Table>
             </CardContent>

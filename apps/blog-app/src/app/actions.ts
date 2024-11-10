@@ -70,7 +70,7 @@ export async function CreatePostAction(prevState: unknown, formData: FormData) {
   return redirect(`/dashboard/sites/${formData.get("siteId")}`);
 }
 
-export async function EditPostActions(prevState: any, formData: FormData) {
+export async function EditPostActions(prevState: unknown, formData: FormData) {
   const user = await requireUser();
 
   const submission = parseWithZod(formData, {

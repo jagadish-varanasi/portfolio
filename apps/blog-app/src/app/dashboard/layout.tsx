@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 import DashboardItems from "../components/dashboard/DashboardItems";
-import { Home, Globe, DollarSign, CircleUserIcon } from "lucide-react";
+import { CircleUserIcon } from "lucide-react";
 import { ThemeToggle } from "../components/dashboard/ThemeToggle";
 import {
   DropdownMenu,
@@ -11,24 +11,6 @@ import {
 } from "@repo/ui/components/dropdown-menu";
 import { Button } from "@repo/ui/components/button";
 import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/components";
-
-export const navList = [
-  {
-    name: "Dashboard",
-    href: "/dashboard",
-    icon: Home,
-  },
-  {
-    name: "Sites",
-    href: "/dashboard/sites",
-    icon: Globe,
-  },
-  {
-    name: "Pricing",
-    href: "/dashboard/pricing",
-    icon: DollarSign,
-  },
-];
 
 function DashboardLayout({ children }: { children: React.ReactNode }) {
   return (

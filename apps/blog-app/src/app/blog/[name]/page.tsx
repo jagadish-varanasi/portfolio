@@ -42,12 +42,14 @@ async function getData(subDir: string) {
   return data;
 }
 
-export default async function BlogIndexPage({
-  params,
-}: {
-  params: { name: string };
-}) {
-  const data = await getData(params.name);
+type Props = {
+  params: Promise<{ slug: string; name: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export default async function BlogIndexPage({ params }: Props) {
+  const param = await params;
+  const data = await getData(param.name);
   return (
     <>
       <nav className="grid grid-cols-3 my-10">
@@ -62,30 +64,38 @@ export default async function BlogIndexPage({
       </nav>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-7">
-        {data.posts.map((item) => (
-          <Card key={item.id}>
-            <Image
-              src={item.image ?? "/default.png"}
-              alt={item.title}
-              className="rounded-t-lg object-cover w-full h-[200px]"
-              width={400}
-              height={200}
-            />
-            <CardHeader>
-              <CardTitle className="truncate">{item.title}</CardTitle>
-              <CardDescription className="line-clamp-3">
-                {item.smallDescription}
-              </CardDescription>
-            </CardHeader>
-            <CardFooter>
-              <Button asChild className="w-full">
-                <Link href={`/blog/${params.name}/${item.slug}`}>
-                  Read more
-                </Link>
-              </Button>
-            </CardFooter>
-          </Card>
-        ))}
+        {data.posts.map(
+          (item: {
+            id: string;
+            image?: string;
+            title: string;
+            smallDescription: string;
+            slug: string;
+          }) => (
+            <Card key={item.id}>
+              <Image
+                src={item.image ?? "/default.png"}
+                alt={item.title}
+                className="rounded-t-lg object-cover w-full h-[200px]"
+                width={400}
+                height={200}
+              />
+              <CardHeader>
+                <CardTitle className="truncate">{item.title}</CardTitle>
+                <CardDescription className="line-clamp-3">
+                  {item.smallDescription}
+                </CardDescription>
+              </CardHeader>
+              <CardFooter>
+                <Button asChild className="w-full">
+                  <Link href={`/blog/${param.name}/${item.slug}`}>
+                    Read more
+                  </Link>
+                </Button>
+              </CardFooter>
+            </Card>
+          )
+        )}
       </div>
     </>
   );

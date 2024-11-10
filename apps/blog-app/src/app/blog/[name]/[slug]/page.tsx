@@ -1,4 +1,3 @@
-
 import { RenderArticle } from "@/app/components/dashboard/RenderArticle";
 import prisma from "@/libs/db";
 import { Button } from "@repo/ui/components/button";
@@ -29,18 +28,20 @@ async function getData(slug: string) {
   return data;
 }
 
-export default async function SlugRoute({
-  params,
-}: {
-  params: { slug: string; name: string };
-}) {
-  const data = await getData(params.slug);
+type Props = {
+  params: Promise<{ slug: string; name: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export default async function SlugRoute({ params }: Props) {
+  const param = await params;
+  const data = await getData(param.slug);
 
   return (
     <>
       <div className="flex items-center gap-x-3 pt-10 pb-5">
         <Button size="icon" variant="outline" asChild>
-          <Link href={`/blog/${params.name}`}>
+          <Link href={`/blog/${param.name}`}>
             <ArrowLeft className="size-4" />
           </Link>
         </Button>

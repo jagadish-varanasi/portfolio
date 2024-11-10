@@ -1,4 +1,3 @@
-
 import { stripe } from "@/app/libs/stripe";
 import prisma from "@/libs/db";
 import { headers } from "next/headers";
@@ -7,7 +6,7 @@ import Stripe from "stripe";
 export async function POST(req: Request) {
   const body = await req.text();
 
-  const signature = headers().get("Stripe-Signature") as string;
+  const signature = (await headers()).get("Stripe-Signature") as string;
 
   let event: Stripe.Event;
 
@@ -18,6 +17,7 @@ export async function POST(req: Request) {
       process.env.STRIPE_WEBHOOK_SECRET as string
     );
   } catch (error: unknown) {
+    console.log(error);
     return new Response("Webhook error", { status: 400 });
   }
 

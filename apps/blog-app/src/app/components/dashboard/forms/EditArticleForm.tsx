@@ -4,12 +4,10 @@ import { Atom } from "lucide-react";
 import Image from "next/image";
 import { toast } from "sonner";
 import TailwindEditor from "../EditorWrapper";
-
 import { useActionState, useState } from "react";
 import { JSONContent } from "novel";
 import { useForm } from "@conform-to/react";
 import { parseWithZod } from "@conform-to/zod";
-
 import slugify from "react-slugify";
 import { EditPostActions } from "@/app/actions";
 import { PostSchema } from "@/app/constants/zodSchema";
@@ -32,7 +30,7 @@ interface iAppProps {
     slug: string;
     title: string;
     smallDescription: string;
-    articleContent: any;
+    articleContent: JSONContent | undefined;
     id: string;
     image: string;
   };

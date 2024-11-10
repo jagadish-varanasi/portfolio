@@ -1,9 +1,27 @@
 "use client";
-import { navList } from "@/app/dashboard/layout";
 import { cn } from "@repo/ui/lib/utils";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Home, Globe, DollarSign } from "lucide-react";
 import React from "react";
+
+const navList = [
+  {
+    name: "Dashboard",
+    href: "/dashboard",
+    icon: Home,
+  },
+  {
+    name: "Sites",
+    href: "/dashboard/sites",
+    icon: Globe,
+  },
+  {
+    name: "Pricing",
+    href: "/dashboard/pricing",
+    icon: DollarSign,
+  },
+];
 
 function DashboardItems() {
   const pathname = usePathname();
