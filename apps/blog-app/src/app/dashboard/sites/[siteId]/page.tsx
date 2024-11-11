@@ -130,7 +130,6 @@ async function SitePage({ params }: Props) {
                       image: string;
                       title: string;
                       createdAt: Date;
-                      siteId: string;
                     }) => (
                       <TableRow key={item.id}>
                         <TableCell>

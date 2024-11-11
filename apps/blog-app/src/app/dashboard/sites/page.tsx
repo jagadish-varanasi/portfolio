@@ -56,7 +56,7 @@ async function SitesPage() {
             (item: {
               id: string;
               name: string;
-              imageUrl?: string;
+              imageUrl: string | null;
               description: string;
             }) => (
               <Card key={item.id}>

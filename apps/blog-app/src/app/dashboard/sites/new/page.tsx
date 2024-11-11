@@ -77,7 +77,7 @@ function NewSitePage() {
             </div>
           </CardContent>
           <CardFooter>
-           <SubmitButton text="Create Site"/>
+            <SubmitButton text="Create Site" />
           </CardFooter>
         </form>
       </Card>

@@ -45,35 +45,37 @@ export default async function DashboardIndexPage() {
       <h1 className="text-2xl font-semibold mb-5">Your Sites</h1>
       {sites.length > 0 ? (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-7">
-          {sites.map((item:{
+          {sites.map(
+            (item: {
               id: string;
-              imageUrl?: string;
+              imageUrl: string | null;
               name: string;
               description: string;
             }) => (
-            <Card key={item.id}>
-              <Image
-                src={item.imageUrl ?? "/default.png"}
-                alt={item.name}
-                className="rounded-t-lg object-cover w-full h-[200px]"
-                width={400}
-                height={200}
-              />
-              <CardHeader>
-                <CardTitle className="truncate">{item.name}</CardTitle>
-                <CardDescription className="line-clamp-3">
-                  {item.description}
-                </CardDescription>
-              </CardHeader>
-              <CardFooter>
-                <Button asChild className="w-full">
-                  <Link href={`/dashboard/sites/${item.id}`}>
-                    View Articles
-                  </Link>
-                </Button>
-              </CardFooter>
-            </Card>
-          ))}
+              <Card key={item.id}>
+                <Image
+                  src={item.imageUrl ?? "/default.png"}
+                  alt={item.name}
+                  className="rounded-t-lg object-cover w-full h-[200px]"
+                  width={400}
+                  height={200}
+                />
+                <CardHeader>
+                  <CardTitle className="truncate">{item.name}</CardTitle>
+                  <CardDescription className="line-clamp-3">
+                    {item.description}
+                  </CardDescription>
+                </CardHeader>
+                <CardFooter>
+                  <Button asChild className="w-full">
+                    <Link href={`/dashboard/sites/${item.id}`}>
+                      View Articles
+                    </Link>
+                  </Button>
+                </CardFooter>
+              </Card>
+            )
+          )}
         </div>
       ) : (
         <EmptyState
@@ -90,10 +92,10 @@ export default async function DashboardIndexPage() {
           {articles.map(
             (item: {
               id: string;
-              image?: string;
+              image: string | null;
               title: string;
               smallDescription: string;
-              siteId: string;
+              siteId: string | null;
             }) => (
               <Card key={item.id}>
                 <Image
