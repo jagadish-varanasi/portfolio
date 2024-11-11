@@ -14,7 +14,8 @@
         "STRIPE_PRICE_ID",
         "STRIPE_SECRET_KEY",
         "UPLOADTHING_TOKEN",
-        "APP_NAME"
+        "APP_NAME",
+        "APP_URL"
       ]
     }
   }

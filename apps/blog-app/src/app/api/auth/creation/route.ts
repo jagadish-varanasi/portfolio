@@ -29,5 +29,5 @@ export async function GET() {
     });
   }
 
-  return NextResponse.redirect("http://localhost:3005/dashboard");
+  return NextResponse.redirect(`${process.env.APP_URL}/dashboard`);
 }

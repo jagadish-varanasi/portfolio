@@ -42,7 +42,7 @@ export default async function PricingPage() {
       return_url:
         process.env.NODE_ENV === "production"
           ? "https://blog-marshal.vercel.app/dashboard"
-          : "http://localhost:3000/dashboard",
+          : `${process.env.APP_URL}/dashboard`,
     });
 
     return redirect(session.url);

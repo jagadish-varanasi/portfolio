@@ -5,7 +5,7 @@ export const projects = [
     description:
       "Streamline your note-taking experience while keeping your data secure on your local device. With the power of AI",
     icon: "/noteIt.svg",
-    url: process.env.NEXT_PUBLIC_NOTE_IT,
+    url: process.env.NOTE_IT,
   },
   {
     id: "2",
@@ -13,7 +13,7 @@ export const projects = [
     description:
       "World of publishing. Whether you're an aspiring writer, a seasoned author, a publishing professional, or simply a lover of great stories",
     icon: "/pubbish.svg",
-    url: process.env.NEXT_PUBLIC_PUBBISH,
+    url: process.env.PUBBISH,
   },
   {
     id: "3",
@@ -21,7 +21,7 @@ export const projects = [
     description:
       "Issue tracking tool designed to streamline workflows, enhance team collaboration, and boost productivity.",
     icon: "/trackEase.svg",
-    url: process.env.NEXT_PUBLIC_TRACKEASE,
+    url: process.env.TRACKEASE,
   },
   {
     id: "4",
@@ -29,6 +29,6 @@ export const projects = [
     description:
       "Unleash your creativity and challenge your friends with DrawDash, the ultimate Pictionary app!",
     icon: "/drawit.png",
-    url: process.env.NEXT_PUBLIC_DRAW_IT,
+    url: process.env.DRAW_IT,
   },
 ];
