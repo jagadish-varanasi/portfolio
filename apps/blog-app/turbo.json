@@ -13,7 +13,8 @@
         "DIRECT_URL",
         "STRIPE_PRICE_ID",
         "STRIPE_SECRET_KEY",
-        "UPLOADTHING_TOKEN"
+        "UPLOADTHING_TOKEN",
+        "APP_NAME"
       ]
     }
   }
