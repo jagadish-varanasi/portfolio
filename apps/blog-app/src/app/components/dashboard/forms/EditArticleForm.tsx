@@ -22,7 +22,7 @@ import { Label } from "@repo/ui/components/label";
 import { Input } from "@repo/ui/components/input";
 import { Button } from "@repo/ui/components/button";
 import { Textarea } from "@repo/ui/components/textarea";
-import { UploadDropzone } from "@/app/libs/UploadingthingComponents";
+import { UploadDropzone } from "@/app/utils/UploadingthingComponents";
 import { SubmitButton } from "../SubmitButton";
 
 interface iAppProps {

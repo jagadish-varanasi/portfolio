@@ -5,6 +5,8 @@ export const requireUser = async () => {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
 
+  console.log(user)
+
   if (!user) {
     return redirect("/api/auth/login");
   }

@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import prisma from "@/libs/db";
+import prisma from "@/app/utils/db";
 import {
   Card,
   CardHeader,

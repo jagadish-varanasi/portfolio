@@ -8,9 +8,9 @@ import {
 } from "@repo/ui/components/card";
 import { SubmitButton } from "@/app/components/dashboard/SubmitButton";
 import { PricingTable } from "@/app/components/shared/Pricing";
-import prisma from "@/libs/db";
-import { requireUser } from "@/app/libs/requireUser";
-import { stripe } from "@/app/libs/stripe";
+import prisma from "@/app/utils/db";
+import { requireUser } from "@/app/utils/requireUser";
+import { stripe } from "@/app/utils/stripe";
 
 async function getData(userId: string) {
   const data = await prisma.subscription.findUnique({
@@ -74,3 +74,6 @@ export default async function PricingPage() {
     </div>
   );
 }
+
+
+export const dynamic = "force-dynamic";

@@ -23,7 +23,7 @@ import slugify from "react-slugify";
 import { CreatePostAction } from "@/app/actions";
 import { PostSchema } from "@/app/constants/zodSchema";
 import TailwindEditor from "@/app/components/dashboard/EditorWrapper";
-import { UploadDropzone } from "@/app/libs/UploadingthingComponents";
+import { UploadDropzone } from "@/app/utils/UploadingthingComponents";
 import { useParams } from "next/navigation";
 
 function CreateArticle() {

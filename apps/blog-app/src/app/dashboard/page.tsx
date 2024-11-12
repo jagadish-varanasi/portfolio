@@ -1,6 +1,6 @@
-import prisma from "@/libs/db";
+import prisma from "@/app/utils/db";
 import React from "react";
-import { requireUser } from "../libs/requireUser";
+import { requireUser } from "../utils/requireUser";
 import {
   Card,
   CardDescription,
@@ -13,28 +13,44 @@ import { Button } from "@repo/ui/components/button";
 import Link from "next/link";
 import { EmptyState } from "../components/dashboard/EmptyState";
 
-async function getData(userId: string) {
-  const [sites, articles] = await Promise.all([
-    prisma.site.findMany({
-      where: {
-        userId,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-      take: 3,
-    }),
-    await prisma.post.findMany({
-      where: {
-        userId,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
-      take: 3,
-    }),
-  ]);
-  return { sites, articles };
+async function getData(userId: string): Promise<{
+  sites: Array<{
+    id: string;
+    imageUrl: string | null;
+    name: string;
+    description: string;
+  }>;
+  articles: Array<{
+    id: string;
+    image: string | null;
+    title: string;
+    smallDescription: string;
+    siteId: string | null;
+  }>;
+}> {
+  return new Promise(async (resolve) => {
+    const [sites, articles] = await Promise.all([
+      prisma.site.findMany({
+        where: {
+          userId,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 3,
+      }),
+      await prisma.post.findMany({
+        where: {
+          userId,
+        },
+        orderBy: {
+          createdAt: "desc",
+        },
+        take: 3,
+      }),
+    ]);
+    resolve({ sites, articles });
+  });
 }
 
 export default async function DashboardIndexPage() {
@@ -134,3 +150,6 @@ export default async function DashboardIndexPage() {
     </div>
   );
 }
+
+
+export const dynamic = "force-dynamic";

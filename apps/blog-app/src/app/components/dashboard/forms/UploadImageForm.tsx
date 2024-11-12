@@ -12,7 +12,7 @@ import {
 } from "@repo/ui/components/card";
 
 import { toast } from "sonner";
-import { UploadDropzone } from "@/app/libs/UploadingthingComponents";
+import { UploadDropzone } from "@/app/utils/UploadingthingComponents";
 import { UpdateImage } from "@/app/actions";
 import { SubmitButton } from "../SubmitButton";
 

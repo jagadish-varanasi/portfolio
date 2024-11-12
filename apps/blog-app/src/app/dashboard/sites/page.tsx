@@ -2,7 +2,7 @@ import { Button } from "@repo/ui/components/button";
 import Link from "next/link";
 import { PlusCircle } from "lucide-react";
 import React from "react";
-import prisma from "@/libs/db";
+import prisma from "@/app/utils/db";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 import {
@@ -88,3 +88,6 @@ async function SitesPage() {
 }
 
 export default SitesPage;
+
+
+export const dynamic = "force-dynamic";

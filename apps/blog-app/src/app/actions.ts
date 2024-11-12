@@ -3,9 +3,9 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
 import { PostSchema, SiteCreationSchema } from "./constants/zodSchema";
 import { parseWithZod } from "@conform-to/zod";
-import prisma from "@/libs/db";
-import { requireUser } from "./libs/requireUser";
-import { stripe } from "./libs/stripe";
+import prisma from "@/app/utils/db";
+import { requireUser } from "./utils/requireUser";
+import { stripe } from "./utils/stripe";
 
 export async function CreateSiteAction(prevState: unknown, formData: FormData) {
   const { getUser } = getKindeServerSession();
