@@ -3,6 +3,10 @@ import localFont from "next/font/local";
 import "@repo/ui/globals.css";
 import { Toaster } from "@repo/ui/components/sonner";
 import { ThemeProvider } from "./components/dashboard/ThemeProvider";
+import { NextSSRPlugin } from "@uploadthing/react/next-ssr-plugin";
+import { ourFileRouter } from "./api/uploadthing/core";
+import { extractRouterConfig } from "uploadthing/server";
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -36,6 +40,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <NextSSRPlugin routerConfig={extractRouterConfig(ourFileRouter)} />
           {children}
           <Toaster richColors closeButton />
         </ThemeProvider>
