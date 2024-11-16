@@ -1,5 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import ArticleItem from "../../../my-portfolio/src/app/components/article-item";
+import icon from "./assets/react.svg";
 
 const article = {
   id: "getting-started",
@@ -9,6 +10,7 @@ const article = {
   description:
     "An introductory guide to building web applications using React.",
   topic: "React",
+  url: icon,
 };
 
 // type Project = typeof project;

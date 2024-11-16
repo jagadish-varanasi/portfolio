@@ -1,5 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import ArticleItem from "../../../my-portfolio/src/app/components/article-item";
+import icon1 from "./assets/react.svg";
+import icon2 from "./assets/angular.svg";
 
 import {
   Tabs,
@@ -16,6 +18,7 @@ const article1 = {
   description:
     "An introductory guide to building web applications using React.",
   topic: "React",
+  url: icon1,
 };
 
 const article2 = {
@@ -26,6 +29,7 @@ const article2 = {
   description:
     "A comprehensive look at Angular directives and how to use them.",
   topic: "Angular",
+  url: icon2,
 };
 
 // type Project = typeof project;
@@ -55,17 +59,17 @@ type Story = StoryObj<typeof meta>;
 
 export const ArticleTabs: Story = {
   render: () => (
-      <Tabs defaultValue="latest">
-        <TabsList className="w-full mt-2">
-          <TabsTrigger value="latest">Latest</TabsTrigger>
-          <TabsTrigger value="react">React</TabsTrigger>
-        </TabsList>
-        <TabsContent value="latest">
-          <ArticleItem data={article1} key={article1.id} />
-        </TabsContent>
-        <TabsContent value="react">
-          <ArticleItem data={article2} key={article2.id} />
-        </TabsContent>
-      </Tabs>
+    <Tabs defaultValue="latest">
+      <TabsList className="w-full mt-2">
+        <TabsTrigger value="latest">Latest</TabsTrigger>
+        <TabsTrigger value="react">React</TabsTrigger>
+      </TabsList>
+      <TabsContent value="latest">
+        <ArticleItem data={article1} key={article1.id} />
+      </TabsContent>
+      <TabsContent value="react">
+        <ArticleItem data={article2} key={article2.id} />
+      </TabsContent>
+    </Tabs>
   ),
 };

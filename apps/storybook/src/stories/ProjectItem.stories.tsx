@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import icon from "./assets/noteIt.svg";
 import ProjectItem from "../../../my-portfolio/src/app/components/project-item";
 const project = {
   id: "1",
   title: "NoteIt",
   description:
     "Streamline your note-taking experience while keeping your data secure on your local device. With the power of AI",
-  icon: "/noteIt.svg",
+  icon: icon,
   url: "https://google.com",
 };
 
@@ -18,7 +19,6 @@ export interface Project {
   icon: string;
   url?: string;
 }
-
 
 const meta = {
   title: "Design/ProjectItem",

@@ -11,7 +11,7 @@ function ArticleItem({ data }: { data: Article }) {
         <div className="rounded w-16 h-16 sm:w-[98px] sm:h-[88px] object-cover mr-6 relative">
           {data?.url && (
             <Image
-              src={`/${data.url}`}
+              src={`${data.url}`}
               alt={"blog-image"}
               layout="fill"
               style={{ height: "100%", width: "100%"}}
