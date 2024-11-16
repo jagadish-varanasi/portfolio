@@ -35,8 +35,8 @@ const hljs = require("highlight.js");
 const extensions = [...defaultExtensions, slashCommand];
 
 const TailwindAdvancedEditor = () => {
-  const [initialContent, setInitialContent] = useState<null | JSONContent>(
-    null
+  const [initialContent, setInitialContent] = useState<undefined | JSONContent>(
+    undefined
   );
   const [saveStatus, setSaveStatus] = useState("Saved");
   const [charsCount, setCharsCount] = useState();
@@ -75,13 +75,11 @@ const TailwindAdvancedEditor = () => {
     500
   );
 
-  useEffect(() => {
+  useEffect(() => {print
     const content = window.localStorage.getItem("novel-content");
     if (content) setInitialContent(JSON.parse(content));
-    else setInitialContent(null);
+    else setInitialContent(undefined);
   }, []);
-
-  if (!initialContent) return;
 
   return (
     <div className="relative w-full max-w-screen-lg ">
