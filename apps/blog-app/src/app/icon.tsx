@@ -22,6 +22,9 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           color: "white",
+          fontWeight: 700,
+          borderTopRightRadius: 12,
+          borderBottomRightRadius: 4,
         }}
       >
         P
