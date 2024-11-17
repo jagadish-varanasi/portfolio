@@ -7,6 +7,7 @@ function HobbyCard() {
   return (
     <Link
       href={process.env.STORYBOOK || "#"}
+      target="_blank"
       className="group relative flex h-full overflow-hidden rounded-2xl"
     >
       <span className="absolute inset-0 -z-10">
