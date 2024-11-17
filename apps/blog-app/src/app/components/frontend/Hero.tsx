@@ -6,13 +6,15 @@ import {
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import { Button } from "@repo/ui/components/button";
 
-
 export function Hero() {
   return (
     <>
       <div className="relative flex flex-col w-full py-5 mx-auto md:flex-row md:items-center md:justify-between">
         <div className="flex flex-row items-center justify-between text-sm lg:justify-start">
           <Link href="/" className="flex items-center gap-2">
+            <div className="text-2xl  w-8 h-8 flex justify-center items-center text-white bg-black dark:text-black dark:bg-white rounded-tr-xl rounded-br-sm shadow-lg font-bold">
+              P
+            </div>
             <h4 className="text-3xl font-semibold">
               <span className="text-primary">Publish</span>
             </h4>
