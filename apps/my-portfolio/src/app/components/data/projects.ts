@@ -9,7 +9,7 @@ export const projects = [
   },
   {
     id: "2",
-    title: "Pubbish",
+    title: "Publish",
     description:
       "World of publishing. Whether you're an aspiring writer, a seasoned author, a publishing professional, or simply a lover of great stories",
     icon: "/pubbish.svg",

@@ -19,7 +19,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
         <div className="h-full flex max-h-screen flex-col gap-2">
           <div className="flex h-14 items-center border-b px-4 lg:h-[60px] lg:px-6">
             <Link href={"/"} className=" flex items-center gap-2 font-semibold">
-              <h3>Blog Jagadish</h3>
+              <h3>Publish</h3>
             </Link>
           </div>
           <div className="flex-1">
