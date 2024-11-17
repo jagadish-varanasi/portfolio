@@ -1,8 +1,3 @@
-import Image from "next/image";
-import KindeLogo from "../../../../public/kinde.svg";
-import Nextjs from "../../../../public/nextjs.svg";
-import TailwindLogo from "../../../../public/tailwind-css.svg";
-
 export function Logos() {
   return (
     <div className="py-10">

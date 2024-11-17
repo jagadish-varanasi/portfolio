@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ThemeToggle } from "../dashboard/ThemeToggle";
 import {
@@ -6,9 +5,7 @@ import {
   RegisterLink,
 } from "@kinde-oss/kinde-auth-nextjs/components";
 import { Button } from "@repo/ui/components/button";
-import heroImg from "../../../../public/hero.png";
-import { Logos } from "./Logos";
-import Icon from "@/app/icon";
+
 
 export function Hero() {
   return (

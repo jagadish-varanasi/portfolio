@@ -2,7 +2,6 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { Hero } from "./components/frontend/Hero";
 import { Logos } from "./components/frontend/Logos";
 import { Features } from "./components/frontend/Features";
-import { PricingTable } from "./components/shared/Pricing";
 import { redirect } from "next/navigation";
 
 export default async function Home() {
@@ -18,7 +17,6 @@ export default async function Home() {
       <Hero />
       <Features />
       <Logos />
-      {/* <PricingTable /> */}
     </div>
   );
 }
