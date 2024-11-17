@@ -6,7 +6,7 @@ import React from "react";
 function HobbyCard() {
   return (
     <Link
-      href={process.env.STORYBOOK}
+      href={process.env.STORYBOOK || "#"}
       className="group relative flex h-full overflow-hidden rounded-2xl"
     >
       <span className="absolute inset-0 -z-10">
