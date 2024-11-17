@@ -1,6 +1,6 @@
 import React from "react";
 import Promotion from "../components/promotions";
-import HobbyCard from "../components/hobby.-card";
+import HobbyCard from "../components/hobby-card";
 import WorkExperience from "../components/work-experience";
 
 function About() {
@@ -22,7 +22,7 @@ function About() {
                   Short Bio
                 </h2>
                 <p>
-                   I&apos;m a product maker (... and a professional software
+                  I&apos;m a product maker (... and a professional software
                   engineer) currently working at HashedIn by Deloitte in
                   Bengaluru. With ~3 years of industry experience, mostly
                   solving problem statements related to frontend, Web
@@ -117,8 +117,8 @@ function About() {
                     LinkedIn
                   </a>{" "}
                   to chat about projects and ideas. Whether you have a concept
-                  in mind or are looking for freelance expertise, let&apos;s chat
-                  about how we can work together to turn great ideas into
+                  in mind or are looking for freelance expertise, let&apos;s
+                  chat about how we can work together to turn great ideas into
                   successful realities.
                 </p>
               </div>

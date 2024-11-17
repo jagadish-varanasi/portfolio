@@ -2,7 +2,13 @@
   "extends": ["//"],
   "tasks": {
     "build": {
-      "passThroughEnv": ["NOTE_IT", "PUBBISH", "TRACKEASE", "DRAW_IT"]
+      "passThroughEnv": [
+        "NOTE_IT",
+        "PUBBISH",
+        "TRACKEASE",
+        "DRAW_IT",
+        "STORYBOOK"
+      ]
     }
   }
 }

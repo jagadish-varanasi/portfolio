@@ -1,6 +1,6 @@
 import React from "react";
 import ProjectItem from "../components/project-item";
-import HobbyCard from "../components/hobby.-card";
+import HobbyCard from "../components/hobby-card";
 import Promotion from "../components/promotions";
 import CodingProfile from "../components/coding-profile";
 import { projects } from "../components/data/projects";
@@ -26,7 +26,7 @@ function Projects() {
       </div>
       <aside className="md:w-[240px] lg:w-[300px] shrink-0">
         <div className="space-y-6">
-          <SliderDesign showTitle={true}/>
+          <SliderDesign showTitle={true} />
           <Promotion />
           <HobbyCard />
           <CodingProfile />

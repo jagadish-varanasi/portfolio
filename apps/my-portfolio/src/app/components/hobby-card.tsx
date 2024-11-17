@@ -6,7 +6,7 @@ import React from "react";
 function HobbyCard() {
   return (
     <Link
-      href="hobbies"
+      href={process.env.STORYBOOK}
       className="group relative flex h-full overflow-hidden rounded-2xl"
     >
       <span className="absolute inset-0 -z-10">
@@ -22,12 +22,12 @@ function HobbyCard() {
         <span className="flex justify-between"></span>
         <div className="space-y-0.5">
           <h2 className="font-title font-bold">
-            <span className="font-medium">art gallery: </span>
-            paintings I drew once hooked to
+            <span className="font-medium">storybook: </span>
+            created a component library
           </h2>
           <p className="text-sm">
-            these paintings are the ones that I was atleast once in my life
-            obsessed with. obsessed as in, listen to it on repeat kinda obsessed
+            I&apos;ve crafted a versatile component library using Tailwind CSS
+            and Shadcn to streamline development for my portfolio projects.
           </p>
         </div>
       </span>

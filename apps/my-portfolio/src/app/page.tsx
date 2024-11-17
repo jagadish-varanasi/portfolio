@@ -4,7 +4,7 @@ import React from "react";
 import Socials from "./components/socials";
 import Articles from "./components/articles";
 import ProjectItem from "./components/project-item";
-import HobbyCard from "./components/hobby.-card";
+import HobbyCard from "./components/hobby-card";
 import Promotion from "./components/promotions";
 import CodingProfile from "./components/coding-profile";
 import { projects } from "./components/data/projects";

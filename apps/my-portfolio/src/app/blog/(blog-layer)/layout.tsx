@@ -1,6 +1,6 @@
 "use client";
 import CodingProfile from "@/app/components/coding-profile";
-import HobbyCard from "@/app/components/hobby.-card";
+import HobbyCard from "@/app/components/hobby-card";
 import { motion, useScroll } from "framer-motion";
 import Promotion from "@/app/components/promotions";
 import React from "react";
