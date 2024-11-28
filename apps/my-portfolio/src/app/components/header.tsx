@@ -57,8 +57,8 @@ function Header() {
           </div>
           <div>
             <a
-              // className="btn-sm text-slate-100 bg-yellow-500 hover:bg-yellow-600"
-              href="/guestbook"
+              href={process.env.RESUME_DOWNLOAD_LINK}
+              download={process.env.RESUME_FILE_NAME}
             >
               <Button
                 borderRadius="1.75rem"
