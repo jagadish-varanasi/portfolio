@@ -6,7 +6,6 @@ import { compileMDX } from "next-mdx-remote/rsc";
 import { Article } from "@/app/components/data/types";
 import remarkGfm from "remark-gfm";
 
-
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const content = await fs.readFile(
     path.join(process.cwd(), "src/app/blog/markdown", `${params.id}.mdx`),
@@ -42,7 +41,7 @@ async function Page({ params }: { params: { id: string } }) {
   });
   return (
     <>
-      <Header image={`/${data.frontmatter.url}`} />
+      <Header image={data.frontmatter.url || ""} />
       <div className="flex items-center mb-1">
         <div className="text-xs text-slate-500 uppercase">
           <span className="text-yellow-500">—</span>

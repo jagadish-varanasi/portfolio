@@ -13,8 +13,6 @@ const article = {
   url: icon,
 };
 
-// type Project = typeof project;
-
 export interface Article {
   id: string;
   title: string;
@@ -33,7 +31,8 @@ const meta = {
   },
   argTypes: {
     data: {
-      id: { options: ["1", "2"], control: { type: "radio" } },
+      description: "Edit this object for changing props for this component",
+      control: "object",
     },
   },
   tags: ["autodocs"],
