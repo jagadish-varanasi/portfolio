@@ -35,6 +35,7 @@ const appearances = [
   },
 ];
 export default function Menu() {
+  // const { font: currentFont, setFont } = useContext(AppContext);
   const { theme: currentTheme, setTheme } = useTheme();
 
   return (
