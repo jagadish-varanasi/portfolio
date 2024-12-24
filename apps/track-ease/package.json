@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev -p 3006",
-    "build": "next build",
+    "build": "prisma generate && prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -76,7 +76,7 @@
     "y-webrtc": "^10.3.0",
     "yjs": "^13.6.18",
     "zod": "^3.23.8",
-    "@repo/ui":"*"
+    "@repo/ui": "*"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
