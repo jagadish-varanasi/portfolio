@@ -24,6 +24,10 @@ import {
   DropdownMenuTrigger,
 } from "@repo/ui/components/dropdown-menu";
 import { Separator } from "@repo/ui/components/separator";
+import { TrashIcon } from "lucide-react";
+import { deleteProject } from "@/app/actions";
+import { toast } from "@repo/ui/hooks/use-toast";
+import DeleteAction from "./delete-action";
 
 export function ProjectCard({
   project,
@@ -39,10 +43,12 @@ export function ProjectCard({
 }) {
   return (
     <Card>
-      <CardHeader className="grid grid-cols-[1fr_140px] items-start gap-2 space-y-0">
+      <CardHeader className="grid grid-cols-[1fr_140px] items-start gap-2 space-y-0 min-h-[150px]">
         <div className="space-y-1">
-          <CardTitle className="text-xl">{project.name}</CardTitle>
-          <CardDescription>{project.description}</CardDescription>
+          <CardTitle className="text-xl line-clamp-1">{project.name}</CardTitle>
+          <CardDescription className="line-clamp-3">
+            {project.description}
+          </CardDescription>
         </div>
         <div className="flex items-center space-x-1 rounded-md bg-secondary text-secondary-foreground">
           <Button variant="secondary" className="px-3 shadow-none">
@@ -73,6 +79,11 @@ export function ProjectCard({
               <DropdownMenuItem>
                 <PlusIcon className="mr-2 h-4 w-4" /> Create Task
               </DropdownMenuItem>
+              <DeleteAction id={project.id}>
+                <DropdownMenuItem>
+                  <TrashIcon className="mr-2 h-4 w-4" /> Delete Project
+                </DropdownMenuItem>
+              </DeleteAction>
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

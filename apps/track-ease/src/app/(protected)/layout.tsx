@@ -35,7 +35,7 @@ async function layout({
           <div className="ml-auto flex items-center space-x-4">
             <Link className="mr-7" href="/admin/dashboard">
               {session?.user?.role === "ADMIN" && (
-                <Button variant="outline" className="h-10">
+                <Button variant="outline" className="h-9">
                   Admin
                 </Button>
               )}
