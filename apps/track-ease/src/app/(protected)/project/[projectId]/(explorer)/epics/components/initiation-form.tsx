@@ -32,7 +32,7 @@ import {
   createInitiation,
   createInitiationDraft,
 } from "@/app/actions";
-import { toast } from "@repo/ui/components/use-toast";
+import { toast } from "@repo/ui/hooks/use-toast";
 import { cn } from "@repo/ui/lib/utils";
 import Details from "./details";
 
