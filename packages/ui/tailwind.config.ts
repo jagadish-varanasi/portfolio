@@ -15,7 +15,6 @@ const config = {
     "./src/**/*.{ts,tsx}",
     "../my-portfolio/src/**/*.{ts,tsx}",
     "../../apps/my-portfolio/src/**/*.{ts,tsx}",
-    "../../apps/track-ease/src/**/*.{ts,tsx}",
     "../../packages/ui/src/**/*.{ts,tsx}",
     "../../packages/rich-text-editor/src/**/*.{ts,tsx}",
   ],
