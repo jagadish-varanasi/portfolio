@@ -72,11 +72,9 @@ export default function ProfileForm() {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (newProject: z.infer<typeof profileFormSchema>) => {
-      console.log(newProject, "NP");
       return createProject(newProject);
     },
     onSuccess: () => {
-      console.log("Success Project");
       toast({
         title: "Your changes are saved!",
         description: "Your project created successfully.",
