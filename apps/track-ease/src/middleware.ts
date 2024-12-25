@@ -28,8 +28,15 @@ export default auth((request) => {
   }
 
   if (!session && isProtected) {
-    console.log("hello");
     const absoluteUrl = new URL("/login", request.nextUrl.origin);
+    return NextResponse.redirect(absoluteUrl);
+  }
+
+  if (!session && request.nextUrl.pathname === "/") {
+    const absoluteUrl = new URL("/login", request.nextUrl.origin);
+    return NextResponse.redirect(absoluteUrl);
+  } else if (session && request.nextUrl.pathname === "/") {
+    const absoluteUrl = new URL("/dashboard", request.nextUrl.origin);
     return NextResponse.redirect(absoluteUrl);
   }
 
