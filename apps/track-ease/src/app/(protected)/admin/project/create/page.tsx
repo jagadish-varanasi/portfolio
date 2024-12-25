@@ -17,7 +17,7 @@ import {
 } from "@repo/ui/components/form";
 import { Input } from "@repo/ui/components/input";
 import { Textarea } from "@repo/ui/components/textarea";
-import { toast } from "@repo/ui/components/use-toast";
+import { toast } from "@repo/ui/hooks/use-toast";
 import { AddMembers } from "../components/add-members";
 import { useMutation } from "@tanstack/react-query";
 import { createProject } from "@/app/actions";
@@ -76,6 +76,7 @@ export default function ProfileForm() {
       return createProject(newProject);
     },
     onSuccess: () => {
+      console.log("Success Project");
       toast({
         title: "Your changes are saved!",
         description: "Your project created successfully.",
