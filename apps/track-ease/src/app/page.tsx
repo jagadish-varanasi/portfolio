@@ -29,6 +29,7 @@ function getApiData() {
 }
 
 export default function Page() {
+
   const queryClient = useQueryClient();
   const { isPending, error, data } = useQuery({
     queryKey: ["tasks"],
