@@ -10,9 +10,16 @@ function CodingProfile() {
           I practice, problem solving in these platforms.
         </p>
       </div>
-      <div className="flex gap-5">
-        <Image src="/leetcode.png" alt="leetcode" width="25" height="20" />
-        <Image src="/bfe.png" alt="bfe" width="30" height="30" />
+      <div className="flex">
+        <Image src="/lc.png" alt="leetcode" width="95" height="30" />
+        <Image
+          src="/bfe.png"
+          alt="bfe"
+          width="30"
+          height="30"
+          className="mr-3"
+        />
+        <Image src="/gfg.png" alt="bfe" width="130" height="30" />
       </div>
     </div>
   );
