@@ -11,7 +11,11 @@ function CodingProfile() {
         </p>
       </div>
       <div>
-        <div className="flex items-center gap-x-4 p-3 hover:bg-primary/10 rounded-lg">
+        <a
+          className="flex items-center gap-x-4 p-3 hover:bg-primary/10 rounded-lg"
+          href="https://leetcode.com/u/jagavara/"
+          target="_blank"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 24 24"
@@ -31,13 +35,16 @@ function CodingProfile() {
               d="M8.115 22.814a2.109 2.109 0 0 1-.474-.361c-1.327-1.333-2.66-2.66-3.984-3.997-1.989-2.008-2.302-4.937-.786-7.32a6 6 0 0 1 .839-1.004L13.333.489c.625-.626 1.498-.652 2.079-.067.56.563.527 1.455-.078 2.066-.769.776-1.539 1.55-2.309 2.325-.041.122-.14.2-.225.287-.863.876-1.75 1.729-2.601 2.618-.111.116-.262.186-.372.305-1.423 1.423-2.863 2.83-4.266 4.272-1.135 1.167-1.097 2.938.068 4.127 1.308 1.336 2.639 2.65 3.961 3.974.067.067.136.132.204.198.468.303.474 1.25.183 1.671-.321.465-.74.75-1.333.728-.199-.006-.363-.086-.529-.179z"
             ></path>
           </svg>
-
           <div>
             <h5 className="font-semibold">Leetcode</h5>
             <p className="text-sm dark:text-[#858585] text-[#717171]">DSA</p>
           </div>
-        </div>
-        <div className="flex items-center gap-x-4 p-3 hover:bg-primary/10 rounded-lg">
+        </a>
+        <a
+          className="flex items-center gap-x-4 p-3 hover:bg-primary/10 rounded-lg"
+          href="https://bigfrontend.dev/user/jagadish30"
+          target="_blank"
+        >
           <Image src="/bfe.png" alt="bfe" width="36" height="36" />
           <div>
             <h5 className="font-semibold">BFD.dev</h5>
@@ -45,8 +52,12 @@ function CodingProfile() {
               Frontend
             </p>
           </div>
-        </div>
-        <div className="flex items-center gap-x-4 p-3 hover:bg-primary/10 rounded-lg">
+        </a>
+        <a
+          className="flex items-center gap-x-4 p-3 hover:bg-primary/10 rounded-lg"
+          href="https://www.geeksforgeeks.org/user/jagadishvaranasi123/"
+          target="_blank"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 48 48"
@@ -63,7 +74,7 @@ function CodingProfile() {
             <h5 className="font-semibold">Geeks for Geeks</h5>
             <p className="text-sm dark:text-[#858585] text-[#717171]">DSA</p>
           </div>
-        </div>
+        </a>
       </div>
     </div>
   );
