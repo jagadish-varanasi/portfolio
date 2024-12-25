@@ -2,7 +2,7 @@
   "extends": ["//"],
   "tasks": {
     "build": {
-      "passThroughEnv": ["DATABASE_URL", "AUTH_SECRET"]
+      "passThroughEnv": ["DATABASE_URL", "DIRECT_URL", "AUTH_SECRET"]
     }
   }
 }
