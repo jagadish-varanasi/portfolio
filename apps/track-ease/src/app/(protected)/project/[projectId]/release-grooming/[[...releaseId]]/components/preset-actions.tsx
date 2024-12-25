@@ -30,7 +30,7 @@ import {
 } from "@repo/ui/components/dropdown-menu";
 import { Label } from "@repo/ui/components/label";
 import { Switch } from "@repo/ui/components/switch";
-import { toast } from "@repo/ui/components/use-toast";
+import { toast } from "@repo/ui/hooks/use-toast";
 
 export function PresetActions() {
   const [open, setIsOpen] = React.useState(false);

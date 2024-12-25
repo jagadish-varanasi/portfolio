@@ -27,7 +27,7 @@ import {
 import { ToastAction } from "@repo/ui/components/toast";
 import { useMutation } from "@tanstack/react-query";
 import { createReleaseDraft, createRelease } from "@/app/actions";
-import { toast } from "@repo/ui/components/use-toast";
+import { toast } from "@repo/ui/hooks/use-toast";
 import { cn } from "@repo/ui/lib/utils";
 
 const releaseFormSchema = z.object({

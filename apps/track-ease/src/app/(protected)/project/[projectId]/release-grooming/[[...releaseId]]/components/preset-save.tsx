@@ -11,7 +11,7 @@ import {
 } from "@repo/ui/components/dialog";
 import { Input } from "@repo/ui/components/input";
 import { Label } from "@repo/ui/components/label";
-import { toast } from "@repo/ui/components/use-toast";
+import { toast } from "@repo/ui/hooks/use-toast";
 import { EditorContext } from "@/context/EditorContext";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
