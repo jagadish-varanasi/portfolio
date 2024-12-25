@@ -73,7 +73,7 @@ model User {
   ProjectOnUsers ProjectOnUsers[]
   tasks          Task[]
   projectId      String?
-  role           String           @default("USER")
+  role           PlatformRole     @default(USER)
 }
 
 model VerificationToken {
@@ -182,23 +182,23 @@ model EpicDraft {
 }
 
 model ProjectOnUsers {
-  project    Project  @relation(fields: [projectId], references: [id])
+  project    Project     @relation(fields: [projectId], references: [id])
   projectId  String
-  user       User     @relation(fields: [userId], references: [id])
+  user       User        @relation(fields: [userId], references: [id])
   userId     String
-  assignedAt DateTime @default(now())
+  assignedAt DateTime    @default(now())
   assignedBy String
-  role       String   @default("MEMBER")
+  role       ProjectRole @default(MEMBER)
 
   @@id([projectId, userId])
 }
 
-// enum ProjectRole {
-//   MEMBER @map("MEMBER")
-//   OWNER  @map("OWNER")
-// }
+enum ProjectRole {
+  MEMBER @map("MEMBER")
+  OWNER  @map("OWNER")
+}
 
-// enum PlatformRole {
-//   USER
-//   ADMIN
-// }
+enum PlatformRole {
+  USER
+  ADMIN
+}
