@@ -45,7 +45,7 @@ export default function AuthenticationPage() {
               <p className="text-md">
                 Copyright © 2024 TrackEase Development. All rights reserved.
               </p>
-              <footer className="text-sm">Sofia Davis</footer>
+              <footer className="text-sm">Product TrackEase</footer>
             </blockquote>
           </div>
         </div>
