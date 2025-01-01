@@ -55,12 +55,12 @@ export default function AuthenticationPage() {
             >
               <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
             </svg>
-            Raise
+            TrackEase
           </div>
           <div className="relative z-20 mt-auto">
             <blockquote className="space-y-2">
               <p className="text-md">
-                Copyright © 2024 Raise Development. All rights reserved.
+                Copyright © 2024 TrackEase Development. All rights reserved.
               </p>
               <footer className="text-sm">Sofia Davis</footer>
             </blockquote>

@@ -19,8 +19,8 @@ export function PresetShare() {
         <div className="flex flex-col space-y-2 text-center sm:text-left">
           <h3 className="text-lg font-semibold">Share epicBoard</h3>
           <p className="text-sm text-muted-foreground">
-            Anyone who has this link and an Raise account will be able to view
-            this and collaborate.
+            Anyone who has this link and an TrackEase account will be able to
+            view this and collaborate.
           </p>
         </div>
         <div className="flex items-center space-x-2 pt-4">
