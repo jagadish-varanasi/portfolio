@@ -28,14 +28,14 @@ async function layout({
               >
                 <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
               </svg>
-              Raise
+              TrackEase
             </div>
           </Link>
 
           <div className="ml-auto flex items-center space-x-4">
             <Link className="mr-7" href="/admin/dashboard">
               {session?.user?.role === "ADMIN" && (
-                <Button variant="outline" className="h-10">
+                <Button variant="outline" className="h-9">
                   Admin
                 </Button>
               )}

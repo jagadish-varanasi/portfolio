@@ -8,6 +8,7 @@ import { ReleaseFormValues } from "./(protected)/project/[projectId]/(explorer)/
 import { ProjectFormValues } from "./(protected)/admin/project/create/page";
 import { InitiationFormValues } from "./(protected)/project/[projectId]/(explorer)/requirement-gathering/components/initiation-form";
 import { InitiationDraftFormValues } from "./(protected)/project/[projectId]/(explorer)/epics/components/initiation-form";
+import { redirect } from "next/navigation";
 
 export async function deleteTask(taskId: number) {
   try {
@@ -19,6 +20,21 @@ export async function deleteTask(taskId: number) {
   } catch {
     return {
       message: "Please check your task",
+    };
+  }
+}
+
+export async function deleteProject(id: string) {
+  try {
+    console.log(id, "Delete ID");
+    await prisma.project.delete({ where: { id: id } });
+    revalidatePath("/dashboard");
+    return {
+      message: "Delete successful",
+    };
+  } catch {
+    return {
+      message: "Please check your project",
     };
   }
 }
@@ -40,7 +56,7 @@ export async function createProject(project: ProjectFormValues) {
   const session = await auth();
   console.log(name, description, members);
   if (session?.user?.role !== "ADMIN") return;
-  const users = await prisma.project.create({
+  await prisma.project.create({
     data: {
       name: name,
       description: description,
@@ -64,7 +80,8 @@ export async function createProject(project: ProjectFormValues) {
       },
     },
   });
-  return users;
+  revalidatePath("/dashboard");
+  return redirect("/dashboard");
 }
 
 export async function createRelease(

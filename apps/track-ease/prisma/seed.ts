@@ -9,8 +9,8 @@
 
 //   const project = await prisma.project.create({
 //     data: {
-//       name: "Project RAISE",
-//       description: "Build RAISE in more user centric way",
+//       name: "Project TrackEase",
+//       description: "Build TrackEase in more user centric way",
 //       startDate: new Date(),
 //       endDate: new Date(),
 //       tasks: {

@@ -20,7 +20,7 @@ async function Dashboard() {
   console.log(JSON.stringify(projects));
 
   return (
-    <div className="md:grid lg:grid-cols-3 xl:grid-cols-4 gap-6 p-8">
+    <div className="md:grid lg:grid-cols-3 gap-8 p-8">
       {projects.map((project) => {
         return (
           <Link href={`/project/${project.id}/home`} key={project.id}>

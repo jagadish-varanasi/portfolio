@@ -35,7 +35,7 @@ const profileFormSchema = z.object({
     .max(30, {
       message: "Username must not be longer than 30 characters.",
     }),
-  description: z.string().max(160).min(4),
+  description: z.string().max(500).min(4),
   urls: z
     .array(
       z.object({
@@ -79,6 +79,7 @@ export default function ProfileForm() {
         title: "Your changes are saved!",
         description: "Your project created successfully.",
       });
+      form.reset();
     },
     onError: () => {
       toast({

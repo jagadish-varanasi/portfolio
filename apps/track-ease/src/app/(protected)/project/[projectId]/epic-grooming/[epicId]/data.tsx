@@ -54,7 +54,7 @@ export const mails = [
     name: "Sarah Brown",
     email: "sarahbrown@example.com",
     subject: "Re: Feedback on Proposal",
-    text: "Thank you for your feedback on the proposal. It looks great! I'm pleased to hear that you found it promising. The team worked diligently to address all the key points you raised, and I believe we now have a strong foundation for the project.\n\nI've attached the revised proposal for your review.\n\nPlease let me know if you have any further comments or suggestions. Looking forward to your response.\n\nBest regards, Sarah",
+    text: "Thank you for your feedback on the proposal. It looks great! I'm pleased to hear that you found it promising. The team worked diligently to address all the key points you TrackEased, and I believe we now have a strong foundation for the project.\n\nI've attached the revised proposal for your review.\n\nPlease let me know if you have any further comments or suggestions. Looking forward to your response.\n\nBest regards, Sarah",
     date: "2023-02-15T16:30:00",
     read: true,
     labels: ["work"],
@@ -169,9 +169,9 @@ export const mails = [
     read: false,
     labels: ["personal"],
   },
-]
+];
 
-export type Mail = (typeof mails)[number]
+export type Mail = (typeof mails)[number];
 
 export const accounts = [
   {
@@ -210,9 +210,9 @@ export const accounts = [
       </svg>
     ),
   },
-]
+];
 
-export type Account = (typeof accounts)[number]
+export type Account = (typeof accounts)[number];
 
 export const contacts = [
   {
@@ -295,6 +295,6 @@ export const contacts = [
     name: "Scarlett Adams",
     email: "scarlett.adams@example.com",
   },
-]
+];
 
-export type Contact = (typeof contacts)[number]
+export type Contact = (typeof contacts)[number];
