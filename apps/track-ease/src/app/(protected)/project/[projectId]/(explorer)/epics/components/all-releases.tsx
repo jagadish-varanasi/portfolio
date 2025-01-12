@@ -83,6 +83,7 @@ export function AllReleases({
               <div>High-level requirements</div>
               {release?.highLevelRequirements?.map((data: any) => (
                 <div
+                  className="break-all"
                   key={data?.id}
                 >{`#${data.priority} ${data?.requirement}`}</div>
               ))}

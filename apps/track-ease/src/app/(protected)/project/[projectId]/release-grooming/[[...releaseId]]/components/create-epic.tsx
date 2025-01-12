@@ -83,7 +83,7 @@ function CreateEpic({
                       checked={Boolean(details.hlMap[hlr.id]) || false}
                       onCheckedChange={(checked) => handleChecked(checked, hlr)}
                     ></Checkbox>
-                    <div className="text-xs">{`#${hlr.priority} ${hlr.requirement}`}</div>
+                    <div className="text-xs break-all">{`#${hlr.priority} ${hlr.requirement}`}</div>
                     <div>
                       {hlr?.epicId && (
                         <Link
@@ -120,7 +120,7 @@ function CreateEpic({
                     details.hlMap[req.id] && (
                       <div
                         key={req.id}
-                        className="text-sm border border-gray-300 py-1 px-2 rounded-md"
+                        className="text-sm border border-gray-300 py-1 px-2 rounded-md "
                       >
                         {req.requirement}
                       </div>

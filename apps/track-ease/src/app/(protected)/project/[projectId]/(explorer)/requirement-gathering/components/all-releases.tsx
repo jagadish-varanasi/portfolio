@@ -70,11 +70,12 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                 </Badge>
               </div>
             )}
-            <div className="grid gap-2 mt-4">
+            <div className="grid gap-2 mt-4 ">
               <div>High-level requirements</div>
               {release?.highLevelRequirements?.map((data: any) => (
                 <div
                   key={data?.id}
+                  className="break-all"
                 >{`#${data.priority} ${data?.requirement}`}</div>
               ))}
             </div>
