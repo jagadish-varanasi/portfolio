@@ -25,6 +25,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@repo/ui/lib/utils";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { Scrollbar } from "@radix-ui/react-scroll-area";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@repo/ui/components/popover";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "@repo/ui/components/calendar";
+import { format } from "date-fns";
 
 const taskFormSchema = z.object({
   title: z
@@ -40,7 +48,7 @@ const taskFormSchema = z.object({
   issueType: z.string(),
   label: z.string(),
   priority: z.string(),
-  storyPoints: z.string().optional(),
+  storyPoints: z.number().optional(),
   sprint: z.string().optional(),
   startDate: z
     .date({ required_error: "Start/End date cannot be empty" })
@@ -54,9 +62,6 @@ const taskFormSchema = z.object({
   discussions: z
     .array(
       z.object({
-        id: z.string(),
-        name: z.string(),
-        date: z.string(),
         content: z.string(),
       })
     )
@@ -67,16 +72,13 @@ export type TaskFormValues = z.infer<typeof taskFormSchema>;
 
 // This can come from your database or API.
 const defaultValues: Partial<TaskFormValues> = {
-  title: "Hello world",
+  title: "",
   description: '{"a":"a"}',
-  userId: "clzldqhyg0005wrvctgcq0yj3",
-  reporterId: "clzldqhyg0005wrvctgcq0yj3",
-  label: "FEATURE",
-  priority: "HIGH",
-  status: "INPROGRESS",
-  startDate: new Date(),
-  endDate: new Date(),
-  storyPoints: "10",
+  userId: "",
+  reporterId: "",
+  label: "",
+  priority: "",
+  status: "",
 };
 
 function CreateTask() {
@@ -108,9 +110,18 @@ function CreateTask() {
   });
 
   const mutation = useMutation({
-    mutationFn: (data: Task) => {
-      console.log(data);
-      return createTask(data);
+    mutationFn: (newTask: z.infer<typeof taskFormSchema>) => {
+      console.log("PUT TASK", newTask);
+      return fetch("/api/v1/tasks", {
+        method: "POST",
+        body: JSON.stringify({
+          ...newTask,
+          epicId: searchParams.get("epicId"),
+        }),
+      });
+    },
+    onError(error, variables, context) {
+      console.log(error);
     },
   });
 
@@ -126,15 +137,9 @@ function CreateTask() {
       projectId: params.projectId,
       discussions: [
         {
-          id: "kasajk",
-          name: "Jagadish V",
-          date: "Jul 12",
           content: '{"a":"a"}',
         },
         {
-          id: "kasajk",
-          name: "Jagadish V",
-          date: "Jul 12",
           content: '{"a":"a"}',
         },
       ],
@@ -157,8 +162,8 @@ function CreateTask() {
   }
 
   function onSubmit(values: z.infer<typeof taskFormSchema>) {
-    console.log("Hello");
     console.log(values);
+    mutation.mutate(values);
   }
 
   return (
@@ -193,7 +198,10 @@ function CreateTask() {
                   <Controller
                     {...register("issueType")}
                     render={({ field }) => (
-                      <Select {...field}>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <SelectTrigger>
                           <SelectValue placeholder="Select Issue type" />
                         </SelectTrigger>
@@ -221,7 +229,11 @@ function CreateTask() {
                   control={control}
                   {...register("userId")}
                   render={({ field }) => (
-                    <Select {...field}>
+                    <Select
+                      {...field}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select Assignee" />
                       </SelectTrigger>
@@ -247,7 +259,11 @@ function CreateTask() {
                   control={control}
                   {...register("reporterId")}
                   render={({ field }) => (
-                    <Select {...field}>
+                    <Select
+                      {...field}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select Reporter" />
                       </SelectTrigger>
@@ -273,7 +289,11 @@ function CreateTask() {
                   control={control}
                   {...register("label")}
                   render={({ field }) => (
-                    <Select {...field}>
+                    <Select
+                      {...field}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select Label" />
                       </SelectTrigger>
@@ -296,7 +316,11 @@ function CreateTask() {
                   control={control}
                   {...register("priority")}
                   render={({ field }) => (
-                    <Select {...field}>
+                    <Select
+                      {...field}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select Priority" />
                       </SelectTrigger>
@@ -318,9 +342,13 @@ function CreateTask() {
                 {Array.isArray(parentData) ? (
                   <Controller
                     control={control}
-                    {...register("parentTaskId")}
+                    {...register("epicId")}
                     render={({ field }) => (
-                      <Select {...field}>
+                      <Select
+                        {...field}
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <SelectTrigger>
                           <SelectValue placeholder="Select Status" />
                         </SelectTrigger>
@@ -340,7 +368,7 @@ function CreateTask() {
                     value={`${parentData?.title} - #${parentData?.id.slice(
                       -5
                     )}`}
-                    {...register("parentTaskId")}
+                    {...register("epicId")}
                   ></Input>
                 )}
               </div>
@@ -352,7 +380,11 @@ function CreateTask() {
                   control={control}
                   {...register("status")}
                   render={({ field }) => (
-                    <Select {...field}>
+                    <Select
+                      {...field}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select Status" />
                       </SelectTrigger>
@@ -370,42 +402,92 @@ function CreateTask() {
                 <Label htmlFor="storyPoints" className="text-left">
                   Story points
                 </Label>
-                <Input
-                  placeholder="Provide story point"
-                  type="number"
+                <Controller
+                  control={control}
                   {...register("storyPoints")}
+                  render={({ field }) => (
+                    <Input
+                      placeholder="Provide story point"
+                      type="number"
+                      value={field.value}
+                      onChange={(e) => field.onChange(+e.target?.value)}
+                    />
+                  )}
                 />
               </div>
               <div className="grid grid-rows-2 items-center">
                 <Label htmlFor="startDate" className="text-left">
                   Start date
                 </Label>
-                <Select {...register("startDate")}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Priority" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="HIGH">High</SelectItem>
-                    <SelectItem value="MEDIUM">Medium</SelectItem>
-                    <SelectItem value="LOW">Low</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Controller
+                  control={control}
+                  {...register("startDate")}
+                  render={({ field }) => (
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] justify-start text-left font-normal gap-2",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="w-4 h-4" />
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  )}
+                />
               </div>
               <div className="grid grid-rows-2 items-center">
                 <Label htmlFor="endDate" className="text-left">
                   End date
                 </Label>
-                <Select {...register("endDate")}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="TODO">Todo</SelectItem>
-                    <SelectItem value="INPROGRESS">In Progress</SelectItem>
-                    <SelectItem value="DONE">Done</SelectItem>
-                    <SelectItem value="BACKLOG">Backlog</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Controller
+                  control={control}
+                  {...register("endDate")}
+                  render={({ field }) => (
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] justify-start text-left font-normal gap-2",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="w-4 h-4" />
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  )}
+                />
               </div>
             </div>
           </div>
@@ -446,16 +528,13 @@ function CreateTask() {
                           <Editor
                             label={"Discussions"}
                             data={{
-                              id: field.value.id,
-                              name: field.value.name,
-                              date: field.value.date,
+                              id: new Date().toString(),
+                              name: "Jagadish V",
+                              date: new Date().toString(),
                             }}
                             value={field.value.content}
                             onChange={(data: any) =>
                               field.onChange({
-                                id: field.value.id,
-                                name: field.value.name,
-                                date: field.value.date,
                                 content: data,
                               })
                             }

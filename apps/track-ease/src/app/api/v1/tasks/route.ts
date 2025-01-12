@@ -11,6 +11,19 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const session = await auth();
   const task = await req.json();
   console.log(task);
-  await prisma.task.create({ data: { ...task, userId: session?.user?.id } });
+  await prisma.task.create({
+    data: {
+      ...task,
+      userId: session?.user?.id,
+      discussions: {
+        createMany: {
+          data: task.discussions.map((d: { content: any }) => ({
+            content: d.content,
+            userId: session?.user?.id,
+          })),
+        },
+      },
+    },
+  });
   return NextResponse.json(task);
 }
