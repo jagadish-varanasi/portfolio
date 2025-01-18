@@ -78,6 +78,7 @@ export default async function TaskPage({
     },
     include: {
       assignee: { select: { email: true, id: true, name: true } },
+      Sprint: { select: { name: true, release: { select: { name: true } } } },
     },
   });
 

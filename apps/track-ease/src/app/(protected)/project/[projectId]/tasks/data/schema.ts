@@ -8,6 +8,12 @@ export const taskSchema = z.object({
   status: z.string(),
   label: z.string(),
   priority: z.string(),
+  Sprint: z
+    .object({
+      name: z.string(),
+      release: z.object({ name: z.string() }).nullable(),
+    })
+    .nullable(),
 });
 
 export type Task = z.infer<typeof taskSchema>;

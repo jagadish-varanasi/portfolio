@@ -210,7 +210,9 @@ function CreateTask() {
           <div className="col-span-2 font-bold flex justify-between items-center border-b pb-6">
             <div className="flex gap-2">
               <h2 className="text-xl font-bold tracking-tight">Create Task</h2>
-              <Badge>{searchParams.get("sprintId")}</Badge>
+              {searchParams.get("sprintId") && (
+                <Badge>{searchParams.get("sprintId")}</Badge>
+              )}
             </div>
             <div>
               <Button size="sm" className="px-6" type="submit">
