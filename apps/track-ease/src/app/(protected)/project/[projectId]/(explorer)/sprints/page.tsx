@@ -1,5 +1,5 @@
 import React from "react";
-import { AllReleases } from "./components/all-releases";
+import { AllSprints } from "./components/all-sprints";
 import { Separator } from "@repo/ui/components/separator";
 import { Button } from "@repo/ui/components/button";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
@@ -10,7 +10,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@repo/ui/components/tabs";
-import ReleaseForm from "./components/release-form";
+import SprintForm from "./components/sprint-form";
 import prisma from "@/lib/db";
 import SheetWrapper from "./components/sheet-wrapper";
 import Link from "next/link";
@@ -24,13 +24,9 @@ async function Page({
   };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const upcoming = await prisma.release.findMany({
-    where: { projectId },
-    include: { sprints: true },
-  });
-  const drafts = await prisma.releaseDraft.findMany({
-    where: { projectId },
-  });
+  const sprints = await prisma.sprint.findMany({ where: { projectId } });
+
+  console.log(sprints, "SPRINTS");
 
   const isDraftFlow = searchParams?.draftId as string;
   const openedTab = (searchParams?.tab as string) || "current";
@@ -73,23 +69,23 @@ async function Page({
               </div>
             </div>
             <TabsContent value="current">
-              <AllReleases data={[]} type="current" projectId={projectId} />
+              <AllSprints data={[]} type="current" projectId={projectId} />
             </TabsContent>
             <TabsContent value="upcoming">
-              <AllReleases
-                data={upcoming}
+              <AllSprints
+                data={sprints}
                 type="upcoming"
                 projectId={projectId}
               />
             </TabsContent>
             <TabsContent value="completed">
-              <AllReleases data={[]} type="completed" projectId={projectId} />
+              <AllSprints data={[]} type="completed" projectId={projectId} />
             </TabsContent>
             <TabsContent value="saved">
-              <AllReleases data={upcoming} type="saved" projectId={projectId} />
+              <AllSprints data={sprints} type="saved" projectId={projectId} />
             </TabsContent>
             <TabsContent value="drafts">
-              <AllReleases data={drafts} type="drafts" projectId={projectId} />
+              <AllSprints data={sprints} type="drafts" projectId={projectId} />
             </TabsContent>
           </Tabs>
         </div>
@@ -98,7 +94,7 @@ async function Page({
           <h5 className="text-lg font-semibold tracking-tight">Details</h5>
         </div>
       </div>
-      <ReleaseForm projectId={projectId} draft={draft as any} />
+      <SprintForm projectId={projectId} draft={draft as any} />
     </SheetWrapper>
   );
 }

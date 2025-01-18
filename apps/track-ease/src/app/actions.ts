@@ -391,3 +391,40 @@ export async function createTask(task: Task) {
   });
   return taskCreated;
 }
+
+export interface Sprint {
+  releaseId: string;
+  name: string;
+  description: string;
+  sprintDuration: {
+    from: Date;
+    to?: Date;
+  };
+  tasks?: Array<{ value: number; label: string }>;
+}
+
+export async function createSprint(sprint: Sprint, projectId: string) {
+  const session = await auth();
+  if (!session?.user.id) {
+    throw Error("User is not logged in");
+  }
+  try {
+    await prisma.sprint.create({
+      data: {
+        releaseId: sprint.releaseId,
+        name: sprint.name,
+        description: sprint.description,
+        startDate: sprint.sprintDuration.from,
+        endDate: sprint.sprintDuration.to,
+        tasks: {
+          connect: sprint.tasks?.map((task) => ({ id: task.value })),
+        },
+        userId: session?.user.id,
+        projectId,
+      },
+    });
+    return { message: "Sprint Created Successfully" };
+  } catch {
+    throw Error("Something went wrong!");
+  }
+}

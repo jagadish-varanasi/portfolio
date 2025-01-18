@@ -26,6 +26,10 @@ const sidebarNavItems = (projectId: string) => [
     href: `/project/${projectId}/epics`,
   },
   {
+    title: "Sprints",
+    href: `/project/${projectId}/sprints`,
+  },
+  {
     title: "Releases",
     href: `/project/${projectId}/releases`,
   },
@@ -41,10 +45,7 @@ const sidebarNavItems = (projectId: string) => [
     title: "Arch & tech",
     href: `/project/${projectId}/tech`,
   },
-  {
-    title: "Analytics",
-    href: `/project/${projectId}/analytics`,
-  },
+
   {
     title: "Risks",
     href: `/project/${projectId}/risks`,

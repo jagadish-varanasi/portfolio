@@ -12,7 +12,7 @@ import React, { FormEvent } from "react";
 import Editor from "../components/editor";
 import { createTask, getEpicDetails, getMembers, Task } from "@/app/actions";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { ScrollArea } from "@repo/ui/components/scroll-area";
 import { Button } from "@repo/ui/components/button";
 import {
@@ -33,6 +33,8 @@ import {
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@repo/ui/components/calendar";
 import { format } from "date-fns";
+import { toast } from "@repo/ui/hooks/use-toast";
+import { ToastAction } from "@repo/ui/components/toast";
 
 const taskFormSchema = z.object({
   title: z
@@ -84,6 +86,7 @@ const defaultValues: Partial<TaskFormValues> = {
 function CreateTask() {
   const params = useParams<{ projectId: string }>();
   const searchParams = useSearchParams();
+  const router = useRouter();
   console.log(searchParams.get("epicId"));
   //members in project.
   const {
@@ -109,27 +112,12 @@ function CreateTask() {
     },
   });
 
-  const mutation = useMutation({
-    mutationFn: (newTask: z.infer<typeof taskFormSchema>) => {
-      console.log("PUT TASK", newTask);
-      return fetch("/api/v1/tasks", {
-        method: "POST",
-        body: JSON.stringify({
-          ...newTask,
-          epicId: searchParams.get("epicId"),
-        }),
-      });
-    },
-    onError(error, variables, context) {
-      console.log(error);
-    },
-  });
-
   const {
     register,
     handleSubmit,
     control,
     formState: { errors },
+    reset,
   } = useForm<TaskFormValues>({
     resolver: zodResolver(taskFormSchema),
     defaultValues: {
@@ -149,6 +137,43 @@ function CreateTask() {
   const { fields, append, remove, update } = useFieldArray({
     name: "discussions",
     control: control,
+  });
+
+  const goToTasks = () => {
+    router.push(`/project/${params.projectId}/tasks`);
+  };
+
+  const mutation = useMutation({
+    mutationFn: (newTask: z.infer<typeof taskFormSchema>) => {
+      console.log("PUT TASK", newTask);
+      return fetch("/api/v1/tasks", {
+        method: "POST",
+        body: JSON.stringify({
+          ...newTask,
+          epicId: searchParams.get("epicId"),
+        }),
+      });
+    },
+    onSuccess() {
+      toast({
+        title: "Your changes are saved!",
+        description: "Your task created successfully.",
+        action: (
+          <ToastAction altText="Go to tasks" onClick={goToTasks}>
+            Go to tasks
+          </ToastAction>
+        ),
+      });
+      reset();
+    },
+    onError(error, variables, context) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+    },
   });
 
   console.log(errors, "pd");

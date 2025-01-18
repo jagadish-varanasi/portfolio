@@ -8,18 +8,18 @@ import { Badge } from "@repo/ui/components/badge";
 import Link from "next/link";
 import Alert from "./alert-dialog";
 
-export function AllReleases({ data, type, projectId, openedTab }: any) {
+export function AllSprints({ data, type, projectId, openedTab }: any) {
   console.log(data, type);
   return (
     <Accordion type="single" collapsible className="w-full">
-      {data.map((release: any) => (
-        <AccordionItem value={`item-${release.id}`} key={release.id}>
-          <AccordionTrigger>{release?.name}</AccordionTrigger>
+      {data.map((sprint: any) => (
+        <AccordionItem value={`item-${sprint.id}`} key={sprint.id}>
+          <AccordionTrigger>{sprint?.name}</AccordionTrigger>
           <AccordionContent>
-            <div>{release.description}</div>
+            <div>{sprint.description}</div>
             {type === "drafts" ? (
               <div className="mt-2 flex gap-2">
-                <Link href={`?tab=${type}&draftId=${release?.id}`}>
+                <Link href={`?tab=${type}&draftId=${sprint?.id}`}>
                   <Badge
                     variant="outline"
                     className="cursor-pointer hover:font-extrabold"
@@ -27,7 +27,7 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                     Edit draft
                   </Badge>
                 </Link>
-                <Alert draftId={release?.id} projectId={projectId}>
+                <Alert draftId={sprint?.id} projectId={projectId}>
                   <Badge
                     variant="outline"
                     className="cursor-pointer hover:font-extrabold"
@@ -38,12 +38,12 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
               </div>
             ) : (
               <div className="mt-2 flex gap-2">
-                <Link href={`release-grooming/${release.id}`}>
+                <Link href={`board/${sprint.id}`}>
                   <Badge
                     variant="outline"
                     className="cursor-pointer hover:font-extrabold"
                   >
-                    Groom
+                    Board
                   </Badge>
                 </Link>
                 <Badge
@@ -61,10 +61,10 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
               </div>
             )}
             <div className="grid gap-2 mt-4">
-              <div>Sprints</div>
-              {release?.sprints?.map((data: any) => (
-                <div key={data?.id}>{`#${data.name}`}</div>
-              ))}
+              <div>Status</div>
+              <span>New-0</span>
+              <span>Progress-1</span>
+              <span>Completed-1</span>
             </div>
           </AccordionContent>
         </AccordionItem>
