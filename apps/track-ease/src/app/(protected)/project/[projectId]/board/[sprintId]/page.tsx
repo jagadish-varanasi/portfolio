@@ -2,6 +2,8 @@ import React from "react";
 import { KanbanBoard } from "./components/KanbanBoard";
 import prisma from "@/lib/db";
 import { Task } from "./components/TaskCard";
+import { Button } from "@repo/ui/components/button";
+import Link from "next/link";
 
 async function page({
   params: { sprintId },
@@ -29,7 +31,17 @@ async function page({
       }))
     : [];
   return (
-    <div className="mt-4">
+    <div>
+      <div className="max-w-[1050px] mx-auto my-1">
+        <div className="flex justify-between items-center">
+          <div className="font-bold">{sprint?.name}</div>
+          <Link
+            href={`/project/${sprint?.projectId}/tasks/create?sprintId=${sprint?.id}`}
+          >
+            <Button>Add Task</Button>
+          </Link>
+        </div>
+      </div>
       <KanbanBoard tasks={tasks} />
     </div>
   );

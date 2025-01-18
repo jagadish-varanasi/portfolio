@@ -35,6 +35,7 @@ import { Calendar } from "@repo/ui/components/calendar";
 import { format } from "date-fns";
 import { toast } from "@repo/ui/hooks/use-toast";
 import { ToastAction } from "@repo/ui/components/toast";
+import { Badge } from "@repo/ui/components/badge";
 
 const taskFormSchema = z.object({
   title: z
@@ -99,6 +100,8 @@ function CreateTask() {
     queryFn: async () => await getMembers(params.projectId),
   });
 
+  const flowType = searchParams.get("sprintId") ? "SPRINT" : "TASKS";
+
   const {
     data: parentData,
     isPending: parentIsPending,
@@ -111,6 +114,8 @@ function CreateTask() {
       return await getEpicDetails(id);
     },
   });
+
+  console.log(parentData, "parent");
 
   const {
     register,
@@ -140,6 +145,12 @@ function CreateTask() {
   });
 
   const goToTasks = () => {
+    if (flowType === "SPRINT") {
+      router.push(
+        `/project/${params.projectId}/board/${searchParams.get("sprintId")}`
+      );
+      return;
+    }
     router.push(`/project/${params.projectId}/tasks`);
   };
 
@@ -151,6 +162,7 @@ function CreateTask() {
         body: JSON.stringify({
           ...newTask,
           epicId: searchParams.get("epicId"),
+          sprintId: searchParams.get("sprintId"),
         }),
       });
     },
@@ -160,7 +172,7 @@ function CreateTask() {
         description: "Your task created successfully.",
         action: (
           <ToastAction altText="Go to tasks" onClick={goToTasks}>
-            Go to tasks
+            {flowType === "SPRINT" ? "Go to board" : "Go to tasks"}
           </ToastAction>
         ),
       });
@@ -178,7 +190,7 @@ function CreateTask() {
 
   console.log(errors, "pd");
 
-  if (isPending) {
+  if (isPending || parentIsPending) {
     return <span>Loading...</span>;
   }
 
@@ -196,7 +208,10 @@ function CreateTask() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="m-8 border p-8 border-1 grid md:grid-cols-[1.1fr_1fr] gap-x-8 gap-y-4 items-start rounded-md">
           <div className="col-span-2 font-bold flex justify-between items-center border-b pb-6">
-            <h2 className="text-xl font-bold tracking-tight">Create Task</h2>
+            <div className="flex gap-2">
+              <h2 className="text-xl font-bold tracking-tight">Create Task</h2>
+              <Badge>{searchParams.get("sprintId")}</Badge>
+            </div>
             <div>
               <Button size="sm" className="px-6" type="submit">
                 Save
@@ -221,9 +236,11 @@ function CreateTask() {
                 </Label>
                 {!searchParams?.get("epicId") ? (
                   <Controller
+                    control={control}
                     {...register("issueType")}
                     render={({ field }) => (
                       <Select
+                        {...field}
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
@@ -375,7 +392,7 @@ function CreateTask() {
                         defaultValue={field.value}
                       >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select Status" />
+                          <SelectValue placeholder="Select Parent" />
                         </SelectTrigger>
                         <SelectContent>
                           {parentData?.map((item) => (
