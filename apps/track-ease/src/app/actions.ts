@@ -86,11 +86,13 @@ export async function createProject(project: ProjectFormValues) {
 
 export async function createRelease(
   projectId: string,
-  newRelease: ReleaseFormValues
+  newRelease: ReleaseFormValues,
+  isEdit: boolean
 ) {
   console.log(newRelease, projectId);
-  await prisma.release.create({
-    data: {
+  await prisma.release.upsert({
+    where: { id: newRelease.id || "" },
+    create: {
       projectId: projectId,
       description: newRelease.description,
       name: newRelease.name,
@@ -100,8 +102,18 @@ export async function createRelease(
         connect: newRelease.epics?.map((release) => ({ id: release.value })),
       },
     },
+    update: {
+      projectId: projectId,
+      description: newRelease.description,
+      name: newRelease.name,
+      startDate: newRelease.duration.from,
+      endDate: newRelease.duration?.to,
+      epics: {
+        set: newRelease.epics?.map((release) => ({ id: release.value })),
+      },
+    },
   });
-  if (newRelease.id) {
+  if (newRelease.id && !isEdit) {
     await prisma.releaseDraft.delete({ where: { id: newRelease.id } });
   }
   revalidatePath(`/project/${projectId}/releases`);
@@ -196,11 +208,21 @@ export async function createReleaseDraft(
       update: {
         name: draftData.name,
         description: draftData.description,
+        startDate: draftData.duration.from,
+        endDate: draftData.duration?.to,
+        epics: {
+          connect: draftData.epics?.map((release) => ({ id: release.value })),
+        },
       },
       create: {
         name: draftData.name,
         description: draftData.description,
         projectId: projectId,
+        startDate: draftData.duration.from,
+        endDate: draftData.duration?.to,
+        epics: {
+          connect: draftData.epics?.map((release) => ({ id: release.value })),
+        },
       },
     });
     return upsertedDraft;
@@ -237,6 +259,28 @@ export async function deleteReleaseDraft(formData: FormData): Promise<any> {
   await prisma.releaseDraft.delete({
     where: { id: validatedFields.data.draftId },
   });
+  revalidatePath(`/project/${validatedFields.data.projectId}/release`);
+}
+
+export async function deleteRelease(formData: FormData): Promise<any> {
+  const validatedFields = schema.safeParse({
+    releaseId: formData.get("releaseId"),
+    projectId: formData.get("projectId"),
+  });
+  // Return early if the form data is invalid
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+  console.log(validatedFields, "DDRRR");
+  try {
+    await prisma.release.delete({
+      where: { id: validatedFields.data.draftId },
+    });
+  } catch (error) {
+    console.log(error);
+  }
   revalidatePath(`/project/${validatedFields.data.projectId}/release`);
 }
 
@@ -352,6 +396,7 @@ export async function getEpicDetails(epicId: string | null) {
   if (!epicId) {
     const allEpic = await prisma.epic.findMany({
       select: { id: true, title: true },
+      where: { releaseId: { equals: null } },
     });
     return allEpic;
   }

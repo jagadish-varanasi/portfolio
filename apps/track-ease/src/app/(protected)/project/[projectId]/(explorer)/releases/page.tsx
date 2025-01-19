@@ -59,19 +59,46 @@ async function Page({
   });
 
   const isDraftFlow = searchParams?.draftId as string;
+  const isReleaseEditFlow = searchParams?.releaseId as string;
   const openedTab = (searchParams?.tab as string) || "current";
   let draft = null;
+  let releaseEdit = null;
   if (isDraftFlow) {
-    draft = await prisma.releaseDraft.findUnique({
+    const draftRelease = await prisma.releaseDraft.findUnique({
       where: { id: isDraftFlow },
-      select: {
-        description: true,
-        name: true,
-        id: true,
-      },
+      include: { epics: true },
     });
+    draft = {
+      ...draftRelease,
+      duration: {
+        from: draftRelease?.startDate,
+        to: draftRelease?.endDate,
+      },
+      epics: draftRelease?.epics?.map((d) => ({
+        value: d.id,
+        label: d.title,
+      })),
+    };
   }
-  console.log(isDraftFlow, draft, "sDID");
+
+  if (isReleaseEditFlow) {
+    const draftRelease = await prisma.release.findUnique({
+      where: { id: isReleaseEditFlow },
+      include: { epics: true },
+    });
+    releaseEdit = {
+      ...draftRelease,
+      duration: {
+        from: draftRelease?.startDate,
+        to: draftRelease?.endDate,
+      },
+      epics: draftRelease?.epics?.map((d) => ({
+        value: d.id,
+        label: d.title,
+      })),
+    };
+  }
+
   return (
     <SheetWrapper projectId={projectId}>
       <div className="flex w-full gap-4 h-full">
@@ -129,7 +156,11 @@ async function Page({
           <h5 className="text-lg font-semibold tracking-tight">Details</h5>
         </div>
       </div>
-      <ReleaseForm projectId={projectId} draft={draft as any} />
+      <ReleaseForm
+        projectId={projectId}
+        draft={draft as any}
+        release={releaseEdit as any}
+      />
     </SheetWrapper>
   );
 }

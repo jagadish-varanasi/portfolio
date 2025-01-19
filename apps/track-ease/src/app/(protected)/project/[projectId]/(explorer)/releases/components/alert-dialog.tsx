@@ -14,11 +14,13 @@ import React from "react";
 
 export function Alert({
   children,
+  draft,
   draftId,
   projectId,
 }: Readonly<{
   children: React.ReactNode;
-  draftId: string;
+  draft?: string;
+  draftId?: string;
   projectId: string;
 }>) {
   return (

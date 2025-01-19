@@ -70,9 +70,11 @@ const defaultValues: ReleaseFormValues = {
 function ReleaseForm({
   projectId,
   draft,
+  release,
 }: {
   projectId: string;
   draft: ReleaseFormValues | null;
+  release: ReleaseFormValues | null;
 }) {
   const {
     data: epicsData,
@@ -99,21 +101,22 @@ function ReleaseForm({
   const form = useForm({
     resolver: zodResolver(releaseFormSchema),
     defaultValues,
-    values: draft ? draft : defaultValues,
+    values: draft ? draft : release ? release : defaultValues,
     mode: "onChange",
   });
+
+  console.log(draft, "DDDD");
 
   const { mutate, isPending } = useMutation({
     mutationFn: (newRelease: z.infer<typeof releaseFormSchema>) => {
       console.log(newRelease, "NP");
-      return createRelease(projectId, newRelease);
+      return createRelease(projectId, newRelease, release?.id ? true : false);
     },
     onSuccess: () => {
       toast({
         title: "Your changes are saved!",
         description: "Your release created successfully.",
       });
-      form.reset();
     },
     onError: () => {
       toast({
@@ -135,7 +138,6 @@ function ReleaseForm({
         title: "Your changes are saved!",
         description: "Your release draft is saved successfully.",
       });
-      form.reset();
     },
     onError: () => {
       toast({
@@ -261,7 +263,7 @@ function ReleaseForm({
               name="epics"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Add Tasks</FormLabel>
+                  <FormLabel>Add Epics</FormLabel>
                   <FormDescription>
                     Select tasks for this sprint. These can be edited later :)
                   </FormDescription>
@@ -275,6 +277,7 @@ function ReleaseForm({
                             no results found.
                           </p>
                         }
+                        value={field.value}
                         onChange={field.onChange}
                       />
                     </div>
@@ -285,16 +288,18 @@ function ReleaseForm({
             />
           </div>
           <SheetFooter className="mt-4">
-            <SheetClose asChild>
-              <Button
-                type="button"
-                variant="outline"
-                onClick={handleSaveDraft}
-                name="draftBtn"
-              >
-                {draft ? "Save draft" : "Save as draft"}
-              </Button>
-            </SheetClose>
+            {!release && (
+              <SheetClose asChild>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={handleSaveDraft}
+                  name="draftBtn"
+                >
+                  {draft ? "Save draft" : "Save as draft"}
+                </Button>
+              </SheetClose>
+            )}
             <SheetClose asChild disabled={!form.formState.isValid}>
               <Button type="submit" name="saveBtn">
                 Submit

@@ -167,6 +167,9 @@ model ReleaseDraft {
   description String?
   Project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId   String?
+  startDate   DateTime @default(now())
+  endDate     DateTime @default(now())
+  epics       Epic[]
 }
 
 model Release {
@@ -210,6 +213,8 @@ model Epic {
   projectId             String
   Release               Release?               @relation(fields: [releaseId], references: [id])
   releaseId             String?
+  ReleaseDraft          ReleaseDraft?          @relation(fields: [releaseDraftId], references: [id])
+  releaseDraftId        String?
 }
 
 model EpicDraft {

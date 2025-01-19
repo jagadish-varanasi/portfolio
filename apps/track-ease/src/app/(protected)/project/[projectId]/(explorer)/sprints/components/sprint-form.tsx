@@ -89,11 +89,13 @@ function SprintForm({
   });
 
   const { error: tasksError, data: tasksData } = useQuery({
-    queryKey: ["tasks"],
+    queryKey: ["tasks", form.getValues("releaseId")],
     queryFn: () =>
-      fetch(`/api/v1/tasks?projectId=${projectId}`).then((res) => res.json()),
+      fetch(`/api/v1/tasks/userstories?id=${form.getValues("releaseId")}`).then(
+        (res) => res.json()
+      ),
     select: (data) => {
-      const formattedData = data.tasks.map((task: any) => ({
+      const formattedData = data.userStories.map((task: any) => ({
         value: task.id,
         label: task.title,
       }));
@@ -268,9 +270,10 @@ function SprintForm({
               name="tasks"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Add Tasks</FormLabel>
+                  <FormLabel>Add User Stories</FormLabel>
                   <FormDescription>
-                    Select tasks for this sprint. These can be edited later :)
+                    Select user stories for this sprint. These can be edited
+                    later :)
                   </FormDescription>
                   <FormControl>
                     <div className="flex items-center">

@@ -13,7 +13,10 @@ function SheetWrapper({
 }>) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const draftId = !!searchParams.get("draftId") || !!searchParams.get("create");
+  const draftId =
+    !!searchParams.get("draftId") ||
+    !!searchParams.get("create") ||
+    !!searchParams.get("releaseId");
   const openedTab = searchParams.get("tab");
   return (
     <Sheet

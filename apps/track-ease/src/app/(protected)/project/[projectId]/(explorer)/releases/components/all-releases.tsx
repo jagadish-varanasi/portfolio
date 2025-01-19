@@ -21,9 +21,19 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
             <div className="text-xs mt-2 font-semibold">
               {`${format(release.startDate, "MMM-dd-yyyy")} to ${format(release.endDate, "MMM-dd-yyyy")}`}
             </div>
-            {type === "drafts" ? (
+            {["drafts", "upcoming"].includes(type) ? (
               <div className="mt-2 flex gap-2">
-                <Link href={`?tab=${type}&draftId=${release?.id}`}>
+                {type === "upcoming" && (
+                  <Link href={`release-grooming/${release.id}`}>
+                    <Badge
+                      variant="outline"
+                      className="cursor-pointer hover:font-extrabold"
+                    >
+                      Groom
+                    </Badge>
+                  </Link>
+                )}
+                <Link href={`?tab=${type}&releaseId=${release?.id}`}>
                   <Badge
                     variant="outline"
                     className="cursor-pointer hover:font-extrabold"
