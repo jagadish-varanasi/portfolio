@@ -84,7 +84,7 @@ function ReleaseForm({
   } = useQuery({
     queryKey: ["epicData"],
     queryFn: async () => {
-      return await getEpicDetails(null);
+      return await getEpicDetails(null, null);
     },
     select: (data) => {
       if (Array.isArray(data)) {

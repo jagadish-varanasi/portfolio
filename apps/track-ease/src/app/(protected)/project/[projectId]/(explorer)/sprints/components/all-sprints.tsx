@@ -38,6 +38,12 @@ export function AllSprints({ data, type, projectId, openedTab }: any) {
                     Edit
                   </Badge>
                 </Link>
+                <Badge
+                  variant="outline"
+                  className="cursor-pointer hover:font-extrabold"
+                >
+                  {sprint.release.name}
+                </Badge>
                 <Alert draftId={sprint?.id} projectId={projectId}>
                   <Badge
                     variant="outline"

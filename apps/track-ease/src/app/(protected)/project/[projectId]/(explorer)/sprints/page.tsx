@@ -24,15 +24,38 @@ async function Page({
   };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const sprints = await prisma.sprint.findMany({
-    where: { projectId },
+  const current = await prisma.sprint.findMany({
+    where: {
+      projectId,
+      startDate: {
+        lte: new Date(),
+      },
+      endDate: {
+        gte: new Date(),
+      },
+    },
+    include: {
+      release: { select: { name: true } },
+      tasks: { select: { status: true } },
+    },
+  });
+  const upcoming = await prisma.sprint.findMany({
+    where: { projectId, startDate: { gt: new Date() } },
     include: {
       release: { select: { name: true } },
       tasks: { select: { status: true } },
     },
   });
 
-  console.log(sprints, "SPRINTS");
+  const completed = await prisma.sprint.findMany({
+    where: { projectId, endDate: { lt: new Date() } },
+    include: {
+      release: { select: { name: true } },
+      tasks: { select: { status: true } },
+    },
+  });
+
+  console.log("SPRINTS");
 
   const isSprintEditFlow = searchParams?.sprintId as string;
   const openedTab = (searchParams?.tab as string) || "current";
@@ -64,15 +87,13 @@ async function Page({
           <Tabs value={openedTab} className="h-full space-y-6">
             <div className="space-between flex items-center">
               <TabsList>
-                {["current", "upcoming", "completed", "saved"].map(
-                  (tab, index) => (
-                    <Link href={`?tab=${tab}`} key={index}>
-                      <TabsTrigger value={tab} className="capitalize">
-                        {tab}
-                      </TabsTrigger>
-                    </Link>
-                  )
-                )}
+                {["current", "upcoming", "completed"].map((tab, index) => (
+                  <Link href={`?tab=${tab}`} key={index}>
+                    <TabsTrigger value={tab} className="capitalize">
+                      {tab}
+                    </TabsTrigger>
+                  </Link>
+                ))}
               </TabsList>
               <div className="ml-auto">
                 <Link href={`?tab=${openedTab}&create=true`}>
@@ -84,23 +105,21 @@ async function Page({
               </div>
             </div>
             <TabsContent value="current">
-              <AllSprints data={[]} type="current" projectId={projectId} />
+              <AllSprints data={current} type="current" projectId={projectId} />
             </TabsContent>
             <TabsContent value="upcoming">
               <AllSprints
-                data={sprints}
+                data={upcoming}
                 type="upcoming"
                 projectId={projectId}
               />
             </TabsContent>
             <TabsContent value="completed">
-              <AllSprints data={[]} type="completed" projectId={projectId} />
-            </TabsContent>
-            <TabsContent value="saved">
-              <AllSprints data={sprints} type="saved" projectId={projectId} />
-            </TabsContent>
-            <TabsContent value="drafts">
-              <AllSprints data={sprints} type="drafts" projectId={projectId} />
+              <AllSprints
+                data={completed}
+                type="completed"
+                projectId={projectId}
+              />
             </TabsContent>
           </Tabs>
         </div>

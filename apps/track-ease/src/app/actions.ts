@@ -418,7 +418,10 @@ export async function getEpicDetails(
         where: { id: epicId },
         select: { id: true, title: true },
       })
-    : [];
+    : await prisma.epic.findMany({
+        where: { releaseId: { equals: null } },
+        select: { id: true, title: true },
+      });
 
   return epic;
 }
