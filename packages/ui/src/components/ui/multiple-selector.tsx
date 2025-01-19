@@ -10,13 +10,13 @@ import { Command, CommandGroup, CommandItem, CommandList } from "./command";
 import { cn } from "../../lib/utils";
 
 export interface Option {
-  value: string;
+  value: string | number;
   label: string;
   disable?: boolean;
   /** fixed option that can't be removed. */
   fixed?: boolean;
   /** Group the options by providing key. */
-  [key: string]: string | boolean | undefined;
+  [key: string]: string | boolean | undefined | number;
 }
 interface GroupOption {
   [key: string]: Option[];

@@ -118,7 +118,8 @@ function CreateTask() {
     queryKey: ["parentLink"],
     queryFn: async () => {
       const id = searchParams.get("epicId");
-      return await getEpicDetails(id);
+      const sprintId = searchParams.get("sprintId");
+      return await getEpicDetails(id, sprintId);
     },
   });
 
@@ -233,7 +234,7 @@ function CreateTask() {
               {sprintType ? (
                 <Badge>{`Adding task to ${sprintData?.name}`} </Badge>
               ) : epicType ? (
-                <Badge>{`Adding User Story to ${parentData?.title} epic`}</Badge>
+                <Badge>{`Adding User Story to ${(parentData as any)?.title} epic`}</Badge>
               ) : (
                 ""
               )}
@@ -281,7 +282,6 @@ function CreateTask() {
                         <SelectContent>
                           <SelectItem value="USERSTORY">User Story</SelectItem>
                           <SelectItem value="TASK">Task</SelectItem>
-                          <SelectItem value="BUG">Bug</SelectItem>
                         </SelectContent>
                       </Select>
                     )}

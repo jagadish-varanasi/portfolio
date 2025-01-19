@@ -7,13 +7,19 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const id = searchParams.get("id");
+  const sprintId = searchParams.get("sprintId");
   const tasks = id
     ? await prisma.epic.findMany({
         where: { releaseId: id },
         select: {
           tasks: {
             select: { id: true, title: true },
-            where: { sprintId: { equals: null } },
+            where: {
+              OR: [
+                { sprintId: { equals: null } },
+                { sprintId: { equals: sprintId } },
+              ],
+            },
           },
         },
       })

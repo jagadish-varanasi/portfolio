@@ -14,7 +14,7 @@ model Task {
   id           Int          @id @default(autoincrement())
   title        String
   description  String
-  status       String
+  status       String       @default("TODO")
   priority     String
   issueType    String
   label        String

@@ -392,18 +392,34 @@ export async function getMembers(projectId: string) {
   return members;
 }
 
-export async function getEpicDetails(epicId: string | null) {
-  if (!epicId) {
-    const allEpic = await prisma.epic.findMany({
-      select: { id: true, title: true },
-      where: { releaseId: { equals: null } },
+export async function getEpicDetails(
+  epicId: string | null,
+  sprintId: string | null
+) {
+  if (!epicId && sprintId) {
+    const release = await prisma.sprint.findUnique({
+      select: { releaseId: true },
+      where: { id: sprintId },
     });
-    return allEpic;
+    const epics = await prisma.release.findMany({
+      select: { epics: true },
+      where: { id: release?.releaseId },
+    });
+    return epics
+      .flatMap((epic) => epic.epics)
+      .map((task) => ({
+        id: task.id,
+        title: task.title,
+      }));
   }
-  const epic = await prisma.epic.findUnique({
-    where: { id: epicId },
-    select: { id: true, title: true },
-  });
+
+  const epic = epicId
+    ? await prisma.epic.findUnique({
+        where: { id: epicId },
+        select: { id: true, title: true },
+      })
+    : [];
+
   return epic;
 }
 
@@ -454,6 +470,7 @@ export async function createTask(task: Task) {
 }
 
 export interface Sprint {
+  sprintId?: string;
   releaseId: string;
   name: string;
   description: string;
@@ -470,8 +487,9 @@ export async function createSprint(sprint: Sprint, projectId: string) {
     throw Error("User is not logged in");
   }
   try {
-    await prisma.sprint.create({
-      data: {
+    await prisma.sprint.upsert({
+      where: { id: sprint?.sprintId || "" },
+      create: {
         releaseId: sprint.releaseId,
         name: sprint.name,
         description: sprint.description,
@@ -483,9 +501,23 @@ export async function createSprint(sprint: Sprint, projectId: string) {
         userId: session?.user.id,
         projectId,
       },
+      update: {
+        releaseId: sprint.releaseId,
+        name: sprint.name,
+        description: sprint.description,
+        startDate: sprint.sprintDuration.from,
+        endDate: sprint.sprintDuration.to,
+        tasks: {
+          set: sprint.tasks?.map((task) => ({ id: task.value })),
+        },
+        userId: session?.user.id,
+        projectId,
+      },
     });
+    revalidatePath(`/project/${projectId}/sprint`);
     return { message: "Sprint Created Successfully" };
-  } catch {
+  } catch (error) {
+    console.log(error, "Sprint error");
     throw Error("Something went wrong!");
   }
 }

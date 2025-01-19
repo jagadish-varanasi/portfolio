@@ -28,26 +28,35 @@ async function Page({
     where: { projectId },
     include: {
       release: { select: { name: true } },
-      tasks: { select: { status: true } }
+      tasks: { select: { status: true } },
     },
   });
 
   console.log(sprints, "SPRINTS");
 
-  const isDraftFlow = searchParams?.draftId as string;
+  const isSprintEditFlow = searchParams?.sprintId as string;
   const openedTab = (searchParams?.tab as string) || "current";
-  let draft = null;
-  if (isDraftFlow) {
-    draft = await prisma.releaseDraft.findUnique({
-      where: { id: isDraftFlow },
-      select: {
-        description: true,
-        name: true,
-        id: true,
-      },
+  let sprint = null;
+  if (isSprintEditFlow) {
+    const sprintEdit = await prisma.sprint.findUnique({
+      where: { id: isSprintEditFlow },
+      include: { tasks: true },
     });
+    sprint = {
+      ...sprintEdit,
+      sprintDuration: {
+        from: sprintEdit?.startDate,
+        to: sprintEdit?.endDate,
+      },
+      tasks: sprintEdit?.tasks?.map((d) => ({
+        value: d.id,
+        label: d.title,
+      })),
+      sprintId: sprintEdit?.id,
+    };
   }
-  console.log(isDraftFlow, draft, "sDID");
+  console.log(isSprintEditFlow, sprint, "sDID");
+
   return (
     <SheetWrapper projectId={projectId}>
       <div className="flex w-full gap-4 h-full">
@@ -55,7 +64,7 @@ async function Page({
           <Tabs value={openedTab} className="h-full space-y-6">
             <div className="space-between flex items-center">
               <TabsList>
-                {["current", "upcoming", "completed", "saved", "drafts"].map(
+                {["current", "upcoming", "completed", "saved"].map(
                   (tab, index) => (
                     <Link href={`?tab=${tab}`} key={index}>
                       <TabsTrigger value={tab} className="capitalize">
@@ -100,7 +109,7 @@ async function Page({
           <h5 className="text-lg font-semibold tracking-tight">Details</h5>
         </div>
       </div>
-      <SprintForm projectId={projectId} draft={draft as any} />
+      <SprintForm projectId={projectId} sprint={sprint as any} />
     </SheetWrapper>
   );
 }

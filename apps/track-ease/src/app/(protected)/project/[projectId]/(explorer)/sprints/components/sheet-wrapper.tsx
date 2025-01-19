@@ -13,11 +13,12 @@ function SheetWrapper({
 }>) {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const draftId = !!searchParams.get("draftId") || !!searchParams.get("create");
+  const sprintId =
+    !!searchParams.get("sprintId") || !!searchParams.get("create");
   const openedTab = searchParams.get("tab");
   return (
     <Sheet
-      open={draftId}
+      open={sprintId}
       onOpenChange={(e) => {
         router.push(
           `/project/${projectId}/sprints?tab=${openedTab || "current"}`

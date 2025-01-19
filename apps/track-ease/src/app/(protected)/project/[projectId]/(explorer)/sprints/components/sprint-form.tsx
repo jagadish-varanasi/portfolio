@@ -48,6 +48,7 @@ import { Calendar } from "@repo/ui/components/calendar";
 import MultipleSelector from "@repo/ui/components/multiple-selector";
 
 const sprintFormSchema = z.object({
+  sprintId: z.string().optional(),
   releaseId: z.string(),
   name: z.string().min(1, "Release name is required"),
   description: z.string().min(1, "Description is required"),
@@ -67,18 +68,19 @@ const defaultValues: SprintFormValues = {
 
 function SprintForm({
   projectId,
-  draft,
+  sprint,
 }: {
   projectId: string;
-  draft: SprintFormValues | null;
+  sprint: SprintFormValues | null;
 }) {
   const form = useForm({
     resolver: zodResolver(sprintFormSchema),
     defaultValues,
+    values: sprint ? sprint : defaultValues,
     mode: "onChange",
   });
 
-  console.log(form.getValues(), "FORM");
+  console.log(form.getValues(), "FORM", sprint);
 
   const { error: releasesError, data: releasesData } = useQuery({
     queryKey: ["releases"],
@@ -89,11 +91,11 @@ function SprintForm({
   });
 
   const { error: tasksError, data: tasksData } = useQuery({
-    queryKey: ["tasks", form.getValues("releaseId")],
+    queryKey: ["tasks", form.getValues("releaseId"), sprint],
     queryFn: () =>
-      fetch(`/api/v1/tasks/userstories?id=${form.getValues("releaseId")}`).then(
-        (res) => res.json()
-      ),
+      fetch(
+        `/api/v1/tasks/userstories?id=${form.getValues("releaseId")}&sprintId=${form.getValues("sprintId")}`
+      ).then((res) => res.json()),
     select: (data) => {
       const formattedData = data.userStories.map((task: any) => ({
         value: task.id,
@@ -115,7 +117,7 @@ function SprintForm({
         title: "Your changes are saved!",
         description: "Your release created successfully.",
       });
-      form.reset();
+      //form.reset();
     },
     onError: () => {
       toast({
@@ -285,6 +287,7 @@ function SprintForm({
                             no results found.
                           </p>
                         }
+                        value={field.value}
                         onChange={field.onChange}
                       />
                     </div>

@@ -28,14 +28,14 @@ export function AllSprints({ data, type, projectId, openedTab }: any) {
           <AccordionTrigger>{sprint?.name}</AccordionTrigger>
           <AccordionContent>
             <div>{sprint.description}</div>
-            {type === "drafts" ? (
+            {type === "upcoming" ? (
               <div className="mt-2 flex gap-2">
-                <Link href={`?tab=${type}&draftId=${sprint?.id}`}>
+                <Link href={`?tab=${type}&sprintId=${sprint?.id}`}>
                   <Badge
                     variant="outline"
                     className="cursor-pointer hover:font-extrabold"
                   >
-                    Edit draft
+                    Edit
                   </Badge>
                 </Link>
                 <Alert draftId={sprint?.id} projectId={projectId}>
@@ -43,7 +43,7 @@ export function AllSprints({ data, type, projectId, openedTab }: any) {
                     variant="outline"
                     className="cursor-pointer hover:font-extrabold"
                   >
-                    Delete draft
+                    Delete
                   </Badge>
                 </Alert>
               </div>
