@@ -7,6 +7,7 @@ import {
 import { Badge } from "@repo/ui/components/badge";
 import Link from "next/link";
 import Alert from "./alert-dialog";
+import { format } from "date-fns";
 
 export function AllReleases({ data, type, projectId, openedTab }: any) {
   console.log(data, type);
@@ -17,6 +18,9 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
           <AccordionTrigger>{release?.name}</AccordionTrigger>
           <AccordionContent>
             <div>{release.description}</div>
+            <div className="text-xs mt-2 font-semibold">
+              {`${format(release.startDate, "MMM-dd-yyyy")} to ${format(release.endDate, "MMM-dd-yyyy")}`}
+            </div>
             {type === "drafts" ? (
               <div className="mt-2 flex gap-2">
                 <Link href={`?tab=${type}&draftId=${release?.id}`}>
@@ -61,10 +65,24 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
               </div>
             )}
             <div className="grid gap-2 mt-4">
+              <div>Epics</div>
+              {release?.epics?.length ? (
+                release?.epics?.map((data: any) => (
+                  <div key={data?.id}>{`#${data.title}`}</div>
+                ))
+              ) : (
+                <div>No epics mapped</div>
+              )}
+            </div>
+            <div className="grid gap-2 mt-4">
               <div>Sprints</div>
-              {release?.sprints?.map((data: any) => (
-                <div key={data?.id}>{`#${data.name}`}</div>
-              ))}
+              {release?.sprints?.length ? (
+                release?.sprints?.map((data: any) => (
+                  <div key={data?.id}>{`#${data.name}`}</div>
+                ))
+              ) : (
+                <div>No sprints created</div>
+              )}
             </div>
           </AccordionContent>
         </AccordionItem>

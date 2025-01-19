@@ -24,7 +24,13 @@ async function Page({
   };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
-  const sprints = await prisma.sprint.findMany({ where: { projectId } });
+  const sprints = await prisma.sprint.findMany({
+    where: { projectId },
+    include: {
+      release: { select: { name: true } },
+      tasks: { select: { status: true } }
+    },
+  });
 
   console.log(sprints, "SPRINTS");
 

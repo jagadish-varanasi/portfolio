@@ -10,7 +10,13 @@ import {
 } from "@repo/ui/components/select";
 import React, { FormEvent } from "react";
 import Editor from "../components/editor";
-import { createTask, getEpicDetails, getMembers, Task } from "@/app/actions";
+import {
+  createTask,
+  getEpicDetails,
+  getMembers,
+  getSprintDetails,
+  Task,
+} from "@/app/actions";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { ScrollArea } from "@repo/ui/components/scroll-area";
@@ -100,7 +106,8 @@ function CreateTask() {
     queryFn: async () => await getMembers(params.projectId),
   });
 
-  const flowType = searchParams.get("sprintId") ? "SPRINT" : "TASKS";
+  const sprintType = searchParams.get("sprintId") && "SPRINT";
+  const epicType = searchParams.get("epicId") && "EPIC";
 
   const {
     data: parentData,
@@ -115,13 +122,26 @@ function CreateTask() {
     },
   });
 
+  const {
+    data: sprintData,
+    isPending: sprintIsPending,
+    isError: sprintIsError,
+    error: sprintError,
+  } = useQuery({
+    queryKey: ["sprintLink"],
+    queryFn: async () => {
+      const id = searchParams.get("sprintId");
+      return await getSprintDetails(id);
+    },
+  });
+
   console.log(parentData, "parent");
 
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isValid },
     reset,
   } = useForm<TaskFormValues>({
     resolver: zodResolver(taskFormSchema),
@@ -145,7 +165,7 @@ function CreateTask() {
   });
 
   const goToTasks = () => {
-    if (flowType === "SPRINT") {
+    if (sprintType) {
       router.push(
         `/project/${params.projectId}/board/${searchParams.get("sprintId")}`
       );
@@ -172,7 +192,7 @@ function CreateTask() {
         description: "Your task created successfully.",
         action: (
           <ToastAction altText="Go to tasks" onClick={goToTasks}>
-            {flowType === "SPRINT" ? "Go to board" : "Go to tasks"}
+            {sprintType ? "Go to board" : "Go to tasks"}
           </ToastAction>
         ),
       });
@@ -190,7 +210,7 @@ function CreateTask() {
 
   console.log(errors, "pd");
 
-  if (isPending || parentIsPending) {
+  if (isPending || parentIsPending || sprintIsPending) {
     return <span>Loading...</span>;
   }
 
@@ -210,12 +230,21 @@ function CreateTask() {
           <div className="col-span-2 font-bold flex justify-between items-center border-b pb-6">
             <div className="flex gap-2">
               <h2 className="text-xl font-bold tracking-tight">Create Task</h2>
-              {searchParams.get("sprintId") && (
-                <Badge>{searchParams.get("sprintId")}</Badge>
+              {sprintType ? (
+                <Badge>{`Adding task to ${sprintData?.name}`} </Badge>
+              ) : epicType ? (
+                <Badge>{`Adding User Story to ${parentData?.title} epic`}</Badge>
+              ) : (
+                ""
               )}
             </div>
             <div>
-              <Button size="sm" className="px-6" type="submit">
+              <Button
+                size="sm"
+                className="px-6"
+                type="submit"
+                disabled={!isValid}
+              >
                 Save
               </Button>
             </div>

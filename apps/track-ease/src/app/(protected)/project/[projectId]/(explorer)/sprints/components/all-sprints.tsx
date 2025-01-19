@@ -10,9 +10,20 @@ import Alert from "./alert-dialog";
 
 export function AllSprints({ data, type, projectId, openedTab }: any) {
   console.log(data, type);
+  const sprintsWithStatusCounts = data.map((sprint: any) => {
+    const statusCounts = sprint.tasks.reduce((acc: any, task: any) => {
+      acc[task.status] = (acc[task.status] || 0) + 1;
+      return acc;
+    }, {});
+    return {
+      ...sprint,
+      statusCounts,
+    };
+  });
+  console.log(sprintsWithStatusCounts);
   return (
     <Accordion type="single" collapsible className="w-full">
-      {data.map((sprint: any) => (
+      {sprintsWithStatusCounts.map((sprint: any) => (
         <AccordionItem value={`item-${sprint.id}`} key={sprint.id}>
           <AccordionTrigger>{sprint?.name}</AccordionTrigger>
           <AccordionContent>
@@ -50,7 +61,7 @@ export function AllSprints({ data, type, projectId, openedTab }: any) {
                   variant="outline"
                   className="cursor-pointer hover:font-extrabold"
                 >
-                  Requirements
+                  {sprint.release.name}
                 </Badge>
                 <Badge
                   variant="outline"
@@ -62,9 +73,11 @@ export function AllSprints({ data, type, projectId, openedTab }: any) {
             )}
             <div className="grid gap-2 mt-4">
               <div>Status</div>
-              <span>New-0</span>
-              <span>Progress-1</span>
-              <span>Completed-1</span>
+              {Object.entries(sprint?.statusCounts).map(([key, value]) => (
+                <span key={key} className="capitalize">
+                  {`${key}-${value}`?.toLocaleLowerCase()}
+                </span>
+              ))}
             </div>
           </AccordionContent>
         </AccordionItem>

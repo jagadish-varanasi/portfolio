@@ -24,9 +24,35 @@ async function Page({
   };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
+  const current = await prisma.release.findMany({
+    where: {
+      projectId,
+      startDate: {
+        lte: new Date(),
+      },
+      endDate: {
+        gte: new Date(),
+      },
+    },
+    include: { sprints: true, epics: true },
+  });
   const upcoming = await prisma.release.findMany({
-    where: { projectId },
-    include: { sprints: true },
+    where: {
+      projectId,
+      startDate: {
+        gt: new Date(),
+      },
+    },
+    include: { sprints: true, epics: true },
+  });
+  const completed = await prisma.release.findMany({
+    where: {
+      projectId,
+      endDate: {
+        lt: new Date(),
+      },
+    },
+    include: { sprints: true, epics: true },
   });
   const drafts = await prisma.releaseDraft.findMany({
     where: { projectId },
@@ -73,7 +99,11 @@ async function Page({
               </div>
             </div>
             <TabsContent value="current">
-              <AllReleases data={[]} type="current" projectId={projectId} />
+              <AllReleases
+                data={current}
+                type="current"
+                projectId={projectId}
+              />
             </TabsContent>
             <TabsContent value="upcoming">
               <AllReleases
@@ -83,10 +113,11 @@ async function Page({
               />
             </TabsContent>
             <TabsContent value="completed">
-              <AllReleases data={[]} type="completed" projectId={projectId} />
-            </TabsContent>
-            <TabsContent value="saved">
-              <AllReleases data={upcoming} type="saved" projectId={projectId} />
+              <AllReleases
+                data={completed}
+                type="completed"
+                projectId={projectId}
+              />
             </TabsContent>
             <TabsContent value="drafts">
               <AllReleases data={drafts} type="drafts" projectId={projectId} />

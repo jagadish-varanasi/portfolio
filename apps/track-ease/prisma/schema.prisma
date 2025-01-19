@@ -175,7 +175,10 @@ model Release {
   description String
   Project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId   String?
+  startDate   DateTime @default(now())
+  endDate     DateTime @default(now())
   sprints     Sprint[]
+  epics       Epic[]
 }
 
 model Sprint {
@@ -205,6 +208,8 @@ model Epic {
   tasks                 Task[]
   project               Project                @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId             String
+  Release               Release?               @relation(fields: [releaseId], references: [id])
+  releaseId             String?
 }
 
 model EpicDraft {

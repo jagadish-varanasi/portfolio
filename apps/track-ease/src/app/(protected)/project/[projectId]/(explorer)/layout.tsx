@@ -26,13 +26,14 @@ const sidebarNavItems = (projectId: string) => [
     href: `/project/${projectId}/epics`,
   },
   {
-    title: "Sprints",
-    href: `/project/${projectId}/sprints`,
-  },
-  {
     title: "Releases",
     href: `/project/${projectId}/releases`,
   },
+  {
+    title: "Sprints",
+    href: `/project/${projectId}/sprints`,
+  },
+
   {
     title: "Timelines",
     href: `/project/${projectId}/timelines`,

@@ -8,7 +8,7 @@ import {
   SheetContent,
 } from "@repo/ui/components/sheet";
 import { Textarea } from "@repo/ui/components/textarea";
-import { TrashIcon } from "lucide-react";
+import { CalendarIcon, TrashIcon } from "lucide-react";
 import { Input } from "@repo/ui/components/input";
 import React from "react";
 import { Button } from "@repo/ui/components/button";
@@ -25,41 +25,37 @@ import {
   FormMessage,
 } from "@repo/ui/components/form";
 import { ToastAction } from "@repo/ui/components/toast";
-import { useMutation } from "@tanstack/react-query";
-import { createReleaseDraft, createRelease } from "@/app/actions";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  createReleaseDraft,
+  createRelease,
+  getEpicDetails,
+} from "@/app/actions";
 import { toast } from "@repo/ui/hooks/use-toast";
 import { cn } from "@repo/ui/lib/utils";
+import MultipleSelector from "@repo/ui/components/multiple-selector";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@repo/ui/components/popover";
+import { format, addDays } from "date-fns";
+import { Calendar } from "@repo/ui/components/calendar";
 
 const releaseFormSchema = z.object({
   id: z.string().optional(),
   name: z.string().min(1, "Release name is required"),
   description: z.string().min(1, "Description is required"),
-  highLevelRequirements: z
-    .array(
-      z.object({
-        id: z.string().optional(),
-        priority: z.number(),
-        requirement: z
-          .string({ message: "Please enter requirement" })
-          .min(10, "Requirement should be at least 10 characters"),
-      })
-    )
-    .nonempty("Should have al least one high level requirement"),
+  duration: z.object({ from: z.date(), to: z.date().optional() }),
+  epics: z.array(z.object({ value: z.string(), label: z.string() })).optional(),
 });
 
 const releaseDraftFormSchema = z.object({
   id: z.string(),
   name: z.string().optional(),
   description: z.string().optional(),
-  highLevelRequirements: z
-    .array(
-      z.object({
-        id: z.string(),
-        priority: z.number().optional().nullable(),
-        requirement: z.string().nullable(),
-      })
-    )
-    .optional(),
+  duration: z.object({ from: z.date(), to: z.date().optional() }).optional(),
+  epics: z.array(z.object({ value: z.string(), label: z.string() })).optional(),
 });
 
 export type ReleaseFormValues = z.infer<typeof releaseFormSchema>;
@@ -68,7 +64,7 @@ export type ReleaseDraftFormValues = z.infer<typeof releaseDraftFormSchema>;
 const defaultValues: ReleaseFormValues = {
   name: "",
   description: "",
-  highLevelRequirements: [{ requirement: "", priority: 0 }],
+  duration: { from: new Date(), to: addDays(new Date(), 30) },
 };
 
 function ReleaseForm({
@@ -78,19 +74,34 @@ function ReleaseForm({
   projectId: string;
   draft: ReleaseFormValues | null;
 }) {
+  const {
+    data: epicsData,
+    isPending: epicsIsPending,
+    isError: epicsIsError,
+    error: epicsError,
+  } = useQuery({
+    queryKey: ["epicData"],
+    queryFn: async () => {
+      return await getEpicDetails(null);
+    },
+    select: (data) => {
+      if (Array.isArray(data)) {
+        const formattedData = data?.map((task: any) => ({
+          value: task.id,
+          label: task.title,
+        }));
+        return formattedData;
+      }
+      return [];
+    },
+  });
+
   const form = useForm({
     resolver: zodResolver(releaseFormSchema),
     defaultValues,
     values: draft ? draft : defaultValues,
     mode: "onChange",
   });
-
-  const { fields, append, remove } = useFieldArray({
-    name: "highLevelRequirements",
-    control: form.control,
-  });
-
-  console.log(draft, "CDM");
 
   const { mutate, isPending } = useMutation({
     mutationFn: (newRelease: z.infer<typeof releaseFormSchema>) => {
@@ -193,55 +204,85 @@ function ReleaseForm({
                 </FormItem>
               )}
             />
-            <div>
-              {fields.map((field, index) => (
-                <FormField
-                  control={form.control}
-                  key={field.id}
-                  name={`highLevelRequirements.${index}.requirement`}
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className={cn(index !== 0 && "sr-only")}>
-                        Add Requirements
-                      </FormLabel>
-                      <FormDescription className={cn(index !== 0 && "sr-only")}>
-                        Just on high level details give details with priority :)
-                      </FormDescription>
-                      <FormControl>
-                        <div className="flex items-center">
-                          <div>{`#${index + 1}`}</div>
-                          <Input {...field} className="flex-1 ml-4" />
+            <FormField
+              control={form.control}
+              name="duration"
+              render={({ field }) => (
+                <FormItem className="grid grid-cols-4 items-center gap-4">
+                  <FormLabel>Duration</FormLabel>
+                  <div className="col-span-3">
+                    <Popover modal={true}>
+                      <PopoverTrigger asChild>
+                        <FormControl>
                           <Button
-                            type="button"
-                            onClick={() => remove(index)}
-                            className="ml-2"
-                            variant="outline"
+                            id="date"
+                            variant={"outline"}
+                            className={cn(
+                              "w-[300px] justify-start text-left font-normal",
+                              !field.value && "text-muted-foreground"
+                            )}
                           >
-                            <TrashIcon className="h-5 w-5" />
+                            <CalendarIcon className="w-4 h-4 mr-2" />
+                            {field.value?.from ? (
+                              field.value.to ? (
+                                <>
+                                  {format(field.value.from, "LLL dd, y")} -{" "}
+                                  {format(field.value.to, "LLL dd, y")}
+                                </>
+                              ) : (
+                                format(field.value.from, "LLL dd, y")
+                              )
+                            ) : (
+                              <span>Pick a date</span>
+                            )}
                           </Button>
-                        </div>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              ))}
-              <div className="flex justify-end mt-4">
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  onClick={() =>
-                    append({
-                      priority: fields.length + 1,
-                      requirement: "",
-                    })
-                  }
-                >
-                  Add URL
-                </Button>
-              </div>
-            </div>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="range"
+                          defaultMonth={field.value?.from}
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          numberOfMonths={2}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    <FormDescription>
+                      Select release start and end date.
+                    </FormDescription>
+                    <FormMessage />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="epics"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Add Tasks</FormLabel>
+                  <FormDescription>
+                    Select tasks for this sprint. These can be edited later :)
+                  </FormDescription>
+                  <FormControl>
+                    <div className="flex items-center">
+                      <MultipleSelector
+                        options={epicsData}
+                        placeholder={"Select epics for this release."}
+                        emptyIndicator={
+                          <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                            no results found.
+                          </p>
+                        }
+                        onChange={field.onChange}
+                      />
+                    </div>
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
           </div>
           <SheetFooter className="mt-4">
             <SheetClose asChild>

@@ -94,6 +94,11 @@ export async function createRelease(
       projectId: projectId,
       description: newRelease.description,
       name: newRelease.name,
+      startDate: newRelease.duration.from,
+      endDate: newRelease.duration?.to,
+      epics: {
+        connect: newRelease.epics?.map((release) => ({ id: release.value })),
+      },
     },
   });
   if (newRelease.id) {
@@ -355,6 +360,17 @@ export async function getEpicDetails(epicId: string | null) {
     select: { id: true, title: true },
   });
   return epic;
+}
+
+export async function getSprintDetails(sprintId: string | null) {
+  if (!sprintId) {
+    throw Error("Sprint not found!");
+  }
+  const sprint = await prisma.sprint.findUnique({
+    where: { id: sprintId },
+    select: { name: true },
+  });
+  return sprint;
 }
 
 export interface Task {
