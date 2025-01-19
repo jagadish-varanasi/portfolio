@@ -38,7 +38,7 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
               </div>
             ) : (
               <div className="mt-2 flex gap-2">
-                <Link href={`release-grooming/${release.id}?type=groom`}>
+                <Link href={`epic-grooming/${release.id}?type=groom`}>
                   <Badge
                     variant="outline"
                     className="cursor-pointer hover:font-extrabold"

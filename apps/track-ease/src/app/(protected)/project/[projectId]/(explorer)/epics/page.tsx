@@ -69,7 +69,7 @@ async function Page({
                 ))}
               </TabsList>
               <div className="ml-auto">
-                <Link href={`./release-grooming`}>
+                <Link href={`./epic-grooming`}>
                   <Button className="ml-auto h-9 mr-4" variant="outline">
                     <PlusCircledIcon className="mr-2 h-4 w-4" />
                     Create

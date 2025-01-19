@@ -60,7 +60,7 @@ function CreateEpic({
       id: data?.id,
     });
     if (data?.document) putDocument(JSON.parse(data?.document));
-  }, [data, setDetails, putDocument]);
+  }, []);
 
   console.log(details);
 

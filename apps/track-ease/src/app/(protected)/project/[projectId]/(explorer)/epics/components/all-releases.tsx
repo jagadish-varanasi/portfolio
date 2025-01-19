@@ -30,7 +30,7 @@ export function AllReleases({
             <div>{release.description}</div>
             {type === "drafts" ? (
               <div className="mt-2 flex gap-2">
-                <Link href={`release-grooming/${release.id}?type=edit`}>
+                <Link href={`epic-grooming/${release.id}?type=edit`}>
                   <Badge
                     variant="outline"
                     className="cursor-pointer hover:font-extrabold"
