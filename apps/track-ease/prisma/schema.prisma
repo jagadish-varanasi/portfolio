@@ -11,25 +11,40 @@ datasource db {
 }
 
 model Task {
-  id           Int      @id @default(autoincrement())
+  id           Int          @id @default(autoincrement())
   title        String
   description  String
-  status       String
+  status       String       @default("TODO")
   priority     String
   issueType    String
   label        String
   storyPoints  Int
   startDate    String
   endDate      String
-  Project      Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  Project      Project?     @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId    String?
-  assignee     User     @relation(fields: [userId], references: [id])
+  assignee     User         @relation(fields: [userId], references: [id])
   userId       String
-  parentTaskId Int?     @unique
-  parentTask   Task?    @relation("parentTask", fields: [parentTaskId], references: [id])
-  Epic         Epic?    @relation(fields: [epicId], references: [id])
+  reporter     User?        @relation("reporter", fields: [reporterId], references: [id])
+  reporterId   String?
+  parentTaskId Int?         @unique
+  parentTask   Task?        @relation("parentTask", fields: [parentTaskId], references: [id])
+  Epic         Epic?        @relation(fields: [epicId], references: [id])
   epicId       String?
-  Task         Task[]   @relation("parentTask")
+  Task         Task[]       @relation("parentTask")
+  discussions  Discussion[]
+  Sprint       Sprint?      @relation(fields: [sprintId], references: [id])
+  sprintId     String?
+}
+
+model Discussion {
+  id      String   @id @default(cuid())
+  date    DateTime @default(now())
+  user    User     @relation(fields: [userId], references: [id])
+  userId  String
+  content Json
+  Task    Task?    @relation(fields: [taskId], references: [id])
+  taskId  Int?
 }
 
 model Account {
@@ -74,6 +89,9 @@ model User {
   tasks          Task[]
   projectId      String?
   role           PlatformRole     @default(USER)
+  taskOwners     Task[]           @relation("reporter")
+  Discussion     Discussion[]
+  Sprint         Sprint[]
 }
 
 model VerificationToken {
@@ -99,6 +117,7 @@ model Project {
   InitiationDraft InitiationDraft[]
   Epic            Epic[]
   EpicDraft       EpicDraft[]
+  Sprint          Sprint[]
 }
 
 model Initiation {
@@ -148,6 +167,9 @@ model ReleaseDraft {
   description String?
   Project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId   String?
+  startDate   DateTime @default(now())
+  endDate     DateTime @default(now())
+  epics       Epic[]
 }
 
 model Release {
@@ -156,6 +178,28 @@ model Release {
   description String
   Project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId   String?
+  startDate   DateTime @default(now())
+  endDate     DateTime @default(now())
+  sprints     Sprint[]
+  epics       Epic[]
+}
+
+model Sprint {
+  id          String    @id @default(cuid())
+  name        String
+  description String
+  release     Release   @relation(fields: [releaseId], references: [id])
+  releaseId   String
+  project     Project   @relation(fields: [projectId], references: [id])
+  tasks       Task[]
+  startDate   DateTime
+  endDate     DateTime?
+  isDone      Boolean   @default(false)
+  createdBy   User      @relation(fields: [userId], references: [id])
+  userId      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  projectId   String
 }
 
 model Epic {
@@ -167,6 +211,10 @@ model Epic {
   tasks                 Task[]
   project               Project                @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId             String
+  Release               Release?               @relation(fields: [releaseId], references: [id])
+  releaseId             String?
+  ReleaseDraft          ReleaseDraft?          @relation(fields: [releaseDraftId], references: [id])
+  releaseDraftId        String?
 }
 
 model EpicDraft {

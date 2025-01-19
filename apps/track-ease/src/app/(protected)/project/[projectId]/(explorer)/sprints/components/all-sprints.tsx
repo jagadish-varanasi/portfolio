@@ -8,59 +8,66 @@ import { Badge } from "@repo/ui/components/badge";
 import Link from "next/link";
 import Alert from "./alert-dialog";
 
-export function AllReleases({ data, type, projectId, openedTab }: any) {
+export function AllSprints({ data, type, projectId, openedTab }: any) {
   console.log(data, type);
+  const sprintsWithStatusCounts = data.map((sprint: any) => {
+    const statusCounts = sprint.tasks.reduce((acc: any, task: any) => {
+      acc[task.status] = (acc[task.status] || 0) + 1;
+      return acc;
+    }, {});
+    return {
+      ...sprint,
+      statusCounts,
+    };
+  });
+  console.log(sprintsWithStatusCounts);
   return (
     <Accordion type="single" collapsible className="w-full">
-      {data.map((release: any) => (
-        <AccordionItem value={`item-${release.id}`} key={release.id}>
-          <AccordionTrigger>{release?.name}</AccordionTrigger>
+      {sprintsWithStatusCounts.map((sprint: any) => (
+        <AccordionItem value={`item-${sprint.id}`} key={sprint.id}>
+          <AccordionTrigger>{sprint?.name}</AccordionTrigger>
           <AccordionContent>
-            <div>{release.description}</div>
-            {type === "drafts" ? (
+            <div>{sprint.description}</div>
+            {type === "upcoming" ? (
               <div className="mt-2 flex gap-2">
-                <Link href={`?tab=${type}&draftId=${release?.id}`}>
+                <Link href={`?tab=${type}&sprintId=${sprint?.id}`}>
                   <Badge
                     variant="outline"
                     className="cursor-pointer hover:font-extrabold"
                   >
-                    Edit draft
-                  </Badge>
-                </Link>
-                <Alert draftId={release?.id} projectId={projectId}>
-                  <Badge
-                    variant="outline"
-                    className="cursor-pointer hover:font-extrabold"
-                  >
-                    Delete draft
-                  </Badge>
-                </Alert>
-              </div>
-            ) : (
-              <div className="mt-2 flex gap-2">
-                <Link href={`epic-grooming/${release.id}?type=groom`}>
-                  <Badge
-                    variant="outline"
-                    className="cursor-pointer hover:font-extrabold"
-                  >
-                    Groom as epic
-                  </Badge>
-                </Link>
-                <Link
-                  href={`/project/${projectId}/tasks/create?initiation=${release.id}`}
-                >
-                  <Badge
-                    variant="outline"
-                    className="cursor-pointer hover:font-extrabold"
-                  >
-                    Groom as user story
+                    Edit
                   </Badge>
                 </Link>
                 <Badge
                   variant="outline"
                   className="cursor-pointer hover:font-extrabold"
                 >
-                  Mark duplicate
+                  {sprint.release.name}
+                </Badge>
+                <Alert draftId={sprint?.id} projectId={projectId}>
+                  <Badge
+                    variant="outline"
+                    className="cursor-pointer hover:font-extrabold"
+                  >
+                    Delete
+                  </Badge>
+                </Alert>
+              </div>
+            ) : (
+              <div className="mt-2 flex gap-2">
+                <Link href={`board/${sprint.id}`}>
+                  <Badge
+                    variant="outline"
+                    className="cursor-pointer hover:font-extrabold"
+                  >
+                    Board
+                  </Badge>
+                </Link>
+                <Badge
+                  variant="outline"
+                  className="cursor-pointer hover:font-extrabold"
+                >
+                  {sprint.release.name}
                 </Badge>
                 <Badge
                   variant="outline"
@@ -70,13 +77,12 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                 </Badge>
               </div>
             )}
-            <div className="grid gap-2 mt-4 ">
-              <div>High-level requirements</div>
-              {release?.highLevelRequirements?.map((data: any) => (
-                <div
-                  key={data?.id}
-                  className="break-all"
-                >{`#${data.priority} ${data?.requirement}`}</div>
+            <div className="grid gap-2 mt-4">
+              <div>Status</div>
+              {Object.entries(sprint?.statusCounts).map(([key, value]) => (
+                <span key={key} className="capitalize">
+                  {`${key}-${value}`?.toLocaleLowerCase()}
+                </span>
               ))}
             </div>
           </AccordionContent>

@@ -148,6 +148,43 @@ export const columns: ColumnDef<Task>[] = [
     },
   },
   {
+    accessorKey: "release",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Release" />
+    ),
+    cell: ({ row }) => {
+      console.log(row, "ROW");
+      return (
+        <div className="flex items-center">
+          <span className="max-w-[500px] truncate font-medium">
+            {(row.getValue("Sprint") as any)?.release?.name}
+          </span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: "Sprint",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Sprint" />
+    ),
+    cell: ({ row }) => {
+      return (
+        <div className="flex items-center">
+          <span className="max-w-[500px] truncate font-medium">
+            {(row.getValue("Sprint") as any)?.name}
+          </span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => <DataTableRowActions row={row} />,
   },

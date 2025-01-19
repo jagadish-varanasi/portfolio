@@ -35,6 +35,8 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { toast } from "@repo/ui/hooks/use-toast";
+import { ToastAction } from "@repo/ui/components/toast";
 
 export const metadata: Metadata = {
   title: "Tasks",
@@ -76,6 +78,7 @@ export default async function TaskPage({
     },
     include: {
       assignee: { select: { email: true, id: true, name: true } },
+      Sprint: { select: { name: true, release: { select: { name: true } } } },
     },
   });
 
@@ -87,7 +90,7 @@ export default async function TaskPage({
     select: { user: { select: { id: true, email: true } } },
   });
 
-  async function createTask(formData: FormData):Promise<any> {
+  async function createTask(formData: FormData): Promise<any> {
     "use server";
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
@@ -110,21 +113,36 @@ export default async function TaskPage({
       return {};
     }
 
-    await prisma.task.create({
-      data: {
-        title: title,
-        description: description,
-        status: status,
-        issueType: "TASK",
-        priority: priority,
-        userId: assignee,
-        projectId: params.projectId,
-        label: label,
-        startDate: new Date().toString(),
-        endDate: new Date().toString(),
-        storyPoints: 10,
-      },
-    });
+    try {
+      await prisma.task.create({
+        data: {
+          title: title,
+          description: description,
+          status: status,
+          issueType: "TASK",
+          priority: priority,
+          userId: assignee,
+          projectId: params.projectId,
+          label: label,
+          startDate: new Date().toString(),
+          endDate: new Date().toString(),
+          storyPoints: 10,
+        },
+      });
+      console.log("DONE");
+      toast({
+        title: "Your changes are saved!",
+        description: "Your task created successfully.",
+      });
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+    }
+
     // mutate data
     // revalidate cache
     revalidatePath("/dashboard");

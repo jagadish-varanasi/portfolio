@@ -10,9 +10,15 @@ import {
 } from "@repo/ui/components/select";
 import React, { FormEvent } from "react";
 import Editor from "../components/editor";
-import { createTask, getEpicDetails, getMembers, Task } from "@/app/actions";
+import {
+  createTask,
+  getEpicDetails,
+  getMembers,
+  getSprintDetails,
+  Task,
+} from "@/app/actions";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { ScrollArea } from "@repo/ui/components/scroll-area";
 import { Button } from "@repo/ui/components/button";
 import {
@@ -25,6 +31,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { cn } from "@repo/ui/lib/utils";
 import { Controller, useFieldArray, useForm } from "react-hook-form";
 import { Scrollbar } from "@radix-ui/react-scroll-area";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@repo/ui/components/popover";
+import { CalendarIcon } from "lucide-react";
+import { Calendar } from "@repo/ui/components/calendar";
+import { format } from "date-fns";
+import { toast } from "@repo/ui/hooks/use-toast";
+import { ToastAction } from "@repo/ui/components/toast";
+import { Badge } from "@repo/ui/components/badge";
 
 const taskFormSchema = z.object({
   title: z
@@ -40,7 +57,7 @@ const taskFormSchema = z.object({
   issueType: z.string(),
   label: z.string(),
   priority: z.string(),
-  storyPoints: z.string().optional(),
+  storyPoints: z.number().optional(),
   sprint: z.string().optional(),
   startDate: z
     .date({ required_error: "Start/End date cannot be empty" })
@@ -54,9 +71,6 @@ const taskFormSchema = z.object({
   discussions: z
     .array(
       z.object({
-        id: z.string(),
-        name: z.string(),
-        date: z.string(),
         content: z.string(),
       })
     )
@@ -67,21 +81,19 @@ export type TaskFormValues = z.infer<typeof taskFormSchema>;
 
 // This can come from your database or API.
 const defaultValues: Partial<TaskFormValues> = {
-  title: "Hello world",
+  title: "",
   description: '{"a":"a"}',
-  userId: "clzldqhyg0005wrvctgcq0yj3",
-  reporterId: "clzldqhyg0005wrvctgcq0yj3",
-  label: "FEATURE",
-  priority: "HIGH",
-  status: "INPROGRESS",
-  startDate: new Date(),
-  endDate: new Date(),
-  storyPoints: "10",
+  userId: "",
+  reporterId: "",
+  label: "",
+  priority: "",
+  status: "",
 };
 
 function CreateTask() {
   const params = useParams<{ projectId: string }>();
   const searchParams = useSearchParams();
+  const router = useRouter();
   console.log(searchParams.get("epicId"));
   //members in project.
   const {
@@ -94,6 +106,9 @@ function CreateTask() {
     queryFn: async () => await getMembers(params.projectId),
   });
 
+  const sprintType = searchParams.get("sprintId") && "SPRINT";
+  const epicType = searchParams.get("epicId") && "EPIC";
+
   const {
     data: parentData,
     isPending: parentIsPending,
@@ -103,22 +118,32 @@ function CreateTask() {
     queryKey: ["parentLink"],
     queryFn: async () => {
       const id = searchParams.get("epicId");
-      return await getEpicDetails(id);
+      const sprintId = searchParams.get("sprintId");
+      return await getEpicDetails(id, sprintId);
     },
   });
 
-  const mutation = useMutation({
-    mutationFn: (data: Task) => {
-      console.log(data);
-      return createTask(data);
+  const {
+    data: sprintData,
+    isPending: sprintIsPending,
+    isError: sprintIsError,
+    error: sprintError,
+  } = useQuery({
+    queryKey: ["sprintLink"],
+    queryFn: async () => {
+      const id = searchParams.get("sprintId");
+      return await getSprintDetails(id);
     },
   });
+
+  console.log(parentData, "parent");
 
   const {
     register,
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors, isValid },
+    reset,
   } = useForm<TaskFormValues>({
     resolver: zodResolver(taskFormSchema),
     defaultValues: {
@@ -126,15 +151,9 @@ function CreateTask() {
       projectId: params.projectId,
       discussions: [
         {
-          id: "kasajk",
-          name: "Jagadish V",
-          date: "Jul 12",
           content: '{"a":"a"}',
         },
         {
-          id: "kasajk",
-          name: "Jagadish V",
-          date: "Jul 12",
           content: '{"a":"a"}',
         },
       ],
@@ -146,9 +165,53 @@ function CreateTask() {
     control: control,
   });
 
+  const goToTasks = () => {
+    if (sprintType) {
+      router.push(
+        `/project/${params.projectId}/board/${searchParams.get("sprintId")}`
+      );
+      return;
+    }
+    router.push(`/project/${params.projectId}/tasks`);
+  };
+
+  const mutation = useMutation({
+    mutationFn: (newTask: z.infer<typeof taskFormSchema>) => {
+      console.log("PUT TASK", newTask);
+      return fetch("/api/v1/tasks", {
+        method: "POST",
+        body: JSON.stringify({
+          ...newTask,
+          epicId: searchParams.get("epicId"),
+          sprintId: searchParams.get("sprintId"),
+        }),
+      });
+    },
+    onSuccess() {
+      toast({
+        title: "Your changes are saved!",
+        description: "Your task created successfully.",
+        action: (
+          <ToastAction altText="Go to tasks" onClick={goToTasks}>
+            {sprintType ? "Go to board" : "Go to tasks"}
+          </ToastAction>
+        ),
+      });
+      reset();
+    },
+    onError(error, variables, context) {
+      toast({
+        variant: "destructive",
+        title: "Uh oh! Something went wrong.",
+        description: "There was a problem with your request.",
+        action: <ToastAction altText="Try again">Try again</ToastAction>,
+      });
+    },
+  });
+
   console.log(errors, "pd");
 
-  if (isPending) {
+  if (isPending || parentIsPending || sprintIsPending) {
     return <span>Loading...</span>;
   }
 
@@ -157,8 +220,8 @@ function CreateTask() {
   }
 
   function onSubmit(values: z.infer<typeof taskFormSchema>) {
-    console.log("Hello");
     console.log(values);
+    mutation.mutate(values);
   }
 
   return (
@@ -166,9 +229,23 @@ function CreateTask() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="m-8 border p-8 border-1 grid md:grid-cols-[1.1fr_1fr] gap-x-8 gap-y-4 items-start rounded-md">
           <div className="col-span-2 font-bold flex justify-between items-center border-b pb-6">
-            <h2 className="text-xl font-bold tracking-tight">Create Task</h2>
+            <div className="flex gap-2">
+              <h2 className="text-xl font-bold tracking-tight">Create Task</h2>
+              {sprintType ? (
+                <Badge>{`Adding task to ${sprintData?.name}`} </Badge>
+              ) : epicType ? (
+                <Badge>{`Adding User Story to ${(parentData as any)?.title} epic`}</Badge>
+              ) : (
+                ""
+              )}
+            </div>
             <div>
-              <Button size="sm" className="px-6" type="submit">
+              <Button
+                size="sm"
+                className="px-6"
+                type="submit"
+                disabled={!isValid}
+              >
                 Save
               </Button>
             </div>
@@ -191,16 +268,20 @@ function CreateTask() {
                 </Label>
                 {!searchParams?.get("epicId") ? (
                   <Controller
+                    control={control}
                     {...register("issueType")}
                     render={({ field }) => (
-                      <Select {...field}>
+                      <Select
+                        {...field}
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <SelectTrigger>
                           <SelectValue placeholder="Select Issue type" />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="USERSTORY">User Story</SelectItem>
                           <SelectItem value="TASK">Task</SelectItem>
-                          <SelectItem value="BUG">Bug</SelectItem>
                         </SelectContent>
                       </Select>
                     )}
@@ -221,7 +302,11 @@ function CreateTask() {
                   control={control}
                   {...register("userId")}
                   render={({ field }) => (
-                    <Select {...field}>
+                    <Select
+                      {...field}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select Assignee" />
                       </SelectTrigger>
@@ -247,7 +332,11 @@ function CreateTask() {
                   control={control}
                   {...register("reporterId")}
                   render={({ field }) => (
-                    <Select {...field}>
+                    <Select
+                      {...field}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select Reporter" />
                       </SelectTrigger>
@@ -273,7 +362,11 @@ function CreateTask() {
                   control={control}
                   {...register("label")}
                   render={({ field }) => (
-                    <Select {...field}>
+                    <Select
+                      {...field}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select Label" />
                       </SelectTrigger>
@@ -296,7 +389,11 @@ function CreateTask() {
                   control={control}
                   {...register("priority")}
                   render={({ field }) => (
-                    <Select {...field}>
+                    <Select
+                      {...field}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select Priority" />
                       </SelectTrigger>
@@ -318,11 +415,15 @@ function CreateTask() {
                 {Array.isArray(parentData) ? (
                   <Controller
                     control={control}
-                    {...register("parentTaskId")}
+                    {...register("epicId")}
                     render={({ field }) => (
-                      <Select {...field}>
+                      <Select
+                        {...field}
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
                         <SelectTrigger>
-                          <SelectValue placeholder="Select Status" />
+                          <SelectValue placeholder="Select Parent" />
                         </SelectTrigger>
                         <SelectContent>
                           {parentData?.map((item) => (
@@ -340,7 +441,7 @@ function CreateTask() {
                     value={`${parentData?.title} - #${parentData?.id.slice(
                       -5
                     )}`}
-                    {...register("parentTaskId")}
+                    {...register("epicId")}
                   ></Input>
                 )}
               </div>
@@ -352,7 +453,11 @@ function CreateTask() {
                   control={control}
                   {...register("status")}
                   render={({ field }) => (
-                    <Select {...field}>
+                    <Select
+                      {...field}
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger>
                         <SelectValue placeholder="Select Status" />
                       </SelectTrigger>
@@ -370,42 +475,92 @@ function CreateTask() {
                 <Label htmlFor="storyPoints" className="text-left">
                   Story points
                 </Label>
-                <Input
-                  placeholder="Provide story point"
-                  type="number"
+                <Controller
+                  control={control}
                   {...register("storyPoints")}
+                  render={({ field }) => (
+                    <Input
+                      placeholder="Provide story point"
+                      type="number"
+                      value={field.value}
+                      onChange={(e) => field.onChange(+e.target?.value)}
+                    />
+                  )}
                 />
               </div>
               <div className="grid grid-rows-2 items-center">
                 <Label htmlFor="startDate" className="text-left">
                   Start date
                 </Label>
-                <Select {...register("startDate")}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Priority" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="HIGH">High</SelectItem>
-                    <SelectItem value="MEDIUM">Medium</SelectItem>
-                    <SelectItem value="LOW">Low</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Controller
+                  control={control}
+                  {...register("startDate")}
+                  render={({ field }) => (
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] justify-start text-left font-normal gap-2",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="w-4 h-4" />
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  )}
+                />
               </div>
               <div className="grid grid-rows-2 items-center">
                 <Label htmlFor="endDate" className="text-left">
                   End date
                 </Label>
-                <Select {...register("endDate")}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="TODO">Todo</SelectItem>
-                    <SelectItem value="INPROGRESS">In Progress</SelectItem>
-                    <SelectItem value="DONE">Done</SelectItem>
-                    <SelectItem value="BACKLOG">Backlog</SelectItem>
-                  </SelectContent>
-                </Select>
+                <Controller
+                  control={control}
+                  {...register("endDate")}
+                  render={({ field }) => (
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant={"outline"}
+                          className={cn(
+                            "w-[240px] justify-start text-left font-normal gap-2",
+                            !field.value && "text-muted-foreground"
+                          )}
+                        >
+                          <CalendarIcon className="w-4 h-4" />
+                          {field.value ? (
+                            format(field.value, "PPP")
+                          ) : (
+                            <span>Pick a date</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={field.value}
+                          onSelect={field.onChange}
+                          initialFocus
+                        />
+                      </PopoverContent>
+                    </Popover>
+                  )}
+                />
               </div>
             </div>
           </div>
@@ -446,16 +601,13 @@ function CreateTask() {
                           <Editor
                             label={"Discussions"}
                             data={{
-                              id: field.value.id,
-                              name: field.value.name,
-                              date: field.value.date,
+                              id: new Date().toString(),
+                              name: "Jagadish V",
+                              date: new Date().toString(),
                             }}
                             value={field.value.content}
                             onChange={(data: any) =>
                               field.onChange({
-                                id: field.value.id,
-                                name: field.value.name,
-                                date: field.value.date,
                                 content: data,
                               })
                             }

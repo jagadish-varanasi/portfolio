@@ -26,97 +26,98 @@ import {
 } from "@repo/ui/components/form";
 import { ToastAction } from "@repo/ui/components/toast";
 import { useMutation, useQuery } from "@tanstack/react-query";
-import {
-  createReleaseDraft,
-  createRelease,
-  getEpicDetails,
-} from "@/app/actions";
+import { createReleaseDraft, createRelease, createSprint } from "@/app/actions";
 import { toast } from "@repo/ui/hooks/use-toast";
 import { cn } from "@repo/ui/lib/utils";
-import MultipleSelector from "@repo/ui/components/multiple-selector";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@repo/ui/components/select";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@repo/ui/components/popover";
-import { format, addDays } from "date-fns";
+import { addDays, format } from "date-fns";
 import { Calendar } from "@repo/ui/components/calendar";
+import MultipleSelector from "@repo/ui/components/multiple-selector";
 
-const releaseFormSchema = z.object({
-  id: z.string().optional(),
+const sprintFormSchema = z.object({
+  sprintId: z.string().optional(),
+  releaseId: z.string(),
   name: z.string().min(1, "Release name is required"),
   description: z.string().min(1, "Description is required"),
-  duration: z.object({ from: z.date(), to: z.date().optional() }),
-  epics: z.array(z.object({ value: z.string(), label: z.string() })).optional(),
+  sprintDuration: z.object({ from: z.date(), to: z.date().optional() }),
+  tasks: z.array(z.object({ value: z.number(), label: z.string() })).optional(),
 });
 
-const releaseDraftFormSchema = z.object({
-  id: z.string(),
-  name: z.string().optional(),
-  description: z.string().optional(),
-  duration: z.object({ from: z.date(), to: z.date().optional() }).optional(),
-  epics: z.array(z.object({ value: z.string(), label: z.string() })).optional(),
-});
+export type SprintFormValues = z.infer<typeof sprintFormSchema>;
 
-export type ReleaseFormValues = z.infer<typeof releaseFormSchema>;
-export type ReleaseDraftFormValues = z.infer<typeof releaseDraftFormSchema>;
-
-const defaultValues: ReleaseFormValues = {
+const defaultValues: SprintFormValues = {
   name: "",
+  releaseId: "",
   description: "",
-  duration: { from: new Date(), to: addDays(new Date(), 30) },
+  sprintDuration: { from: new Date(), to: addDays(new Date(), 10) },
+  tasks: undefined,
 };
 
-function ReleaseForm({
+function SprintForm({
   projectId,
-  draft,
-  release,
+  sprint,
 }: {
   projectId: string;
-  draft: ReleaseFormValues | null;
-  release: ReleaseFormValues | null;
+  sprint: SprintFormValues | null;
 }) {
-  const {
-    data: epicsData,
-    isPending: epicsIsPending,
-    isError: epicsIsError,
-    error: epicsError,
-  } = useQuery({
-    queryKey: ["epicData"],
-    queryFn: async () => {
-      return await getEpicDetails(null, null);
-    },
-    select: (data) => {
-      if (Array.isArray(data)) {
-        const formattedData = data?.map((task: any) => ({
-          value: task.id,
-          label: task.title,
-        }));
-        return formattedData;
-      }
-      return [];
-    },
-  });
-
   const form = useForm({
-    resolver: zodResolver(releaseFormSchema),
+    resolver: zodResolver(sprintFormSchema),
     defaultValues,
-    values: draft ? draft : release ? release : defaultValues,
+    values: sprint ? sprint : defaultValues,
     mode: "onChange",
   });
 
-  console.log(draft, "DDDD");
+  console.log(form.getValues(), "FORM", sprint);
+
+  const { error: releasesError, data: releasesData } = useQuery({
+    queryKey: ["releases"],
+    queryFn: () =>
+      fetch(`/api/v1/releases?projectId=${projectId}`).then((res) =>
+        res.json()
+      ),
+  });
+
+  const { error: tasksError, data: tasksData } = useQuery({
+    queryKey: ["tasks", form.getValues("releaseId"), sprint],
+    queryFn: () =>
+      fetch(
+        `/api/v1/tasks/userstories?id=${form.getValues("releaseId")}&sprintId=${form.getValues("sprintId")}`
+      ).then((res) => res.json()),
+    select: (data) => {
+      const formattedData = data.userStories.map((task: any) => ({
+        value: task.id,
+        label: task.title,
+      }));
+      return formattedData;
+    },
+  });
+
+  console.log(tasksData, "tasks");
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (newRelease: z.infer<typeof releaseFormSchema>) => {
-      console.log(newRelease, "NP");
-      return createRelease(projectId, newRelease, release?.id ? true : false);
+    mutationFn: (sprint: z.infer<typeof sprintFormSchema>) => {
+      console.log(sprint, "NP");
+      return createSprint(sprint, projectId);
     },
     onSuccess: () => {
       toast({
         title: "Your changes are saved!",
         description: "Your release created successfully.",
       });
+      //form.reset();
     },
     onError: () => {
       toast({
@@ -128,46 +129,20 @@ function ReleaseForm({
     },
   });
 
-  const { mutate: draftMutate, isPending: draftPending } = useMutation({
-    mutationFn: (newReleaseDraft: z.infer<typeof releaseFormSchema>) => {
-      console.log(newReleaseDraft, "NRD");
-      return createReleaseDraft(projectId, newReleaseDraft);
-    },
-    onSuccess: () => {
-      toast({
-        title: "Your changes are saved!",
-        description: "Your release draft is saved successfully.",
-      });
-    },
-    onError: () => {
-      toast({
-        variant: "destructive",
-        title: "Uh oh! Something went wrong.",
-        description: "There was a problem with your request.",
-        action: <ToastAction altText="Try again">Try again</ToastAction>,
-      });
-    },
-  });
-
-  function onSubmit(data: ReleaseFormValues) {
+  function onSubmit(data: SprintFormValues) {
     console.log(data, "aaa");
     mutate(data);
   }
 
   console.log(form.formState);
 
-  const handleSaveDraft = () => {
-    console.log(form.getValues(), "from values");
-    draftMutate(form.getValues());
-  };
-
   return (
     <SheetContent className="xl:w-[600px] xl:max-w-none sm:w-[400px] sm:max-w-[540px]">
       <SheetHeader>
-        <SheetTitle>{draft ? "Drafted Release" : "Create Release"}</SheetTitle>
+        <SheetTitle>Create Sprint</SheetTitle>
         <SheetDescription>
-          Give high level details for your coming release!. This will undergo
-          separate grooming once release is created :)
+          Select all tasks that will be taken up in this sprint based on scope
+          and discussions. :)
         </SheetDescription>
       </SheetHeader>
       <Form {...form}>
@@ -175,13 +150,47 @@ function ReleaseForm({
           <div className="grid gap-4 py-4">
             <FormField
               control={form.control}
+              name="releaseId"
+              render={({ field }) => (
+                <FormItem className="grid grid-cols-4 items-center gap-4">
+                  <FormLabel>Select Release</FormLabel>
+                  <div className="col-span-3">
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="w-[180px]">
+                          <SelectValue placeholder="Select relevant release" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectGroup>
+                          <SelectLabel>Releases</SelectLabel>
+                          {releasesData?.releases?.map(
+                            (release: { id: string; name: string }) => (
+                              <SelectItem key={release.id} value={release.id}>
+                                {release.name}
+                              </SelectItem>
+                            )
+                          )}
+                        </SelectGroup>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage className="mt-2" />
+                  </div>
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem className="grid grid-cols-4 items-center gap-4">
-                  <FormLabel>Release Name</FormLabel>
+                  <FormLabel>Sprint Name</FormLabel>
                   <div className="col-span-3">
                     <FormControl>
-                      <Input placeholder="Release Q1" {...field} />
+                      <Input placeholder="Sprint design system" {...field} />
                     </FormControl>
                     <FormMessage className="mt-2" />
                   </div>
@@ -198,7 +207,7 @@ function ReleaseForm({
                     <FormControl>
                       <Textarea
                         {...field}
-                        placeholder="Tell us a little bit about this release"
+                        placeholder="Tell us a little bit about this sprint"
                       />
                     </FormControl>
                     <FormMessage className="mt-2" />
@@ -208,10 +217,10 @@ function ReleaseForm({
             />
             <FormField
               control={form.control}
-              name="duration"
+              name="sprintDuration"
               render={({ field }) => (
                 <FormItem className="grid grid-cols-4 items-center gap-4">
-                  <FormLabel>Duration</FormLabel>
+                  <FormLabel>Sprint duration</FormLabel>
                   <div className="col-span-3">
                     <Popover modal={true}>
                       <PopoverTrigger asChild>
@@ -251,7 +260,7 @@ function ReleaseForm({
                       </PopoverContent>
                     </Popover>
                     <FormDescription>
-                      Select release start and end date.
+                      Select sprint start and end date.
                     </FormDescription>
                     <FormMessage />
                   </div>
@@ -260,18 +269,19 @@ function ReleaseForm({
             />
             <FormField
               control={form.control}
-              name="epics"
+              name="tasks"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Add Epics</FormLabel>
+                  <FormLabel>Add User Stories</FormLabel>
                   <FormDescription>
-                    Select tasks for this sprint. These can be edited later :)
+                    Select user stories for this sprint. These can be edited
+                    later :)
                   </FormDescription>
                   <FormControl>
                     <div className="flex items-center">
                       <MultipleSelector
-                        options={epicsData}
-                        placeholder={"Select epics for this release."}
+                        options={tasksData}
+                        placeholder={"Select task for this sprint."}
                         emptyIndicator={
                           <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
                             no results found.
@@ -288,18 +298,6 @@ function ReleaseForm({
             />
           </div>
           <SheetFooter className="mt-4">
-            {!release && (
-              <SheetClose asChild>
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={handleSaveDraft}
-                  name="draftBtn"
-                >
-                  {draft ? "Save draft" : "Save as draft"}
-                </Button>
-              </SheetClose>
-            )}
             <SheetClose asChild disabled={!form.formState.isValid}>
               <Button type="submit" name="saveBtn">
                 Submit
@@ -312,4 +310,4 @@ function ReleaseForm({
   );
 }
 
-export default ReleaseForm;
+export default SprintForm;
