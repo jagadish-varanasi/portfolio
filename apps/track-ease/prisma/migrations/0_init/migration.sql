@@ -1,9 +1,15 @@
+-- CreateEnum
+CREATE TYPE "ProjectRole" AS ENUM ('MEMBER', 'OWNER');
+
+-- CreateEnum
+CREATE TYPE "PlatformRole" AS ENUM ('USER', 'ADMIN');
+
 -- CreateTable
 CREATE TABLE "Task" (
     "id" SERIAL NOT NULL,
     "title" TEXT NOT NULL,
     "description" TEXT NOT NULL,
-    "status" TEXT NOT NULL,
+    "status" TEXT NOT NULL DEFAULT 'TODO',
     "priority" TEXT NOT NULL,
     "issueType" TEXT NOT NULL,
     "label" TEXT NOT NULL,
@@ -12,10 +18,23 @@ CREATE TABLE "Task" (
     "endDate" TEXT NOT NULL,
     "projectId" TEXT,
     "userId" TEXT NOT NULL,
+    "reporterId" TEXT,
     "parentTaskId" INTEGER,
     "epicId" TEXT,
+    "sprintId" TEXT,
 
     CONSTRAINT "Task_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Discussion" (
+    "id" TEXT NOT NULL,
+    "date" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "userId" TEXT NOT NULL,
+    "content" JSONB NOT NULL,
+    "taskId" INTEGER,
+
+    CONSTRAINT "Discussion_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -57,7 +76,7 @@ CREATE TABLE "User" (
     "emailVerified" TIMESTAMP(3),
     "image" TEXT,
     "projectId" TEXT,
-    "role" TEXT NOT NULL DEFAULT 'USER',
+    "role" "PlatformRole" NOT NULL DEFAULT 'USER',
 
     CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
@@ -133,6 +152,8 @@ CREATE TABLE "ReleaseDraft" (
     "name" TEXT,
     "description" TEXT,
     "projectId" TEXT,
+    "startDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "endDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "ReleaseDraft_pkey" PRIMARY KEY ("id")
 );
@@ -143,8 +164,27 @@ CREATE TABLE "Release" (
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "projectId" TEXT,
+    "startDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "endDate" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "Release_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Sprint" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "releaseId" TEXT NOT NULL,
+    "startDate" TIMESTAMP(3) NOT NULL,
+    "endDate" TIMESTAMP(3),
+    "isDone" BOOLEAN NOT NULL DEFAULT false,
+    "userId" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "projectId" TEXT NOT NULL,
+
+    CONSTRAINT "Sprint_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -154,6 +194,8 @@ CREATE TABLE "Epic" (
     "description" TEXT NOT NULL,
     "document" TEXT NOT NULL,
     "projectId" TEXT NOT NULL,
+    "releaseId" TEXT,
+    "releaseDraftId" TEXT,
 
     CONSTRAINT "Epic_pkey" PRIMARY KEY ("id")
 );
@@ -176,7 +218,7 @@ CREATE TABLE "ProjectOnUsers" (
     "userId" TEXT NOT NULL,
     "assignedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "assignedBy" TEXT NOT NULL,
-    "role" TEXT NOT NULL DEFAULT 'MEMBER',
+    "role" "ProjectRole" NOT NULL DEFAULT 'MEMBER',
 
     CONSTRAINT "ProjectOnUsers_pkey" PRIMARY KEY ("projectId","userId")
 );
@@ -200,10 +242,13 @@ CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token"
 CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "VerificationToken"("identifier", "token");
 
 -- AddForeignKey
-ALTER TABLE "Task" ADD CONSTRAINT "Task_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Task" ADD CONSTRAINT "Task_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Task" ADD CONSTRAINT "Task_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Task" ADD CONSTRAINT "Task_reporterId_fkey" FOREIGN KEY ("reporterId") REFERENCES "User"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Task" ADD CONSTRAINT "Task_parentTaskId_fkey" FOREIGN KEY ("parentTaskId") REFERENCES "Task"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -212,16 +257,25 @@ ALTER TABLE "Task" ADD CONSTRAINT "Task_parentTaskId_fkey" FOREIGN KEY ("parentT
 ALTER TABLE "Task" ADD CONSTRAINT "Task_epicId_fkey" FOREIGN KEY ("epicId") REFERENCES "Epic"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Task" ADD CONSTRAINT "Task_sprintId_fkey" FOREIGN KEY ("sprintId") REFERENCES "Sprint"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Discussion" ADD CONSTRAINT "Discussion_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Discussion" ADD CONSTRAINT "Discussion_taskId_fkey" FOREIGN KEY ("taskId") REFERENCES "Task"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "Account" ADD CONSTRAINT "Account_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Session" ADD CONSTRAINT "Session_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Initiation" ADD CONSTRAINT "Initiation_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Initiation" ADD CONSTRAINT "Initiation_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "InitiationDraft" ADD CONSTRAINT "InitiationDraft_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "InitiationDraft" ADD CONSTRAINT "InitiationDraft_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "HighLevelRequirement" ADD CONSTRAINT "HighLevelRequirement_initiationId_fkey" FOREIGN KEY ("initiationId") REFERENCES "Initiation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
@@ -236,22 +290,38 @@ ALTER TABLE "HighLevelRequirement" ADD CONSTRAINT "HighLevelRequirement_epicDraf
 ALTER TABLE "HighLevelRequirementDraft" ADD CONSTRAINT "HighLevelRequirementDraft_initiationDraftId_fkey" FOREIGN KEY ("initiationDraftId") REFERENCES "InitiationDraft"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ReleaseDraft" ADD CONSTRAINT "ReleaseDraft_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "ReleaseDraft" ADD CONSTRAINT "ReleaseDraft_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Release" ADD CONSTRAINT "Release_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Release" ADD CONSTRAINT "Release_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Epic" ADD CONSTRAINT "Epic_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Sprint" ADD CONSTRAINT "Sprint_releaseId_fkey" FOREIGN KEY ("releaseId") REFERENCES "Release"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "EpicDraft" ADD CONSTRAINT "EpicDraft_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+ALTER TABLE "Sprint" ADD CONSTRAINT "Sprint_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Sprint" ADD CONSTRAINT "Sprint_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Epic" ADD CONSTRAINT "Epic_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Epic" ADD CONSTRAINT "Epic_releaseId_fkey" FOREIGN KEY ("releaseId") REFERENCES "Release"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Epic" ADD CONSTRAINT "Epic_releaseDraftId_fkey" FOREIGN KEY ("releaseDraftId") REFERENCES "ReleaseDraft"("id") ON DELETE SET NULL ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "EpicDraft" ADD CONSTRAINT "EpicDraft_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "EpicDraft" ADD CONSTRAINT "EpicDraft_initiationId_fkey" FOREIGN KEY ("initiationId") REFERENCES "Initiation"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "ProjectOnUsers" ADD CONSTRAINT "ProjectOnUsers_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "ProjectOnUsers" ADD CONSTRAINT "ProjectOnUsers_projectId_fkey" FOREIGN KEY ("projectId") REFERENCES "Project"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "ProjectOnUsers" ADD CONSTRAINT "ProjectOnUsers_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
