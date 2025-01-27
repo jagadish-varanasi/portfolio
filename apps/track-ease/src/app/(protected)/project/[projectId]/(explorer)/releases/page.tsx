@@ -14,6 +14,12 @@ import ReleaseForm from "./components/release-form";
 import prisma from "@/lib/db";
 import SheetWrapper from "./components/sheet-wrapper";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Releases",
+  description: "Releases Home Page",
+};
 
 async function Page({
   params: { projectId },
@@ -119,7 +125,7 @@ async function Page({
               <div className="ml-auto">
                 <Link href={`?tab=${openedTab}&create=true`}>
                   <Button className="ml-auto h-9 mr-4" variant="outline">
-                    <PlusCircledIcon className="mr-2 h-4 w-4" />
+                    <PlusCircledIcon className="h-4 w-4" />
                     Create
                   </Button>
                 </Link>

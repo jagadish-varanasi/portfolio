@@ -7,6 +7,13 @@ import {
 import { Badge } from "@repo/ui/components/badge";
 import Link from "next/link";
 import Alert from "./alert-dialog";
+import {
+  BookCheckIcon,
+  DeleteIcon,
+  Edit2Icon,
+  FileBoxIcon,
+  Kanban,
+} from "lucide-react";
 
 export function AllSprints({ data, type, projectId, openedTab }: any) {
   console.log(data, type);
@@ -33,14 +40,15 @@ export function AllSprints({ data, type, projectId, openedTab }: any) {
                 <Link href={`?tab=${type}&sprintId=${sprint?.id}`}>
                   <Badge
                     variant="outline"
-                    className="cursor-pointer hover:font-extrabold"
+                    className="cursor-pointer hover:font-bold"
                   >
+                    <Edit2Icon className="h-4 w-5 mr-1" />
                     Edit
                   </Badge>
                 </Link>
                 <Badge
                   variant="outline"
-                  className="cursor-pointer hover:font-extrabold"
+                  className="cursor-pointer hover:font-bold"
                 >
                   {sprint.release.name}
                 </Badge>
@@ -49,6 +57,7 @@ export function AllSprints({ data, type, projectId, openedTab }: any) {
                     variant="outline"
                     className="cursor-pointer hover:font-extrabold"
                   >
+                    <DeleteIcon className="h-4 w-5 mr-1" />
                     Delete
                   </Badge>
                 </Alert>
@@ -58,32 +67,30 @@ export function AllSprints({ data, type, projectId, openedTab }: any) {
                 <Link href={`board/${sprint.id}`}>
                   <Badge
                     variant="outline"
-                    className="cursor-pointer hover:font-extrabold"
+                    className="cursor-pointer hover:font-bold"
                   >
+                    <Kanban className="h-4 w-5 mr-1" />
                     Board
                   </Badge>
                 </Link>
                 <Badge
                   variant="outline"
-                  className="cursor-pointer hover:font-extrabold"
+                  className="cursor-pointer hover:font-bold"
                 >
+                  <BookCheckIcon className="h-4 w-4 mr-1" />
                   {sprint.release.name}
-                </Badge>
-                <Badge
-                  variant="outline"
-                  className="cursor-pointer hover:font-extrabold"
-                >
-                  Team
                 </Badge>
               </div>
             )}
             <div className="grid gap-2 mt-4">
-              <div>Status</div>
-              {Object.entries(sprint?.statusCounts).map(([key, value]) => (
-                <span key={key} className="capitalize">
-                  {`${key}-${value}`?.toLocaleLowerCase()}
-                </span>
-              ))}
+              <h4 className="font-medium">Status</h4>
+              <ul className="list-disc pl-6 space-y-2">
+                {Object.entries(sprint?.statusCounts).map(([key, value]) => (
+                  <li key={key} className="capitalize">
+                    {`${key}-${value}`?.toLocaleLowerCase()}
+                  </li>
+                ))}
+              </ul>
             </div>
           </AccordionContent>
         </AccordionItem>

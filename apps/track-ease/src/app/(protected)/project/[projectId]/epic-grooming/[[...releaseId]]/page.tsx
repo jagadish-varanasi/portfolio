@@ -35,8 +35,8 @@ import Info from "./components/info";
 import { Badge } from "@repo/ui/components/badge";
 
 export const metadata: Metadata = {
-  title: "Playground",
-  description: "The OpenAI Playground built using the components.",
+  title: "Epic Grooming Page",
+  description: "Epic Grooming Page for TrackEase.",
 };
 
 export default async function ReleaseBoardPage({

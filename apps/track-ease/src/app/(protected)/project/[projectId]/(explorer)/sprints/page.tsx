@@ -14,6 +14,12 @@ import SprintForm from "./components/sprint-form";
 import prisma from "@/lib/db";
 import SheetWrapper from "./components/sheet-wrapper";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Sprints",
+  description: "Sprints Home Page",
+};
 
 async function Page({
   params: { projectId },

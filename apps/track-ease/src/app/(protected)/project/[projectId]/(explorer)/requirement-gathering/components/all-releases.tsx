@@ -7,6 +7,12 @@ import {
 import { Badge } from "@repo/ui/components/badge";
 import Link from "next/link";
 import Alert from "./alert-dialog";
+import {
+  BookCheckIcon,
+  ClipboardCheck,
+  DeleteIcon,
+  ListCheck,
+} from "lucide-react";
 
 export function AllReleases({ data, type, projectId, openedTab }: any) {
   console.log(data, type);
@@ -24,6 +30,7 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                     variant="outline"
                     className="cursor-pointer hover:font-extrabold"
                   >
+                    <ListCheck className="h-4 w-4 mr-1" />
                     Edit draft
                   </Badge>
                 </Link>
@@ -32,6 +39,7 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                     variant="outline"
                     className="cursor-pointer hover:font-extrabold"
                   >
+                    <DeleteIcon className="h-4 w-4 mr-1" />
                     Delete draft
                   </Badge>
                 </Alert>
@@ -41,8 +49,9 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                 <Link href={`epic-grooming/${release.id}?type=groom`}>
                   <Badge
                     variant="outline"
-                    className="cursor-pointer hover:font-extrabold"
+                    className="cursor-pointer hover:bold"
                   >
+                    <BookCheckIcon className="h-4 w-4 mr-1" />
                     Groom as epic
                   </Badge>
                 </Link>
@@ -51,33 +60,24 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                 >
                   <Badge
                     variant="outline"
-                    className="cursor-pointer hover:font-extrabold"
+                    className="cursor-pointer hover:font-bold"
                   >
+                    <ClipboardCheck className="h-4 w-4 mr-1" />
                     Groom as user story
                   </Badge>
                 </Link>
-                <Badge
-                  variant="outline"
-                  className="cursor-pointer hover:font-extrabold"
-                >
-                  Mark duplicate
-                </Badge>
-                <Badge
-                  variant="outline"
-                  className="cursor-pointer hover:font-extrabold"
-                >
-                  Team
-                </Badge>
               </div>
             )}
             <div className="grid gap-2 mt-4 ">
-              <div>High-level requirements</div>
-              {release?.highLevelRequirements?.map((data: any) => (
-                <div
-                  key={data?.id}
-                  className="break-all"
-                >{`#${data.priority} ${data?.requirement}`}</div>
-              ))}
+              <h4 className="font-medium">High-level requirements</h4>
+              <ul className="list-disc pl-6 space-y-2">
+                {release?.highLevelRequirements?.map((data: any) => (
+                  <li
+                    className="break-all"
+                    key={data?.id}
+                  >{`#P${data.priority} ${data?.requirement}`}</li>
+                ))}
+              </ul>
             </div>
           </AccordionContent>
         </AccordionItem>

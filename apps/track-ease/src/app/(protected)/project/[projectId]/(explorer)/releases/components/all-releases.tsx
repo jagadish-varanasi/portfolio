@@ -8,6 +8,7 @@ import { Badge } from "@repo/ui/components/badge";
 import Link from "next/link";
 import Alert from "./alert-dialog";
 import { format } from "date-fns";
+import { DeleteIcon, Edit2Icon, InboxIcon, RocketIcon } from "lucide-react";
 
 export function AllReleases({ data, type, projectId, openedTab }: any) {
   console.log(data, type);
@@ -27,8 +28,9 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                   <Link href={`release-grooming/${release.id}`}>
                     <Badge
                       variant="outline"
-                      className="cursor-pointer hover:font-extrabold"
+                      className="cursor-pointer hover:font-bold"
                     >
+                      <RocketIcon className="h-4 w-4 mr-1" />
                       Groom
                     </Badge>
                   </Link>
@@ -36,16 +38,18 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                 <Link href={`?tab=${type}&releaseId=${release?.id}`}>
                   <Badge
                     variant="outline"
-                    className="cursor-pointer hover:font-extrabold"
+                    className="cursor-pointer hover:font-bold"
                   >
+                    <Edit2Icon className="h-4 w-4 mr-1" />
                     Edit draft
                   </Badge>
                 </Link>
                 <Alert draftId={release?.id} projectId={projectId}>
                   <Badge
                     variant="outline"
-                    className="cursor-pointer hover:font-extrabold"
+                    className="cursor-pointer hover:font-bold"
                   >
+                    <DeleteIcon className="h-4 w-4 mr-1" />
                     Delete draft
                   </Badge>
                 </Alert>
@@ -55,43 +59,45 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                 <Link href={`release-grooming/${release.id}`}>
                   <Badge
                     variant="outline"
-                    className="cursor-pointer hover:font-extrabold"
+                    className="cursor-pointer hover:font-bold"
                   >
+                    <RocketIcon className="h-4 w-4 mr-1" />
                     Groom
                   </Badge>
                 </Link>
-                <Badge
-                  variant="outline"
-                  className="cursor-pointer hover:font-extrabold"
-                >
-                  Requirements
-                </Badge>
-                <Badge
-                  variant="outline"
-                  className="cursor-pointer hover:font-extrabold"
-                >
-                  Team
-                </Badge>
               </div>
             )}
             <div className="grid gap-2 mt-4">
-              <div>Epics</div>
+              <h4 className="font-medium">Epics</h4>
               {release?.epics?.length ? (
-                release?.epics?.map((data: any) => (
-                  <div key={data?.id}>{`#${data.title}`}</div>
-                ))
+                <ul className="list-disc pl-6 space-y-2">
+                  {release?.epics?.map((data: any) => (
+                    <li
+                      key={data?.id}
+                      className="break-all"
+                    >{`${data.title}`}</li>
+                  ))}
+                </ul>
               ) : (
-                <div>No epics mapped</div>
+                <div className="flex items-center">
+                  <InboxIcon className="w-4 h-4 mr-1" />
+                  No epics mapped
+                </div>
               )}
             </div>
             <div className="grid gap-2 mt-4">
-              <div>Sprints</div>
+              <h4 className="font-medium">Sprints</h4>
               {release?.sprints?.length ? (
-                release?.sprints?.map((data: any) => (
-                  <div key={data?.id}>{`#${data.name}`}</div>
-                ))
+                <ul className="list-disc pl-6 space-y-2">
+                  {release?.sprints?.map((data: any) => (
+                    <li key={data?.id}>{`${data.name}`}</li>
+                  ))}
+                </ul>
               ) : (
-                <div>No sprints created</div>
+                <div className="flex items-center">
+                  <InboxIcon className="w-4 h-4 mr-1" />
+                  No sprints created
+                </div>
               )}
             </div>
           </AccordionContent>

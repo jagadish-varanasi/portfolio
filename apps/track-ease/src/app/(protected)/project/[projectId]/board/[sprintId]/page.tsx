@@ -4,6 +4,12 @@ import prisma from "@/lib/db";
 import { Task } from "./components/TaskCard";
 import { Button } from "@repo/ui/components/button";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Board",
+  description: "Board Home Page",
+};
 
 async function page({
   params: { sprintId },
