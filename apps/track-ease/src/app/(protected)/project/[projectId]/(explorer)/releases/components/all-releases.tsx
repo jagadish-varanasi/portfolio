@@ -80,7 +80,7 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                 </ul>
               ) : (
                 <div className="flex items-center">
-                  <InboxIcon className="w-4 h-4 mr-1" />
+                  <InboxIcon className="w-5 h-5 mr-1" />
                   No epics mapped
                 </div>
               )}
@@ -95,7 +95,7 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                 </ul>
               ) : (
                 <div className="flex items-center">
-                  <InboxIcon className="w-4 h-4 mr-1" />
+                  <InboxIcon className="w-5 h-5 mr-1" />
                   No sprints created
                 </div>
               )}
