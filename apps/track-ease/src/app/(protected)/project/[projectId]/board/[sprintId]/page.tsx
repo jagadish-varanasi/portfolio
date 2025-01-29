@@ -9,10 +9,10 @@ export const metadata: Metadata = {
 };
 
 async function page({
-  params: { sprintId },
+  params: { projectId, sprintId },
   searchParams,
 }: {
-  params: { releaseId: string; sprintId: string };
+  params: { projectId: string; sprintId: string };
   searchParams?: { [key: string]: string | string[] | undefined };
 }) {
   const sprint = await prisma.sprint.findUnique({
@@ -26,7 +26,7 @@ async function page({
           title: true,
           status: true,
           issueType: true,
-          Epic: { select: { title: true } },
+          Epic: { select: { title: true, id: true } },
           childTasks: {
             include: {
               childTasks: true,
@@ -41,7 +41,7 @@ async function page({
   });
   return (
     <div>
-      <KanbanBoard sprint={sprint} />
+      <KanbanBoard sprint={sprint} sprintId={sprintId} projectId={projectId} />
     </div>
   );
 }

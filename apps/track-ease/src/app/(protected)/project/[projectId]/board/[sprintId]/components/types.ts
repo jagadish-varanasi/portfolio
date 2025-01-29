@@ -13,6 +13,7 @@ export interface ParentTask {
   content: string;
   status: TaskStatus;
   epic: string;
+  epicId: string;
   devStatus: DevStatus;
   children: ChildTask[];
 }

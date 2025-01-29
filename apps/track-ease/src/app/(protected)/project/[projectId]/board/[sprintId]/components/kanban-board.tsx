@@ -54,6 +54,10 @@ import type {
 } from "./types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { taskFormSchema } from "../../../tasks/create/[[...ids]]/page";
+import { z } from "zod";
+import BackButton from "../../../tasks/components/back-button";
 
 const initialBoard: Board = {
   parentTasks: [
@@ -63,6 +67,7 @@ const initialBoard: Board = {
       status: "INPROGRESS",
       epic: "UI Modernization",
       devStatus: "pending",
+      epicId: "epic-1",
       children: [
         {
           id: "child-1",
@@ -83,6 +88,7 @@ const initialBoard: Board = {
       content: "User Authentication",
       status: "TODO",
       epic: "Security",
+      epicId: "aaa",
       devStatus: "pending",
       children: [
         {
@@ -94,7 +100,6 @@ const initialBoard: Board = {
         {
           id: "child-4",
           content: "Sign Up Flow",
-          parentId: "task-2",
           status: "TODO",
         },
       ],
@@ -104,6 +109,7 @@ const initialBoard: Board = {
       content: "Project Setup",
       status: "DONE",
       epic: "Infrastructure",
+      epicId: "aaa",
       devStatus: "prodReady",
       children: [
         {
@@ -153,6 +159,7 @@ function getInitialData(initial: any, sprint: any) {
     content: sp.title,
     status: sp.status,
     epic: sp.Epic?.title,
+    epicId: sp.Epic?.id,
     devStatus: "pending",
     children: sp.childTasks.map((t: any) => ({
       id: t.id,
@@ -164,7 +171,7 @@ function getInitialData(initial: any, sprint: any) {
   return { ...initial, parentTasks };
 }
 
-export default function KanbanBoard({ sprint }) {
+export default function KanbanBoard({ sprint, sprintId, projectId }) {
   console.log(sprint);
   const [board, dispatch] = useReducer(
     boardReducer,
@@ -189,6 +196,42 @@ export default function KanbanBoard({ sprint }) {
   const [newColumnName, setNewColumnName] = useState("");
   const [isAddingColumn, setIsAddingColumn] = useState(false);
   const router = useRouter();
+
+  const mutation = useMutation({
+    mutationFn: (task: { id: number; status: string }) => {
+      console.log("CHANGE TASK", task);
+      return fetch("/api/v1/tasks/update-status", {
+        method: "POST",
+        body: JSON.stringify({
+          status: task.status,
+          id: task.id,
+        }),
+      });
+    },
+    onSuccess() {},
+    onError(error, variables, context) {},
+  });
+
+  const taskMutation = useMutation({
+    mutationFn: (newTask: {
+      parentTaskId: string;
+      title: string;
+      status: string;
+      projectId: string;
+      discussions: Array<{ content: string }>;
+      issueType: string;
+      sprintId: string;
+      epicId: string;
+    }) => {
+      console.log("PUT TASK", newTask);
+      return fetch("/api/v1/tasks", {
+        method: "POST",
+        body: JSON.stringify(newTask),
+      });
+    },
+    onSuccess() {},
+    onError(error, variables, context) {},
+  });
 
   const sensors = useSensors(
     useSensor(MouseSensor, {
@@ -224,7 +267,7 @@ export default function KanbanBoard({ sprint }) {
     const destinationStatus = over.id as TaskStatus;
 
     if (sourceStatus === destinationStatus) return;
-
+    mutation.mutate({ id: active.id, status: destinationStatus });
     dispatch({
       type: "MOVE_TASK",
       source: sourceStatus,
@@ -292,7 +335,7 @@ export default function KanbanBoard({ sprint }) {
     <div className="p-4 h-screen bg-muted/40">
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-2">
-          <ArrowLeft className="cursor-pointer" onClick={() => router.back()} />
+          <BackButton />
           <h1 className="text-xl font-bold">Kanban Board</h1>
         </div>
         <HoverBorderGradient
@@ -308,6 +351,9 @@ export default function KanbanBoard({ sprint }) {
             href={`/project/${sprint?.projectId}/tasks/create?sprintId=${sprint?.id}`}
           >
             <Button>Add Task</Button>
+          </Link>
+          <Link href={`/project/${sprint?.projectId}/tasks`}>
+            <Button variant="outline">All Tasks</Button>
           </Link>
           <Dialog open={isAddingColumn} onOpenChange={setIsAddingColumn}>
             <DialogTrigger asChild>
@@ -347,6 +393,16 @@ export default function KanbanBoard({ sprint }) {
                   {...getTaskProgress(task)}
                   devStatusConfig={devStatusConfig}
                   onAddChild={(content) => {
+                    taskMutation.mutate({
+                      parentTaskId: task.id,
+                      title: content,
+                      status: "TODO",
+                      projectId: projectId,
+                      discussions: [{ content: "" }],
+                      issueType: "TASK",
+                      sprintId: sprintId,
+                      epicId: task.epicId,
+                    });
                     dispatch({
                       type: "ADD_CHILD_TASK",
                       parentId: task.id,

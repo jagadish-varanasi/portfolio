@@ -43,8 +43,9 @@ import { format } from "date-fns";
 import { toast } from "@repo/ui/hooks/use-toast";
 import { ToastAction } from "@repo/ui/components/toast";
 import { Badge } from "@repo/ui/components/badge";
+import BackButton from "../../components/back-button";
 
-const taskFormSchema = z.object({
+export const taskFormSchema = z.object({
   title: z
     .string()
     .min(2, {
@@ -263,10 +264,7 @@ function CreateTask() {
         <div className="m-8 border p-8 border-1 grid md:grid-cols-[1.1fr_1fr] gap-x-8 gap-y-4 items-start rounded-md">
           <div className="col-span-2 font-bold flex justify-between items-center border-b pb-6">
             <div className="flex gap-2 items-center">
-              <ArrowLeft
-                className="cursor-pointer"
-                onClick={() => router.back()}
-              />
+              <BackButton />
               <h2 className="text-xl font-bold tracking-tight">Create Task</h2>
               {sprintType ? (
                 <Badge>{`Adding task to ${sprintData?.name}`} </Badge>
