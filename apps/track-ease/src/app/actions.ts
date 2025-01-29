@@ -419,11 +419,27 @@ export async function getEpicDetails(
         select: { id: true, title: true },
       })
     : await prisma.epic.findMany({
-        where: { releaseId: { equals: null } },
         select: { id: true, title: true },
       });
 
   return epic;
+}
+
+export async function getUserStoriesForSprint(sprintId: string | null) {
+  console.log(sprintId, "SPRINT-ID-DATA");
+  if (sprintId) {
+    const tasks = await prisma.sprint.findUnique({
+      select: { tasks: true },
+      where: { id: sprintId },
+    });
+    return tasks?.tasks
+      .filter((task) => task.issueType === "USERSTORY")
+      .map((task) => ({
+        id: task.id,
+        title: task.title,
+      }));
+  }
+  throw new Error("Something went wrong!");
 }
 
 export async function getSprintDetails(sprintId: string | null) {

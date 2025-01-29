@@ -27,11 +27,11 @@ model Task {
   userId       String
   reporter     User?        @relation("reporter", fields: [reporterId], references: [id])
   reporterId   String?
-  parentTaskId Int?         @unique
+  parentTaskId Int?
   parentTask   Task?        @relation("parentTask", fields: [parentTaskId], references: [id])
   Epic         Epic?        @relation(fields: [epicId], references: [id])
   epicId       String?
-  Task         Task[]       @relation("parentTask")
+  childTasks   Task[]       @relation("parentTask")
   discussions  Discussion[]
   Sprint       Sprint?      @relation(fields: [sprintId], references: [id])
   sprintId     String?

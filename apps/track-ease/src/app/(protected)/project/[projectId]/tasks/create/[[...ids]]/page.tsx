@@ -15,6 +15,7 @@ import {
   getEpicDetails,
   getMembers,
   getSprintDetails,
+  getUserStoriesForSprint,
   Task,
 } from "@/app/actions";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -36,7 +37,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@repo/ui/components/popover";
-import { CalendarIcon } from "lucide-react";
+import { ArrowLeft, CalendarIcon } from "lucide-react";
 import { Calendar } from "@repo/ui/components/calendar";
 import { format } from "date-fns";
 import { toast } from "@repo/ui/hooks/use-toast";
@@ -57,7 +58,7 @@ const taskFormSchema = z.object({
   issueType: z.string(),
   label: z.string(),
   priority: z.string(),
-  storyPoints: z.number().optional(),
+  storyPoints: z.string().optional(),
   sprint: z.string().optional(),
   startDate: z
     .date({ required_error: "Start/End date cannot be empty" })
@@ -124,6 +125,24 @@ function CreateTask() {
   });
 
   const {
+    data: parentUserStoriesData,
+    isPending: parentUserStoriesPending,
+    isError: parentUserStoriesIsError,
+    error: parentUserStoriesError,
+  } = useQuery({
+    queryKey: ["parentUserStoriesLink"],
+    queryFn: async () => {
+      const sprintId = searchParams.get("sprintId");
+      if (sprintId) {
+        const data = await getUserStoriesForSprint(sprintId);
+        console.log(data);
+        return data;
+      }
+      return [];
+    },
+  });
+
+  const {
     data: sprintData,
     isPending: sprintIsPending,
     isError: sprintIsError,
@@ -132,11 +151,12 @@ function CreateTask() {
     queryKey: ["sprintLink"],
     queryFn: async () => {
       const id = searchParams.get("sprintId");
-      return await getSprintDetails(id);
+      if (id) {
+        return await getSprintDetails(id);
+      }
+      return [];
     },
   });
-
-  console.log(parentData, "parent");
 
   const {
     register,
@@ -144,6 +164,8 @@ function CreateTask() {
     control,
     formState: { errors, isValid },
     reset,
+    watch,
+    getValues,
   } = useForm<TaskFormValues>({
     resolver: zodResolver(taskFormSchema),
     defaultValues: {
@@ -159,6 +181,15 @@ function CreateTask() {
       ],
     },
   });
+  console.log(errors, "ERRORS");
+  const watchIssueType = watch("issueType", "");
+
+  console.log(
+    parentData,
+    parentUserStoriesError,
+    "parent",
+    getValues("issueType")
+  );
 
   const { fields, append, remove, update } = useFieldArray({
     name: "discussions",
@@ -182,7 +213,9 @@ function CreateTask() {
         method: "POST",
         body: JSON.stringify({
           ...newTask,
-          epicId: searchParams.get("epicId"),
+          ...(searchParams.get("epicId") && {
+            epicId: searchParams.get("epicId"),
+          }),
           sprintId: searchParams.get("sprintId"),
         }),
       });
@@ -229,7 +262,11 @@ function CreateTask() {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="m-8 border p-8 border-1 grid md:grid-cols-[1.1fr_1fr] gap-x-8 gap-y-4 items-start rounded-md">
           <div className="col-span-2 font-bold flex justify-between items-center border-b pb-6">
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
+              <ArrowLeft
+                className="cursor-pointer"
+                onClick={() => router.back()}
+              />
               <h2 className="text-xl font-bold tracking-tight">Create Task</h2>
               {sprintType ? (
                 <Badge>{`Adding task to ${sprintData?.name}`} </Badge>
@@ -288,7 +325,7 @@ function CreateTask() {
                   />
                 ) : (
                   <Input
-                    value={`User Story`}
+                    value={`USERSTORY`}
                     {...register("issueType")}
                     readOnly
                   ></Input>
@@ -412,38 +449,71 @@ function CreateTask() {
                 <Label htmlFor="parentTaskId" className="text-left">
                   Parent Issue
                 </Label>
-                {Array.isArray(parentData) ? (
-                  <Controller
-                    control={control}
-                    {...register("epicId")}
-                    render={({ field }) => (
-                      <Select
-                        {...field}
-                        onValueChange={field.onChange}
-                        defaultValue={field.value}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select Parent" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {parentData?.map((item) => (
-                            <SelectItem key={item.id} value={item.id}>
-                              {`${item?.title} - #${item?.id.slice(-5)}`}
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
+                <div>
+                  {(watchIssueType === "USERSTORY" || watchIssueType === "") &&
+                    Array.isArray(parentData) && (
+                      <Controller
+                        control={control}
+                        {...register("epicId")}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select Parent" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {parentData?.map((item) => (
+                                <SelectItem key={item.id} value={item.id}>
+                                  {`${item?.title} - #${item?.id}`}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
                     )}
-                  />
-                ) : (
-                  <Input
-                    readOnly
-                    value={`${parentData?.title} - #${parentData?.id.slice(
-                      -5
-                    )}`}
-                    {...register("epicId")}
-                  ></Input>
-                )}
+                  {!Array.isArray(parentData) &&
+                    searchParams.get("epicId") !== null && (
+                      <Input
+                        readOnly
+                        value={`${parentData?.title} - #${parentData?.id.slice(
+                          -5
+                        )}`}
+                        {...register("epicId")}
+                      ></Input>
+                    )}
+                  {watchIssueType === "TASK" &&
+                    Array.isArray(parentUserStoriesData) && (
+                      <Controller
+                        control={control}
+                        {...register("parentTaskId")}
+                        render={({ field }) => (
+                          <Select
+                            {...field}
+                            onValueChange={field.onChange}
+                            defaultValue={field.value?.toString()}
+                          >
+                            <SelectTrigger>
+                              <SelectValue placeholder="Select Parent" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {parentUserStoriesData?.map((item) => (
+                                <SelectItem
+                                  key={item.id}
+                                  value={item.id.toString()}
+                                >
+                                  {`${item?.title} - #${item?.id}`}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        )}
+                      />
+                    )}
+                </div>
               </div>
               <div className="grid grid-rows-2 items-center">
                 <Label htmlFor="status" className="text-left">
@@ -480,10 +550,11 @@ function CreateTask() {
                   {...register("storyPoints")}
                   render={({ field }) => (
                     <Input
+                      {...field}
                       placeholder="Provide story point"
                       type="number"
-                      value={field.value}
-                      onChange={(e) => field.onChange(+e.target?.value)}
+                      onChange={field.onChange}
+                      defaultValue={field.value}
                     />
                   )}
                 />

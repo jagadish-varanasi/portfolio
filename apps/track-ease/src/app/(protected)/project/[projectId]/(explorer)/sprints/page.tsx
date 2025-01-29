@@ -42,7 +42,19 @@ async function Page({
     },
     include: {
       release: { select: { name: true } },
-      tasks: { select: { status: true } },
+      tasks: {
+        select: {
+          status: true,
+          title: true,
+          id: true,
+          Epic: { select: { title: true, id: true } },
+        },
+        where: {
+          epicId: {
+            not: null,
+          },
+        },
+      },
     },
   });
   const upcoming = await prisma.sprint.findMany({
