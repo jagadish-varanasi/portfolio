@@ -14,7 +14,7 @@ model Task {
   id           Int          @id @default(autoincrement())
   title        String
   description  String?
-  status       String       @default("TODO")
+  status       Status       @default(TODO)
   priority     String?
   issueType    String
   label        String?
@@ -259,4 +259,10 @@ enum ProjectRole {
 enum PlatformRole {
   USER
   ADMIN
+}
+
+enum Status {
+  TODO
+  INPROGRESS
+  DONE
 }
