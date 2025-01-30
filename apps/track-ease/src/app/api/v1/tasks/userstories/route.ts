@@ -15,9 +15,14 @@ export async function GET(req: NextRequest) {
           tasks: {
             select: { id: true, title: true },
             where: {
-              OR: [
-                { sprintId: { equals: null } },
-                { sprintId: { equals: sprintId } },
+              AND: [
+                { issueType: "USERSTORY" },
+                {
+                  OR: [
+                    { sprintId: { equals: null } },
+                    { sprintId: { equals: sprintId } },
+                  ],
+                },
               ],
             },
           },

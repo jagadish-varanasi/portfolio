@@ -216,7 +216,7 @@ async function Page({
   if (isSprintEditFlow) {
     const sprintEdit = await prisma.sprint.findUnique({
       where: { id: isSprintEditFlow },
-      include: { tasks: true },
+      include: { tasks: { where: { issueType: "USERSTORY" } } },
     });
     sprint = {
       ...sprintEdit,
