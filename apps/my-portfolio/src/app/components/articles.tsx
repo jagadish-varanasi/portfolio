@@ -11,6 +11,35 @@ import path from "path";
 import { compileMDX } from "next-mdx-remote/rsc";
 import { Article } from "./data/types";
 
+function TabTriggerModified({
+  children,
+  id,
+}: {
+  children: string;
+  id: string;
+}) {
+  return (
+    <TabsTrigger
+      value={id}
+      className="py-3 border-b-2 border-b-gray-100 data-[state=active]:border-b-gold data-[state=active]:shadow-none data-[state=active]:bg-inherit rounded-none"
+    >
+      {children}
+    </TabsTrigger>
+  );
+}
+
+const tabData = [
+  { id: "latest", label: "Latest" },
+  { id: "react", label: "React" },
+  { id: "frontend", label: "Frontend" },
+  { id: "angular", label: "Angular" },
+  { id: "javascript", label: "Javascript" },
+  { id: "system-design", label: "System Design" },
+  { id: "db", label: "Databases" },
+  { id: "cloud", label: "Cloud" },
+  { id: "dsa", label: "DSA" },
+];
+
 async function Articles() {
   const filenames = await fs.readdir(
     path.join(process.cwd(), "src/app/blog/markdown")
@@ -36,16 +65,12 @@ async function Articles() {
 
   return (
     <Tabs defaultValue="latest">
-      <TabsList className="w-full mt-2">
-        <TabsTrigger value="latest">Latest</TabsTrigger>
-        <TabsTrigger value="react">React</TabsTrigger>
-        <TabsTrigger value="frontend">Frontend</TabsTrigger>
-        <TabsTrigger value="angular">Angular</TabsTrigger>
-        <TabsTrigger value="javascript">Javascript</TabsTrigger>
-        <TabsTrigger value="system-design">System Design</TabsTrigger>
-        <TabsTrigger value="db">Databases</TabsTrigger>
-        <TabsTrigger value="cloud">Cloud</TabsTrigger>
-        <TabsTrigger value="dsa">DSA</TabsTrigger>
+      <TabsList className="flex-wrap h-auto justify-center rounded-md bg-inherit p-0 justify-none">
+        {tabData.map((tab) => (
+          <TabTriggerModified key={tab.id} id={tab.id}>
+            {tab.label}
+          </TabTriggerModified>
+        ))}
       </TabsList>
       <TabsContent value="latest">
         {articles.slice(0, 3).map((article) => (
