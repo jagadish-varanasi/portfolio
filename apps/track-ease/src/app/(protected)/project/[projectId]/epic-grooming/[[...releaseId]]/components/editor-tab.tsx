@@ -62,7 +62,7 @@ function EditorTab() {
   if (!editor) return <div>SWW</div>;
 
   return (
-    <div className="flex h-full flex-col space-y-4 w-full">
+    <div className="min-h-[400px] rounded-md border lg:min-h-[700px] py-5 pl-5">
       <EditorContent editor={editor} className="flex-1" />
       {editor && (
         <BubbleMenu editor={editor} tippyOptions={{ duration: 100 }}>

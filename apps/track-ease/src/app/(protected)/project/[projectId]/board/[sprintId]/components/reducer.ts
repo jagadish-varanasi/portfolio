@@ -77,12 +77,11 @@ export function boardReducer(state: Board, action: Action): Board {
 
       if (parentTask) {
         const newChild = {
-          id: `child-${Date.now()}`,
+          id: action.id.toString(),
           content: action.content,
           parentId: action.parentId,
-          status: "todo" as TaskStatus,
+          status: "TODO" as TaskStatus,
         };
-
         parentTask.children.push(newChild);
         updatedBoard.columns.TODO.childTasks.push(newChild);
       }

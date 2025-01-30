@@ -38,6 +38,6 @@ export type Action =
       destination: TaskStatus;
       taskId: string;
     }
-  | { type: "ADD_CHILD_TASK"; parentId: string; content: string }
+  | { type: "ADD_CHILD_TASK"; parentId: string; content: string; id: number }
   | { type: "UPDATE_DEV_STATUS"; taskId: string; status: DevStatus }
   | { type: "ADD_COLUMN"; id: string; title: string };

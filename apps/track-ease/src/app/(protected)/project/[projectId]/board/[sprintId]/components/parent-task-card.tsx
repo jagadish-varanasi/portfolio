@@ -59,6 +59,7 @@ export function ParentTaskCard({
                 >
                   {completed}/{total}
                 </Badge>
+                {task.status}
                 {task.status === "DONE" && (
                   <CheckCircle2 className="h-4 w-4 text-green-500" />
                 )}
@@ -79,9 +80,9 @@ export function ParentTaskCard({
             </Dialog>
           </div>
           <div className="flex flex-col gap-2">
-            <Badge variant="outline" className="text-xs truncate max-w-[200px]">
+            <Badge variant="outline" className="text-xs">
               <BookCheckIcon className="w-3 h-3 mr-1" />
-              {task.epic}
+              <span className="truncate max-w-[160px]">{task.epic}</span>
             </Badge>
             <TooltipProvider>
               <Tooltip>

@@ -33,6 +33,7 @@ import PreviewTab from "./components/preview-tab";
 import Link from "next/link";
 import Info from "./components/info";
 import { Badge } from "@repo/ui/components/badge";
+import BackButton from "../../tasks/components/back-button";
 
 export const metadata: Metadata = {
   title: "Epic Grooming Page",
@@ -83,6 +84,7 @@ export default async function ReleaseBoardPage({
     >
       <div className="hidden h-full flex-col md:flex">
         <div className="container flex flex-col items-start justify-between space-y-2 py-4 sm:flex-row sm:items-center sm:space-y-0 md:h-16">
+          <BackButton />
           <h2 className="text-lg font-semibold">EpicBoard</h2>
           <Badge className="ml-2 bg-orange-500 text-xs">
             {type || "create"}

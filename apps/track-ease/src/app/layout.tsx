@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "@repo/ui/globals.css";
 import { Inter as FontSans } from "next/font/google";
 import { cn } from "@repo/ui/lib/utils";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";

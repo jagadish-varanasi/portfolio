@@ -46,16 +46,15 @@ export function TaskCard({ task, parentTask }: TaskCardProps) {
         </div>
         {parentTask && (
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-xs truncate max-w-[120px]">
+            <Badge variant="outline" className="text-xs ">
               <ClipboardCheck className="w-3 h-3 mr-1" />
-              {parentTask.content}
+              <span className="truncate max-w-[120px]">
+                {parentTask.content}
+              </span>
             </Badge>
-            <Badge
-              variant="secondary"
-              className="text-xs truncate max-w-[120px]"
-            >
+            <Badge variant="secondary" className="text-xs">
               <BookCheckIcon className="w-3 h-3 mr-1" />
-              {parentTask.epic}
+              <span className="truncate max-w-[120px]">{parentTask.epic}</span>
             </Badge>
           </div>
         )}

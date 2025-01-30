@@ -17,7 +17,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
   const session = await auth();
   const task = await req.json();
   try {
-    await prisma.task.create({
+    const createdTask = await prisma.task.create({
       data: {
         ...task,
         ...(task.parentTaskId && { parentTaskId: Number(task.parentTaskId) }),
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
     if (task.sprintId) {
       revalidatePath(`/project/${task.projectId}/board/${task.sprintId}`);
     }
-    return NextResponse.json(task);
+    return NextResponse.json(createdTask);
   } catch (err) {
     return NextResponse.json(
       { error: "Something went wrong!" },

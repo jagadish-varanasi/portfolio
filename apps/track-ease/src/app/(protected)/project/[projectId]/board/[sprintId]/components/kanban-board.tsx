@@ -100,6 +100,7 @@ const initialBoard: Board = {
         {
           id: "child-4",
           content: "Sign Up Flow",
+          parentId: "task-2",
           status: "TODO",
         },
       ],
@@ -213,7 +214,7 @@ export default function KanbanBoard({ sprint, sprintId, projectId }) {
   });
 
   const taskMutation = useMutation({
-    mutationFn: (newTask: {
+    mutationFn: async (newTask: {
       parentTaskId: string;
       title: string;
       status: string;
@@ -223,13 +224,22 @@ export default function KanbanBoard({ sprint, sprintId, projectId }) {
       sprintId: string;
       epicId: string;
     }) => {
-      console.log("PUT TASK", newTask);
-      return fetch("/api/v1/tasks", {
+      const response = await fetch("/api/v1/tasks", {
         method: "POST",
         body: JSON.stringify(newTask),
       });
+      const data = await response.json();
+      return data;
     },
-    onSuccess() {},
+    onSuccess(data) {
+      console.log(data, "Hello");
+      dispatch({
+        type: "ADD_CHILD_TASK",
+        parentId: data.parentTaskId,
+        content: data.title,
+        id: data.id,
+      });
+    },
     onError(error, variables, context) {},
   });
 
@@ -267,26 +277,37 @@ export default function KanbanBoard({ sprint, sprintId, projectId }) {
     const destinationStatus = over.id as TaskStatus;
 
     if (sourceStatus === destinationStatus) return;
-    mutation.mutate({ id: active.id, status: destinationStatus });
+    mutation.mutate({ id: +active.id, status: destinationStatus });
+    const parentTask = board.parentTasks.find((p) =>
+      p.children.some((c) => c.id === active.id)
+    );
+    const initialStatus = parentTask?.status;
     dispatch({
       type: "MOVE_TASK",
       source: sourceStatus,
       destination: destinationStatus,
       taskId: active.id as string,
     });
-  };
 
-  const handleAddChildTask = () => {
-    if (!selectedTask || !newChildTask.trim()) return;
-
-    dispatch({
-      type: "ADD_CHILD_TASK",
-      parentId: selectedTask.id,
-      content: newChildTask,
-    });
-
-    setNewChildTask("");
-    setSelectedTask(null);
+    if (parentTask?.children.every((p) => p.status === "DONE")) {
+      console.log("CHANGE");
+      if (parentTask.id)
+        mutation.mutate({ id: +parentTask.id, status: destinationStatus });
+    } else if (
+      initialStatus !== "INPROGRESS" &&
+      parentTask?.children.some(
+        (p) => p.status === "DONE" || p.status === "INPROGRESS"
+      )
+    ) {
+      if (parentTask.id)
+        mutation.mutate({ id: +parentTask.id, status: "INPROGRESS" });
+    } else if (
+      initialStatus !== "TODO" &&
+      parentTask?.children.every((p) => p.status === "TODO")
+    ) {
+      if (parentTask.id)
+        mutation.mutate({ id: +parentTask.id, status: "TODO" });
+    }
   };
 
   const handleDevStatusChange = (taskId: string, status: DevStatus) => {
@@ -402,11 +423,6 @@ export default function KanbanBoard({ sprint, sprintId, projectId }) {
                       issueType: "TASK",
                       sprintId: sprintId,
                       epicId: task.epicId,
-                    });
-                    dispatch({
-                      type: "ADD_CHILD_TASK",
-                      parentId: task.id,
-                      content,
                     });
                   }}
                   onDevStatusChange={(status) =>
