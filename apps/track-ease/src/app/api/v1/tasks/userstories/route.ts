@@ -6,11 +6,11 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
-  const id = searchParams.get("id");
+  const releaseId = searchParams.get("releaseId");
   const sprintId = searchParams.get("sprintId");
-  const tasks = id
+  const tasks = releaseId
     ? await prisma.epic.findMany({
-        where: { releaseId: id },
+        where: { EpicOnReleases: { some: { releaseId } } },
         select: {
           tasks: {
             select: { id: true, title: true },
@@ -32,7 +32,7 @@ export async function GET(req: NextRequest) {
         select: {
           tasks: {
             select: { id: true, title: true },
-            where: { sprintId: { equals: null } },
+            where: { sprintId: { equals: null }, issueType: "USERSTORY" },
           },
         },
       });

@@ -121,7 +121,7 @@ function CreateTask() {
     queryFn: async () => {
       const id = searchParams.get("epicId");
       const sprintId = searchParams.get("sprintId");
-      return await getEpicDetails(id, sprintId);
+      return await getEpicDetails(params.projectId, id, sprintId);
     },
   });
 

@@ -40,21 +40,21 @@ export function TaskCard({ task, parentTask }: TaskCardProps) {
             {...listeners}
             className="touch-none cursor-grab active:cursor-grabbing hover:text-primary"
           >
-            <GripVertical className="h-5 w-5 opacity-0 group-hover:opacity-100" />
+            <GripVertical className="h-5 w-5 text-[#a9aaac]" />
           </div>
           <div className="text-sm font-medium">{task.content}</div>
         </div>
         {parentTask && (
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-xs ">
+            <Badge variant="outline" className="text-xs w-1/2">
               <ClipboardCheck className="w-3 h-3 mr-1" />
-              <span className="truncate max-w-[120px]">
+              <span className="truncate max-w-[80%]">
                 {parentTask.content}
               </span>
             </Badge>
-            <Badge variant="secondary" className="text-xs">
+            <Badge variant="secondary" className="text-xs w-1/2">
               <BookCheckIcon className="w-3 h-3 mr-1" />
-              <span className="truncate max-w-[120px]">{parentTask.epic}</span>
+              <span className="truncate max-w-[80%]">{parentTask.epic}</span>
             </Badge>
           </div>
         )}

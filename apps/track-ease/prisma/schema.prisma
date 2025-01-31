@@ -164,26 +164,26 @@ model HighLevelRequirementDraft {
 }
 
 model ReleaseDraft {
-  id          String   @id @default(cuid())
-  name        String?
-  description String?
-  Project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId   String?
-  startDate   DateTime @default(now())
-  endDate     DateTime @default(now())
-  epics       Epic[]
+  id                 String               @id @default(cuid())
+  name               String?
+  description        String?
+  Project            Project?             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId          String?
+  startDate          DateTime             @default(now())
+  endDate            DateTime             @default(now())
+  EpicOnReleaseDraft EpicOnReleaseDraft[]
 }
 
 model Release {
-  id          String   @id @default(cuid())
-  name        String
-  description String
-  Project     Project? @relation(fields: [projectId], references: [id], onDelete: Cascade)
-  projectId   String?
-  startDate   DateTime @default(now())
-  endDate     DateTime @default(now())
-  sprints     Sprint[]
-  epics       Epic[]
+  id             String           @id @default(cuid())
+  name           String
+  description    String
+  Project        Project?         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  projectId      String?
+  startDate      DateTime         @default(now())
+  endDate        DateTime         @default(now())
+  sprints        Sprint[]
+  EpicOnReleases EpicOnReleases[]
 }
 
 model Sprint {
@@ -213,10 +213,8 @@ model Epic {
   tasks                 Task[]
   project               Project                @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId             String
-  Release               Release?               @relation(fields: [releaseId], references: [id])
-  releaseId             String?
-  ReleaseDraft          ReleaseDraft?          @relation(fields: [releaseDraftId], references: [id])
-  releaseDraftId        String?
+  EpicOnReleases        EpicOnReleases[]
+  EpicOnReleaseDraft    EpicOnReleaseDraft[]
 }
 
 model EpicDraft {
@@ -229,6 +227,24 @@ model EpicDraft {
   projectId             String?
   fromInitiation        Initiation?            @relation(fields: [initiationId], references: [id])
   initiationId          String?
+}
+
+model EpicOnReleases {
+  epic      Epic    @relation(fields: [epicId], references: [id])
+  epicId    String
+  release   Release @relation(fields: [releaseId], references: [id])
+  releaseId String
+
+  @@id([epicId, releaseId])
+}
+
+model EpicOnReleaseDraft {
+  epic           Epic         @relation(fields: [epicId], references: [id])
+  epicId         String
+  releaseDraft   ReleaseDraft @relation(fields: [releaseDraftId], references: [id])
+  releaseDraftId String
+
+  @@id([epicId, releaseDraftId])
 }
 
 model ProjectOnUsers {

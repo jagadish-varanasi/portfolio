@@ -69,13 +69,13 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
             )}
             <div className="grid gap-2 mt-4">
               <h4 className="font-medium">Epics</h4>
-              {release?.epics?.length ? (
+              {release?.EpicOnReleases?.length ? (
                 <ul className="list-disc pl-6 space-y-2">
-                  {release?.epics?.map((data: any) => (
+                  {release?.EpicOnReleases?.map((data: any) => (
                     <li
-                      key={data?.id}
+                      key={data?.epic.id}
                       className="break-all"
-                    >{`${data.title}`}</li>
+                    >{`${data.epic.title}`}</li>
                   ))}
                 </ul>
               ) : (

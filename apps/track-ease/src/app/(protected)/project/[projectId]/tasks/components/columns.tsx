@@ -44,9 +44,7 @@ export const columns: ColumnDef<Task>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Task" />
     ),
-    cell: ({ row }) => (
-      <div className="w-[80px]">{`TASK-${row.getValue("id")}`}</div>
-    ),
+    cell: ({ row }) => <div className="w-[50px]">{row.getValue("id")}</div>,
     enableSorting: false,
     enableHiding: false,
   },
@@ -57,11 +55,16 @@ export const columns: ColumnDef<Task>[] = [
     ),
     cell: ({ row }) => {
       const label = labels.find((label) => label.value === row.original.label);
-
+      console.log(row, "ROW-123");
       return (
         <div className="flex space-x-2">
-          {label && <Badge variant="outline">{label.label}</Badge>}
-          <span className="max-w-[500px] truncate font-medium">
+          <div className="flex gap-1">
+            {label && <Badge variant="outline">{label.label}</Badge>}
+            <Badge variant="outline" className="capitalize">
+              {row.original.issueType?.toLocaleLowerCase()}
+            </Badge>
+          </div>
+          <span className="max-w-[530px] truncate font-medium">
             {row.getValue("title")}
           </span>
         </div>
@@ -140,6 +143,25 @@ export const columns: ColumnDef<Task>[] = [
             <priority.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
           <span>{priority.label}</span>
+        </div>
+      );
+    },
+    filterFn: (row, id, value) => {
+      return value.includes(row.getValue(id));
+    },
+  },
+  {
+    accessorKey: "Epic",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Epic" />
+    ),
+    cell: ({ row }) => {
+      console.log(row, "ROW");
+      return (
+        <div className="flex items-center">
+          <span className="max-w-[500px] truncate">
+            {row?.original.Epic?.title}
+          </span>
         </div>
       );
     },

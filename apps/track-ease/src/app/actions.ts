@@ -98,8 +98,10 @@ export async function createRelease(
       name: newRelease.name,
       startDate: newRelease.duration.from,
       endDate: newRelease.duration?.to,
-      epics: {
-        connect: newRelease.epics?.map((release) => ({ id: release.value })),
+      EpicOnReleases: {
+        create: newRelease.epics?.map((epic) => ({
+          epic: { connect: { id: epic.value } },
+        })),
       },
     },
     update: {
@@ -108,8 +110,11 @@ export async function createRelease(
       name: newRelease.name,
       startDate: newRelease.duration.from,
       endDate: newRelease.duration?.to,
-      epics: {
-        set: newRelease.epics?.map((release) => ({ id: release.value })),
+      EpicOnReleases: {
+        deleteMany: {}, // Remove all existing connections
+        create: newRelease.epics?.map((epic) => ({
+          epic: { connect: { id: epic.value } },
+        })),
       },
     },
   });
@@ -210,8 +215,11 @@ export async function createReleaseDraft(
         description: draftData.description,
         startDate: draftData.duration.from,
         endDate: draftData.duration?.to,
-        epics: {
-          connect: draftData.epics?.map((release) => ({ id: release.value })),
+        EpicOnReleaseDraft: {
+          deleteMany: {}, // Remove all existing connections
+          create: draftData.epics?.map((epic) => ({
+            epic: { connect: { id: epic.value } },
+          })),
         },
       },
       create: {
@@ -220,8 +228,10 @@ export async function createReleaseDraft(
         projectId: projectId,
         startDate: draftData.duration.from,
         endDate: draftData.duration?.to,
-        epics: {
-          connect: draftData.epics?.map((release) => ({ id: release.value })),
+        EpicOnReleaseDraft: {
+          create: draftData.epics?.map((epic) => ({
+            epic: { connect: { id: epic.value } },
+          })),
         },
       },
     });
@@ -393,32 +403,34 @@ export async function getMembers(projectId: string) {
 }
 
 export async function getEpicDetails(
+  projectId: string,
   epicId: string | null,
   sprintId: string | null
 ) {
   if (!epicId && sprintId) {
     const release = await prisma.sprint.findUnique({
       select: { releaseId: true },
-      where: { id: sprintId },
+      where: { id: sprintId, projectId },
     });
     const epics = await prisma.release.findMany({
-      select: { epics: true },
+      select: { EpicOnReleases: { include: { epic: true } } },
       where: { id: release?.releaseId },
     });
     return epics
-      .flatMap((epic) => epic.epics)
+      .flatMap((epic) => epic.EpicOnReleases)
       .map((task) => ({
-        id: task.id,
-        title: task.title,
+        id: task.epic.id,
+        title: task.epic.title,
       }));
   }
 
   const epic = epicId
     ? await prisma.epic.findUnique({
-        where: { id: epicId },
+        where: { id: epicId, projectId },
         select: { id: true, title: true },
       })
     : await prisma.epic.findMany({
+        where: { projectId },
         select: { id: true, title: true },
       });
 
@@ -456,7 +468,7 @@ export async function getSprintDetails(sprintId: string | null) {
 export interface Task {
   title: string;
   description: string;
-  status: string;
+  status: "TODO" | "INPROGRESS" | "DONE";
   priority: string;
   issueType: string;
   label: string;

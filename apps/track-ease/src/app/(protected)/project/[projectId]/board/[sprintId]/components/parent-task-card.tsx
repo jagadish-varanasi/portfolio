@@ -24,6 +24,7 @@ import {
 } from "@repo/ui/components/dropdown-menu";
 import type { ParentTask, DevStatus } from "./types";
 import { useState } from "react";
+import { taskSchema } from "../../../tasks/data/schema";
 
 interface ParentTaskCardProps {
   task: ParentTask;
@@ -46,6 +47,14 @@ export function ParentTaskCard({
 }: ParentTaskCardProps) {
   const devStatusInfo = devStatusConfig[task.devStatus];
 
+  const statusColors = {
+    TODO: "text-gray-100 text-gray-700",
+    INPROGRESS: "bg-yellow-100 text-yellow-700",
+    DONE: "bg-green-100 text-green-700",
+  };
+
+  const badgeColor = statusColors[task.status || "TODO"];
+
   return (
     <Card className="relative">
       <CardHeader className="p-4">
@@ -59,7 +68,9 @@ export function ParentTaskCard({
                 >
                   {completed}/{total}
                 </Badge>
-                {task.status}
+                <Badge className={`capitalize ${badgeColor}`} variant="secondary">
+                  {task.status?.toLocaleLowerCase()}
+                </Badge>
                 {task.status === "DONE" && (
                   <CheckCircle2 className="h-4 w-4 text-green-500" />
                 )}

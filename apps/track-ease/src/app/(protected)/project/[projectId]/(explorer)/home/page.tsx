@@ -367,7 +367,7 @@ async function Page({
         </div>
 
         <div className="grid grid-cols-1 gap-6">
-          <div className="rounded-lg border border p-6">
+          <div className="rounded-lg border p-6">
             <div className="flex justify-between items-start">
               <div>
                 <h3 className="text-lg font-medium text-neutral-800">
@@ -416,7 +416,7 @@ async function Page({
               </div>
             </div>
           </div>
-          <div className="rounded-lg border border p-6">
+          <div className="rounded-lg border  p-6">
             <div className="flex justify-between items-start">
               <div>
                 <h3 className="text-lg font-medium text-neutral-800">
@@ -465,7 +465,7 @@ async function Page({
               </div>
             </div>
           </div>
-          <div className="rounded-lg border border p-6">
+          <div className="rounded-lg border p-6">
             <div className="flex justify-between items-start">
               <div>
                 <h3 className="text-lg font-medium text-neutral-800">

@@ -78,6 +78,7 @@ export default async function TaskPage({
       projectId: params.projectId,
     },
     include: {
+      Epic: { select: { title: true } },
       assignee: { select: { email: true, id: true, name: true } },
       Sprint: { select: { name: true, release: { select: { name: true } } } },
     },

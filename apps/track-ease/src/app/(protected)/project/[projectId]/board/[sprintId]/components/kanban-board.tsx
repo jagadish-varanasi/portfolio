@@ -56,7 +56,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { taskFormSchema } from "../../../tasks/create/[[...ids]]/page";
-import { z } from "zod";
 import BackButton from "../../../tasks/components/back-button";
 
 const initialBoard: Board = {
