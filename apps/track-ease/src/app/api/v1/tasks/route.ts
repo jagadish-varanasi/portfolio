@@ -16,23 +16,31 @@ export async function GET(req: NextRequest) {
 export async function POST(req: NextRequest, res: NextResponse) {
   const session = await auth();
   const task = await req.json();
-  await prisma.task.create({
-    data: {
-      ...task,
-      userId: session?.user?.id,
-      discussions: {
-        createMany: {
-          data: task.discussions.map((d: { content: any }) => ({
-            content: d.content,
-            userId: session?.user?.id,
-          })),
+  try {
+    const createdTask = await prisma.task.create({
+      data: {
+        ...task,
+        ...(task.parentTaskId && { parentTaskId: Number(task.parentTaskId) }),
+        ...(task.storyPoints && { storyPoints: Number(task.storyPoints) }),
+        userId: session?.user?.id,
+        discussions: {
+          createMany: {
+            data: task.discussions.map((d: { content: any }) => ({
+              content: d.content,
+              userId: session?.user?.id,
+            })),
+          },
         },
       },
-    },
-  });
-  console.log(task, "TAAAAAsk");
-  if (task.sprintId) {
-    revalidatePath(`/project/${task.projectId}/board/${task.sprintId}`);
+    });
+    if (task.sprintId) {
+      revalidatePath(`/project/${task.projectId}/board/${task.sprintId}`);
+    }
+    return NextResponse.json(createdTask);
+  } catch (err) {
+    return NextResponse.json(
+      { error: "Something went wrong!" },
+      { status: 500 }
+    );
   }
-  return NextResponse.json(task);
 }

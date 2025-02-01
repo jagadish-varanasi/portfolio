@@ -3,7 +3,6 @@ import { AllSprints } from "./components/all-sprints";
 import { Separator } from "@repo/ui/components/separator";
 import { Button } from "@repo/ui/components/button";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
-import { Sheet, SheetTrigger } from "@repo/ui/components/sheet";
 import {
   Tabs,
   TabsContent,
@@ -14,6 +13,82 @@ import SprintForm from "./components/sprint-form";
 import prisma from "@/lib/db";
 import SheetWrapper from "./components/sheet-wrapper";
 import Link from "next/link";
+import { Metadata } from "next";
+import { z } from "zod";
+import { AllUpcomingSprint } from "./components/all-upcoming-sprints";
+import { AllCompletedSprint } from "./components/all-completed-sprint";
+
+type Status = "TODO" | "INPROGRESS" | "DONE";
+
+interface ChildTask {
+  title: string;
+  id: number;
+  status: Status;
+}
+
+interface Task {
+  title: string;
+  id: number;
+  status: Status;
+  childTasks: Array<ChildTask>;
+  Epic: { title: string; id: string } | null;
+}
+
+interface GroupedTask {
+  parentTask: Task;
+  childTasks: ChildTask[];
+}
+
+interface GroupedTasksByStatus {
+  TODO: ChildTask[];
+  INPROGRESS: ChildTask[];
+  DONE: ChildTask[];
+}
+
+interface GroupedTasksByParent {
+  TODO: GroupedTask[];
+  INPROGRESS: GroupedTask[];
+  DONE: GroupedTask[];
+}
+
+export interface Sprint {
+  id: string;
+  isDone: boolean;
+  name: string;
+  projectId: string;
+  description: string;
+  startDate: Date | null;
+  endDate: Date | null;
+  release: {
+    name: string;
+  };
+  tasks: Array<{
+    status: Status;
+    title: string;
+    id: number;
+    Epic: { title: string; id: string } | null;
+    childTasks: Array<{ title: string; id: number; status: Status }>;
+  }>;
+}
+
+export interface FormattedSprint {
+  id: string;
+  isDone: boolean;
+  name: string;
+  projectId: string;
+  description: string;
+  startDate: Date | null;
+  endDate: Date | null;
+  release: {
+    name: string;
+  };
+  tasks: GroupedTasksByParent;
+}
+
+export const metadata: Metadata = {
+  title: "Sprints",
+  description: "Sprints Home Page",
+};
 
 async function Page({
   params: { projectId },
@@ -36,14 +111,92 @@ async function Page({
     },
     include: {
       release: { select: { name: true } },
-      tasks: { select: { status: true } },
+      tasks: {
+        select: {
+          status: true,
+          title: true,
+          id: true,
+          Epic: { select: { title: true, id: true } },
+          childTasks: { select: { title: true, id: true, status: true } },
+        },
+        where: {
+          issueType: "USERSTORY",
+        },
+      },
     },
   });
+
+  console.log(current, "CURRENT");
+
+  function groupTasksByStatus(
+    tasks: Array<{
+      title: string;
+      id: number;
+      status: Status;
+      childTasks: Array<{
+        title: string;
+        id: number;
+        status: Status;
+      }>;
+      Epic: { title: string; id: string } | null;
+    }>
+  ) {
+    const groupedTasks: GroupedTasksByParent = {
+      TODO: [],
+      INPROGRESS: [],
+      DONE: [],
+    };
+    tasks.forEach((task) => {
+      const childTasksByStatus: GroupedTasksByStatus = {
+        TODO: [],
+        INPROGRESS: [],
+        DONE: [],
+      };
+
+      task.childTasks?.forEach((childTask) => {
+        if (childTasksByStatus[childTask.status]) {
+          childTasksByStatus[childTask.status].push(childTask);
+        }
+      });
+
+      Object.keys(childTasksByStatus).forEach((status) => {
+        if (childTasksByStatus[status as Status].length > 0) {
+          groupedTasks[status as Status].push({
+            parentTask: task,
+            childTasks: childTasksByStatus[status as Status],
+          });
+        }
+      });
+    });
+
+    return groupedTasks;
+  }
+
+  function groupBySprint(sprints: Array<Sprint>) {
+    return sprints.map((sprint) => ({
+      ...sprint,
+      tasks: groupTasksByStatus(sprint.tasks),
+    }));
+  }
+
+  const formattedSprint = groupBySprint(current);
+
+  console.log(JSON.stringify(formattedSprint), "GROUP_TASKS");
+
   const upcoming = await prisma.sprint.findMany({
     where: { projectId, startDate: { gt: new Date() } },
     include: {
       release: { select: { name: true } },
-      tasks: { select: { status: true } },
+      tasks: {
+        select: {
+          status: true,
+          title: true,
+          id: true,
+          childTasks: { select: { title: true, id: true, status: true } },
+          Epic: { select: { title: true, id: true } },
+        },
+        where: { issueType: "USERSTORY" },
+      },
     },
   });
 
@@ -63,7 +216,7 @@ async function Page({
   if (isSprintEditFlow) {
     const sprintEdit = await prisma.sprint.findUnique({
       where: { id: isSprintEditFlow },
-      include: { tasks: true },
+      include: { tasks: { where: { issueType: "USERSTORY" } } },
     });
     sprint = {
       ...sprintEdit,
@@ -105,17 +258,22 @@ async function Page({
               </div>
             </div>
             <TabsContent value="current">
-              <AllSprints data={current} type="current" projectId={projectId} />
+              <AllSprints
+                data={formattedSprint}
+                type="current"
+                projectId={projectId}
+                openedTab=""
+              />
             </TabsContent>
             <TabsContent value="upcoming">
-              <AllSprints
+              <AllUpcomingSprint
                 data={upcoming}
                 type="upcoming"
                 projectId={projectId}
               />
             </TabsContent>
             <TabsContent value="completed">
-              <AllSprints
+              <AllCompletedSprint
                 data={completed}
                 type="completed"
                 projectId={projectId}

@@ -4,8 +4,8 @@ import { SidebarNav } from "./components/sidebar-nav";
 import prisma from "@/lib/db";
 
 export const metadata: Metadata = {
-  title: "Forms",
-  description: "Advanced form example using react-hook-form and Zod.",
+  title: "Home",
+  description: "TrackEase Home Page",
 };
 
 const sidebarNavItems = (projectId: string) => [

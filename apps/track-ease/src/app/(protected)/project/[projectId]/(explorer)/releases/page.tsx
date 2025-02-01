@@ -3,7 +3,6 @@ import { AllReleases } from "./components/all-releases";
 import { Separator } from "@repo/ui/components/separator";
 import { Button } from "@repo/ui/components/button";
 import { PlusCircledIcon } from "@radix-ui/react-icons";
-import { Sheet, SheetTrigger } from "@repo/ui/components/sheet";
 import {
   Tabs,
   TabsContent,
@@ -14,6 +13,12 @@ import ReleaseForm from "./components/release-form";
 import prisma from "@/lib/db";
 import SheetWrapper from "./components/sheet-wrapper";
 import Link from "next/link";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Releases",
+  description: "Releases Home Page",
+};
 
 async function Page({
   params: { projectId },
@@ -34,7 +39,7 @@ async function Page({
         gte: new Date(),
       },
     },
-    include: { sprints: true, epics: true },
+    include: { sprints: true, EpicOnReleases: { include: { epic: true } } },
   });
   const upcoming = await prisma.release.findMany({
     where: {
@@ -43,7 +48,10 @@ async function Page({
         gt: new Date(),
       },
     },
-    include: { sprints: true, epics: true },
+    include: {
+      sprints: true,
+      EpicOnReleases: { include: { epic: true } },
+    },
   });
   const completed = await prisma.release.findMany({
     where: {
@@ -52,7 +60,7 @@ async function Page({
         lt: new Date(),
       },
     },
-    include: { sprints: true, epics: true },
+    include: { sprints: true, EpicOnReleases: { include: { epic: true } } },
   });
   const drafts = await prisma.releaseDraft.findMany({
     where: { projectId },
@@ -66,7 +74,7 @@ async function Page({
   if (isDraftFlow) {
     const draftRelease = await prisma.releaseDraft.findUnique({
       where: { id: isDraftFlow },
-      include: { epics: true },
+      include: { EpicOnReleaseDraft: { include: { epic: true } } },
     });
     draft = {
       ...draftRelease,
@@ -74,9 +82,9 @@ async function Page({
         from: draftRelease?.startDate,
         to: draftRelease?.endDate,
       },
-      epics: draftRelease?.epics?.map((d) => ({
-        value: d.id,
-        label: d.title,
+      epics: draftRelease?.EpicOnReleaseDraft.map((d) => ({
+        value: d.epic.id,
+        label: d.epic.title,
       })),
     };
   }
@@ -84,7 +92,7 @@ async function Page({
   if (isReleaseEditFlow) {
     const draftRelease = await prisma.release.findUnique({
       where: { id: isReleaseEditFlow },
-      include: { epics: true },
+      include: { EpicOnReleases: { include: { epic: true } } },
     });
     releaseEdit = {
       ...draftRelease,
@@ -92,9 +100,9 @@ async function Page({
         from: draftRelease?.startDate,
         to: draftRelease?.endDate,
       },
-      epics: draftRelease?.epics?.map((d) => ({
-        value: d.id,
-        label: d.title,
+      epics: draftRelease?.EpicOnReleases?.map((d) => ({
+        value: d.epic.id,
+        label: d.epic.title,
       })),
     };
   }
@@ -119,7 +127,7 @@ async function Page({
               <div className="ml-auto">
                 <Link href={`?tab=${openedTab}&create=true`}>
                   <Button className="ml-auto h-9 mr-4" variant="outline">
-                    <PlusCircledIcon className="mr-2 h-4 w-4" />
+                    <PlusCircledIcon className="h-4 w-4" />
                     Create
                   </Button>
                 </Link>

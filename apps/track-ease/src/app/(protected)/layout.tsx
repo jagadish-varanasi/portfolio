@@ -3,6 +3,7 @@ import { UserNav } from "./user-nav";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { Button } from "@repo/ui/components/button";
+import { FeedbackModal } from "./components/feedback-modal";
 
 async function layout({
   children,
@@ -32,7 +33,7 @@ async function layout({
             </div>
           </Link>
 
-          <div className="ml-auto flex items-center space-x-4">
+          <div className="ml-auto flex items-center gap-2 space-x-4">
             <Link className="mr-7" href="/admin/dashboard">
               {session?.user?.role === "ADMIN" && (
                 <Button variant="outline" className="h-9">
@@ -40,6 +41,7 @@ async function layout({
                 </Button>
               )}
             </Link>
+            <FeedbackModal />
             <UserNav />
           </div>
         </div>

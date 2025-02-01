@@ -76,6 +76,13 @@ function ReleaseForm({
   draft: ReleaseFormValues | null;
   release: ReleaseFormValues | null;
 }) {
+  const form = useForm({
+    resolver: zodResolver(releaseFormSchema),
+    defaultValues,
+    values: draft ? draft : release ? release : defaultValues,
+    mode: "onChange",
+  });
+
   const {
     data: epicsData,
     isPending: epicsIsPending,
@@ -84,7 +91,7 @@ function ReleaseForm({
   } = useQuery({
     queryKey: ["epicData"],
     queryFn: async () => {
-      return await getEpicDetails(null, null);
+      return await getEpicDetails(projectId, null, null);
     },
     select: (data) => {
       if (Array.isArray(data)) {
@@ -98,15 +105,6 @@ function ReleaseForm({
     },
   });
 
-  const form = useForm({
-    resolver: zodResolver(releaseFormSchema),
-    defaultValues,
-    values: draft ? draft : release ? release : defaultValues,
-    mode: "onChange",
-  });
-
-  console.log(draft, "DDDD");
-
   const { mutate, isPending } = useMutation({
     mutationFn: (newRelease: z.infer<typeof releaseFormSchema>) => {
       console.log(newRelease, "NP");
@@ -117,6 +115,7 @@ function ReleaseForm({
         title: "Your changes are saved!",
         description: "Your release created successfully.",
       });
+      form.reset();
     },
     onError: () => {
       toast({
@@ -138,6 +137,7 @@ function ReleaseForm({
         title: "Your changes are saved!",
         description: "Your release draft is saved successfully.",
       });
+      form.reset();
     },
     onError: () => {
       toast({

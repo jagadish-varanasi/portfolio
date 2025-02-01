@@ -17,6 +17,12 @@ import Link from "next/link";
 import InitiationForm from "./components/initiation-form";
 import Details from "./components/details";
 import SidePanel from "./components/initiation-form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Epics",
+  description: "TrackEase epics Page",
+};
 
 async function Page({
   params: { projectId },
@@ -71,7 +77,7 @@ async function Page({
               <div className="ml-auto">
                 <Link href={`./epic-grooming`}>
                   <Button className="ml-auto h-9 mr-4" variant="outline">
-                    <PlusCircledIcon className="mr-2 h-4 w-4" />
+                    <PlusCircledIcon className="h-4 w-4" />
                     Create
                   </Button>
                 </Link>

@@ -37,6 +37,7 @@ import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { toast } from "@repo/ui/hooks/use-toast";
 import { ToastAction } from "@repo/ui/components/toast";
+import BackButton from "./components/back-button";
 
 export const metadata: Metadata = {
   title: "Tasks",
@@ -77,6 +78,7 @@ export default async function TaskPage({
       projectId: params.projectId,
     },
     include: {
+      Epic: { select: { title: true } },
       assignee: { select: { email: true, id: true, name: true } },
       Sprint: { select: { name: true, release: { select: { name: true } } } },
     },
@@ -155,14 +157,7 @@ export default async function TaskPage({
           <div className="flex items-center justify-between space-y-2">
             <div>
               <div className="flex items-center">
-                <Link
-                  href={`/project/${params?.projectId}/home`}
-                  className="block"
-                >
-                  <Button variant="link" className="pl-0">
-                    <ArrowLeft className="h-4 w-4" />
-                  </Button>
-                </Link>
+                <BackButton />
                 <h2 className="text-2xl font-bold tracking-tight">
                   Welcome back!
                 </h2>

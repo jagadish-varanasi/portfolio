@@ -13,6 +13,12 @@ import prisma from "@/lib/db";
 import SheetWrapper from "./components/sheet-wrapper";
 import Link from "next/link";
 import InitiationForm from "./components/initiation-form";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Requirements Gathering",
+  description: "Requirements Gathering Home Page",
+};
 
 async function Page({
   params: { projectId },

@@ -94,7 +94,7 @@ function SprintForm({
     queryKey: ["tasks", form.getValues("releaseId"), sprint],
     queryFn: () =>
       fetch(
-        `/api/v1/tasks/userstories?id=${form.getValues("releaseId")}&sprintId=${form.getValues("sprintId")}`
+        `/api/v1/tasks/userstories?releaseId=${form.getValues("releaseId")}&sprintId=${form.getValues("sprintId")}`
       ).then((res) => res.json()),
     select: (data) => {
       const formattedData = data.userStories.map((task: any) => ({
@@ -117,7 +117,7 @@ function SprintForm({
         title: "Your changes are saved!",
         description: "Your release created successfully.",
       });
-      //form.reset();
+      form.reset();
     },
     onError: () => {
       toast({

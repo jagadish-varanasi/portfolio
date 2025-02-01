@@ -2,6 +2,11 @@ import { cookies } from "next/headers";
 import Image from "next/image";
 import { Mail } from "./components/mail";
 import { accounts, mails } from "./data";
+import { Metadata } from "next";
+export const metadata: Metadata = {
+  title: "Release Grooming",
+  description: "Release Grooming Page",
+};
 
 export default function MailPage() {
   const layout = cookies().get("react-resizable-panels:layout");

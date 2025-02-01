@@ -2,6 +2,12 @@ import { Button } from "@repo/ui/components/button";
 import prisma from "@/lib/db";
 import Link from "next/link";
 import React from "react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Admin Page",
+  description: "Admin Dashboard Page for TrackEase.",
+};
 
 async function AdminDashboard() {
   const projects = await prisma.project.findMany({});
