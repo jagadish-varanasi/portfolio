@@ -62,7 +62,7 @@ const formSchema = z.object({
   }),
   description: z.string().min(1, { message: "Description of task" }),
   priority: z.string().min(1, { message: "Priority is required" }),
-  status: z.string().min(1, { message: "Status of task" }),
+  status: z.enum(["TODO", "INPROGRESS", "DONE"], { message: "Status of task" }),
 });
 
 export default async function TaskPage({
@@ -97,7 +97,7 @@ export default async function TaskPage({
     const title = formData.get("title") as string;
     const description = formData.get("description") as string;
     const priority = formData.get("priority") as string;
-    const status = formData.get("status") as string;
+    const status = formData.get("status") as "TODO" | "INPROGRESS" | "DONE";
     const label = formData.get("issueType") as string;
     const assignee = formData.get("assignee") as string;
     console.log(session, "session");

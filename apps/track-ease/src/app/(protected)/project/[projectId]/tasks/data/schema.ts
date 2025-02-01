@@ -9,7 +9,7 @@ export const taskSchema = z.object({
   label: z.string().nullable(),
   issueType: z.string().nullable(),
   priority: z.string().nullable(),
-  Epic: z.object({ title: z.string() }),
+  Epic: z.object({ title: z.string() }).nullable(),
   Sprint: z
     .object({
       name: z.string(),

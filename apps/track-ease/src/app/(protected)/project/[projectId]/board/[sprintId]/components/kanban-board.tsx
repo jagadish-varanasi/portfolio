@@ -55,7 +55,7 @@ import type {
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { taskFormSchema } from "../../../tasks/create/[[...ids]]/page";
+
 import BackButton from "../../../tasks/components/back-button";
 import { parentPort } from "worker_threads";
 
@@ -194,7 +194,7 @@ function getInitialData(initial: any, sprint: any) {
   return { ...initial, parentTasks };
 }
 
-export default function KanbanBoard({ sprint, sprintId, projectId }) {
+export default function KanbanBoard({ sprint, sprintId, projectId }: any) {
   console.log(sprint);
   const [board, dispatch] = useReducer(
     boardReducer,
