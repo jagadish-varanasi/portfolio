@@ -7,14 +7,14 @@ import { buttonVariants } from "@repo/ui/components/button";
 import { UserAuthForm } from "./components/user-auth-form";
 
 export const metadata: Metadata = {
-  title: "Authentication",
-  description: "Authentication forms built using the components.",
+  title: "Register TrackEase",
+  description: "Register to use TrackEase.",
 };
 
 export default function AuthenticationPage() {
   return (
     <>
-      <div className="container relative h-[800px] flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="container relative h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
         <Link
           href="/login"
           className={cn(

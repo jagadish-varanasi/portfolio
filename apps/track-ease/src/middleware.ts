@@ -4,7 +4,7 @@ import authConfig from "@/auth.config";
 import NextAuth from "next-auth";
 const { auth } = NextAuth(authConfig);
 
-const protectedRoutes = ["/dashboard", "project", "/tasks"];
+const protectedRoutes = ["/dashboard", "/project", "/tasks"];
 const adminRoutes = ["/admin"];
 
 export default auth((request) => {
