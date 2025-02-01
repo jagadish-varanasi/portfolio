@@ -26,6 +26,8 @@ async function page({
           title: true,
           status: true,
           issueType: true,
+          storyPoints: true,
+          assignee: { select: { name: true } },
           Epic: { select: { title: true, id: true } },
           childTasks: {
             include: {

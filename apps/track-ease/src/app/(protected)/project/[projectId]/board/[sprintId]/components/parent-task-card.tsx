@@ -25,6 +25,7 @@ import {
 import type { ParentTask, DevStatus } from "./types";
 import { useState } from "react";
 import { taskSchema } from "../../../tasks/data/schema";
+import ColorHash from "color-hash";
 
 interface ParentTaskCardProps {
   task: ParentTask;
@@ -54,21 +55,26 @@ export function ParentTaskCard({
   };
 
   const badgeColor = statusColors[task.status || "TODO"];
-
+  const colorHash = new ColorHash({ lightness: 0.75 });
   return (
     <Card className="relative">
       <CardHeader className="p-4">
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
             <div className="space-y-2">
-              <h3 className="text-base font-semibold">{task.content}</h3>
+              <h3 className="text-base font-semibold truncate">
+                {task.content}
+              </h3>
               <div className="flex items-center gap-2">
                 <Badge
                   variant={task.status === "DONE" ? "default" : "secondary"}
                 >
                   {completed}/{total}
                 </Badge>
-                <Badge className={`capitalize ${badgeColor}`} variant="secondary">
+                <Badge
+                  className={`capitalize ${badgeColor}`}
+                  variant="secondary"
+                >
                   {task.status?.toLocaleLowerCase()}
                 </Badge>
                 {task.status === "DONE" && (
@@ -90,11 +96,23 @@ export function ParentTaskCard({
               </DialogContent>
             </Dialog>
           </div>
+          <div className="flex gap-2">
+            <Badge variant="secondary">{task.storyPoints}</Badge>
+            <h4 className="text-sm bg-secondary px-1 capitalize rounded-md">
+              {task.assignee || "Unassigned"}
+            </h4>
+          </div>
           <div className="flex flex-col gap-2">
-            <Badge variant="outline" className="text-xs">
-              <BookCheckIcon className="w-3 h-3 mr-1" />
-              <span className="truncate max-w-[160px]">{task.epic}</span>
-            </Badge>
+            <div>
+              <Badge
+                variant="secondary"
+                className="text-xs"
+                style={{ backgroundColor: colorHash.hex(task.epicId) }}
+              >
+                <BookCheckIcon className="w-3 h-3 mr-1" />
+                <span className="truncate max-w-[160px]">{task.epic}</span>
+              </Badge>
+            </div>
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>

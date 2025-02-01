@@ -5,6 +5,8 @@ export interface ChildTask {
   id: string;
   content: string;
   parentId: string;
+  assignee: string;
+  storyPoints: number;
   status: TaskStatus;
 }
 
@@ -14,6 +16,8 @@ export interface ParentTask {
   status: TaskStatus;
   epic: string;
   epicId: string;
+  assignee: string;
+  storyPoints: number;
   devStatus: DevStatus;
   children: ChildTask[];
 }

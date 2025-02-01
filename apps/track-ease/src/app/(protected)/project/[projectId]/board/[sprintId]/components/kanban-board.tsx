@@ -57,6 +57,7 @@ import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import { taskFormSchema } from "../../../tasks/create/[[...ids]]/page";
 import BackButton from "../../../tasks/components/back-button";
+import { parentPort } from "worker_threads";
 
 const initialBoard: Board = {
   parentTasks: [
@@ -67,18 +68,24 @@ const initialBoard: Board = {
       epic: "UI Modernization",
       devStatus: "pending",
       epicId: "epic-1",
+      assignee: "John Doe", // New property
+      storyPoints: 8, // New property
       children: [
         {
           id: "child-1",
           content: "Color Palette",
           parentId: "task-1",
           status: "DONE",
+          assignee: "Jane Smith", // New property
+          storyPoints: 3, // New property
         },
         {
           id: "child-2",
           content: "Typography",
           parentId: "task-1",
           status: "INPROGRESS",
+          assignee: "Emily Johnson", // New property
+          storyPoints: 5, // New property
         },
       ],
     },
@@ -89,18 +96,24 @@ const initialBoard: Board = {
       epic: "Security",
       epicId: "aaa",
       devStatus: "pending",
+      assignee: "Michael Brown", // New property
+      storyPoints: 13, // New property
       children: [
         {
           id: "child-3",
           content: "Login Page",
           parentId: "task-2",
           status: "TODO",
+          assignee: "Chris Green", // New property
+          storyPoints: 5, // New property
         },
         {
           id: "child-4",
           content: "Sign Up Flow",
           parentId: "task-2",
           status: "TODO",
+          assignee: "Alex White", // New property
+          storyPoints: 8, // New property
         },
       ],
     },
@@ -111,18 +124,24 @@ const initialBoard: Board = {
       epic: "Infrastructure",
       epicId: "aaa",
       devStatus: "prodReady",
+      assignee: "Sarah Black", // New property
+      storyPoints: 5, // New property
       children: [
         {
           id: "child-5",
           content: "Repository Creation",
           parentId: "task-3",
           status: "DONE",
+          assignee: "David Blue", // New property
+          storyPoints: 2, // New property
         },
         {
           id: "child-6",
           content: "Dependencies Installation",
           parentId: "task-3",
           status: "DONE",
+          assignee: "Laura Red", // New property
+          storyPoints: 3, // New property
         },
       ],
     },
@@ -161,11 +180,15 @@ function getInitialData(initial: any, sprint: any) {
     epic: sp.Epic?.title,
     epicId: sp.Epic?.id,
     devStatus: "pending",
+    assignee: sp.assignee?.name,
+    storyPoints: sp.storyPoints,
     children: sp.childTasks.map((t: any) => ({
       id: t.id,
       content: t.title,
       parentId: sp.id,
       status: t.status,
+      assignee: sp.assignee?.name,
+      storyPoints: sp.storyPoints,
     })),
   }));
   return { ...initial, parentTasks };
@@ -198,17 +221,63 @@ export default function KanbanBoard({ sprint, sprintId, projectId }) {
   const router = useRouter();
 
   const mutation = useMutation({
-    mutationFn: (task: { id: number; status: string }) => {
+    mutationFn: async (task: {
+      id: number;
+      status: string;
+      parentId?: string | null;
+      parentStatus?: string | null;
+    }) => {
       console.log("CHANGE TASK", task);
-      return fetch("/api/v1/tasks/update-status", {
+      await fetch("/api/v1/tasks/update-status", {
         method: "POST",
         body: JSON.stringify({
           status: task.status,
           id: task.id,
         }),
       });
+      return { parentStatus: task.parentStatus, parentId: task.parentId };
     },
-    onSuccess() {},
+    onSuccess(data) {
+      if (!data.parentId || !data.parentStatus) return;
+
+      const pTask = board.parentTasks.find(
+        (task) => task.id === data?.parentId
+      );
+
+      if (pTask?.children.every((p) => p.status === "DONE")) {
+        if (data?.parentId && data?.parentStatus)
+          mutation.mutate({
+            id: +data?.parentId,
+            status: "DONE",
+            parentId: null,
+            parentStatus: null,
+          });
+      } else if (
+        data?.parentStatus !== "INPROGRESS" &&
+        pTask?.children.some(
+          (p) => p.status === "DONE" || p.status === "INPROGRESS"
+        )
+      ) {
+        if (pTask.id)
+          mutation.mutate({
+            id: +data?.parentId,
+            status: "INPROGRESS",
+            parentId: null,
+            parentStatus: null,
+          });
+      } else if (
+        data?.parentStatus !== "TODO" &&
+        pTask?.children.every((p) => p.status === "TODO")
+      ) {
+        if (pTask.id)
+          mutation.mutate({
+            id: +data?.parentId,
+            status: "DONE",
+            parentId: null,
+            parentStatus: null,
+          });
+      }
+    },
     onError(error, variables, context) {},
   });
 
@@ -275,11 +344,19 @@ export default function KanbanBoard({ sprint, sprintId, projectId }) {
     const sourceStatus = activeData.status;
     const destinationStatus = over.id as TaskStatus;
 
-    if (sourceStatus === destinationStatus) return;
-    mutation.mutate({ id: +active.id, status: destinationStatus });
     const parentTask = board.parentTasks.find((p) =>
       p.children.some((c) => c.id === active.id)
     );
+
+    if (sourceStatus === destinationStatus) return;
+
+    mutation.mutate({
+      id: +active.id,
+      status: destinationStatus,
+      parentId: parentTask?.id,
+      parentStatus: parentTask?.status,
+    });
+
     const initialStatus = parentTask?.status;
     dispatch({
       type: "MOVE_TASK",
@@ -287,26 +364,6 @@ export default function KanbanBoard({ sprint, sprintId, projectId }) {
       destination: destinationStatus,
       taskId: active.id as string,
     });
-
-    if (parentTask?.children.every((p) => p.status === "DONE")) {
-      console.log("CHANGE");
-      if (parentTask.id)
-        mutation.mutate({ id: +parentTask.id, status: destinationStatus });
-    } else if (
-      initialStatus !== "INPROGRESS" &&
-      parentTask?.children.some(
-        (p) => p.status === "DONE" || p.status === "INPROGRESS"
-      )
-    ) {
-      if (parentTask.id)
-        mutation.mutate({ id: +parentTask.id, status: "INPROGRESS" });
-    } else if (
-      initialStatus !== "TODO" &&
-      parentTask?.children.every((p) => p.status === "TODO")
-    ) {
-      if (parentTask.id)
-        mutation.mutate({ id: +parentTask.id, status: "TODO" });
-    }
   };
 
   const handleDevStatusChange = (taskId: string, status: DevStatus) => {
@@ -356,26 +413,28 @@ export default function KanbanBoard({ sprint, sprintId, projectId }) {
       <div className="flex items-center justify-between mb-8">
         <div className="flex items-center gap-2">
           <BackButton />
-          <h1 className="text-xl font-bold">Kanban Board</h1>
+          <h1 className="text-xl font-bold">Board</h1>
+          <HoverBorderGradient
+            containerClassName="rounded-full"
+            as="button"
+            className="dark:bg-black bg-white text-black text-xs dark:text-white flex items-center space-x-1 py-1 px-2"
+          >
+            <ZapIcon size="14" />
+            <span className="font-semibold">{sprint?.name}</span>
+          </HoverBorderGradient>
         </div>
-        <HoverBorderGradient
-          containerClassName="rounded-full"
-          as="button"
-          className="dark:bg-black bg-white text-black dark:text-white flex items-center space-x-2 p-1 px-2"
-        >
-          <ZapIcon size="16" />
-          <span>{sprint?.name}</span>
-        </HoverBorderGradient>
         <div className="flex gap-2 items-center">
           <Link
             href={`/project/${sprint?.projectId}/tasks/create?sprintId=${sprint?.id}`}
           >
-            <Button>Add Task</Button>
+            <Button className="h-8">Add task</Button>
           </Link>
           <Link href={`/project/${sprint?.projectId}/tasks`}>
-            <Button variant="outline">All Tasks</Button>
+            <Button variant="outline" className="h-8">
+              All tasks
+            </Button>
           </Link>
-          <Dialog open={isAddingColumn} onOpenChange={setIsAddingColumn}>
+          {/* <Dialog open={isAddingColumn} onOpenChange={setIsAddingColumn}>
             <DialogTrigger asChild>
               <Button>
                 <Plus className="h-4 w-4 mr-2" />
@@ -395,7 +454,7 @@ export default function KanbanBoard({ sprint, sprintId, projectId }) {
                 <Button onClick={handleAddColumn}>Add Column</Button>
               </div>
             </DialogContent>
-          </Dialog>
+          </Dialog> */}
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-4">
@@ -403,7 +462,7 @@ export default function KanbanBoard({ sprint, sprintId, projectId }) {
         <div className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle>Parent Tasks</CardTitle>
+              <CardTitle>User Stories</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-4">
               {board.parentTasks.map((task) => (
@@ -422,6 +481,12 @@ export default function KanbanBoard({ sprint, sprintId, projectId }) {
                       issueType: "TASK",
                       sprintId: sprintId,
                       epicId: task.epicId,
+                    });
+                    mutation.mutate({
+                      id: +task.id,
+                      status: "TODO",
+                      parentId: null,
+                      parentStatus: null,
                     });
                   }}
                   onDevStatusChange={(status) =>

@@ -3,6 +3,7 @@ import { CSS } from "@dnd-kit/utilities";
 import { Badge } from "@repo/ui/components/badge";
 import { BookCheckIcon, ClipboardCheck, GripVertical } from "lucide-react";
 import type { ChildTask, ParentTask } from "./types";
+import ColorHash from "color-hash";
 
 interface TaskCardProps {
   task: ChildTask;
@@ -25,6 +26,8 @@ export function TaskCard({ task, parentTask }: TaskCardProps) {
       }
     : undefined;
 
+  const colorHash = new ColorHash({ lightness: 0.75 });
+
   return (
     <div
       ref={setNodeRef}
@@ -44,15 +47,23 @@ export function TaskCard({ task, parentTask }: TaskCardProps) {
           </div>
           <div className="text-sm font-medium">{task.content}</div>
         </div>
+        <div className="flex gap-2">
+          <Badge variant="secondary">{task.storyPoints}</Badge>
+          <h4 className="text-sm bg-secondary px-1 capitalize rounded-md">
+            {task.assignee || "Unassigned"}
+          </h4>
+        </div>
         {parentTask && (
           <div className="flex items-center gap-2">
-            <Badge variant="outline" className="text-xs w-1/2">
+            <Badge variant="outline" className="text-xs max-w-[50%]">
               <ClipboardCheck className="w-3 h-3 mr-1" />
-              <span className="truncate max-w-[80%]">
-                {parentTask.content}
-              </span>
+              <span className="truncate max-w-[80%]">{parentTask.content}</span>
             </Badge>
-            <Badge variant="secondary" className="text-xs w-1/2">
+            <Badge
+              variant="secondary"
+              className={`text-xs max-w-[50%]`}
+              style={{ backgroundColor: colorHash.hex(parentTask.epicId) }}
+            >
               <BookCheckIcon className="w-3 h-3 mr-1" />
               <span className="truncate max-w-[80%]">{parentTask.epic}</span>
             </Badge>

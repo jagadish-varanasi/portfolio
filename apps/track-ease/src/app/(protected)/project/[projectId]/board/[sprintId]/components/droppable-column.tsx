@@ -34,7 +34,7 @@ export function DroppableColumn({ column, parentTasks }: DroppableColumnProps) {
         >
           <div
             ref={setNodeRef}
-            className="flex flex-col gap-2 min-h-[200px] p-1"
+            className="flex flex-col gap-2 min-h-[70vh] p-1"
           >
             {column.childTasks.map((child) => (
               <TaskCard

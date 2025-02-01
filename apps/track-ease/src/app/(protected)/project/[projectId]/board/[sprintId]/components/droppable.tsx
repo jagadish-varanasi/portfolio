@@ -21,7 +21,7 @@ export function Droppable({ column, parentTasks }: DroppableProps) {
       <CardContent>
         <div
           ref={setNodeRef}
-          className="flex flex-col gap-2 min-h-[200px] p-1 transition-colors"
+          className="flex flex-col gap-2 min-h-[70vh] p-1 transition-colors"
         >
           {column.childTasks.map((task) => (
             <TaskCard
