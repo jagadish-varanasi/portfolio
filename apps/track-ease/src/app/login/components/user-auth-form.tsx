@@ -39,11 +39,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    mutation.mutate(values, {
-      onError: () => {
-        router.push("/login");
-      },
-    });
+    mutation.mutate(values);
   }
 
   return (
