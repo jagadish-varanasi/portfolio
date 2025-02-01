@@ -7,7 +7,7 @@ import ColorHash from "color-hash";
 
 interface TaskCardProps {
   task: ChildTask;
-  parentTask?: ParentTask;
+  parentTask?: ParentTask | null;
 }
 
 export function TaskCard({ task, parentTask }: TaskCardProps) {

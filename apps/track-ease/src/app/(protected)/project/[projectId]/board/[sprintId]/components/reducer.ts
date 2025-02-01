@@ -81,6 +81,8 @@ export function boardReducer(state: Board, action: Action): Board {
           content: action.content,
           parentId: action.parentId,
           status: "TODO" as TaskStatus,
+          assignee: "",
+          storyPoints: 0,
         };
         parentTask.children.push(newChild);
         updatedBoard.columns.TODO.childTasks.push(newChild);

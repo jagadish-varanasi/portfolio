@@ -122,7 +122,7 @@ function CreateTask() {
       if (id) {
         return await getSprintDetails(id);
       }
-      return [];
+      return { name: "" };
     },
   });
 

@@ -194,7 +194,7 @@ function getInitialData(initial: any, sprint: any) {
   return { ...initial, parentTasks };
 }
 
-export default function KanbanBoard({ sprint, sprintId, projectId }) {
+export default function KanbanBoard({ sprint, sprintId, projectId }: any) {
   console.log(sprint);
   const [board, dispatch] = useReducer(
     boardReducer,
