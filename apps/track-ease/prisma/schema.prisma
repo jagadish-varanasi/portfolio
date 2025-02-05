@@ -94,6 +94,7 @@ model User {
   Discussion     Discussion[]
   Sprint         Sprint[]
   feedbacks      Feedback[]
+  Chats          Chat[]
 }
 
 model VerificationToken {
@@ -265,6 +266,30 @@ model Feedback {
   suggestion String
   User       User?   @relation(fields: [userId], references: [id])
   userId     String?
+}
+
+model Chat {
+  title     String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  userId    String
+  chatId    Int       @id @default(autoincrement())
+  messages  Message[]
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  chat      Chat     @relation(fields: [chatId], references: [chatId], onDelete: Cascade)
+  content   String
+  role      ChatRole
+  createdAt DateTime @default(now())
+  chatId    Int
+}
+
+enum ChatRole {
+  USER
+  ASSISTANT
 }
 
 enum ProjectRole {
