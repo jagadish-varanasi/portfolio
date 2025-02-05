@@ -46,7 +46,6 @@ export default function ChatInterface({
       return AddMessage(newMessage);
     },
     onSuccess: () => {
-      alert("ADDED");
     },
     onError: () => {},
   });
