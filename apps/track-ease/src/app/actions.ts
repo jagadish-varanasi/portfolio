@@ -552,3 +552,45 @@ export async function createSprint(sprint: Sprint, projectId: string) {
     throw Error("Something went wrong!");
   }
 }
+
+export async function createChat({ title }: { title: string }) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    throw Error("Unauthorized");
+  }
+
+  const { chatId } = await prisma.chat.create({
+    data: { title, userId: session.user.id },
+  });
+
+  return { id: chatId };
+}
+
+export async function deleteChat({ id }: { id: number }) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    throw Error("Unauthorized");
+  }
+  const { chatId } = await prisma.chat.delete({ where: { chatId: id } });
+
+  return { id: chatId };
+}
+
+export async function AddMessage({
+  chatId,
+  content,
+}: {
+  chatId: number;
+  content: string;
+}) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    throw Error("Unauthorized");
+  }
+  console.log(content, "CONTENT");
+  const message = await prisma.message.create({
+    data: { chatId, content, role: "ASSISTANT" },
+  });
+
+  return { id: message };
+}

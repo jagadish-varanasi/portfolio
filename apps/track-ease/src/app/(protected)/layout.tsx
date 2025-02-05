@@ -36,10 +36,15 @@ async function layout({
           <div className="ml-auto flex items-center gap-2 space-x-4">
             <Link className="mr-7" href="/admin/dashboard">
               {session?.user?.role === "ADMIN" && (
-                <Button variant="outline" className="h-9">
+                <Button variant="outline" className="h-7">
                   Admin
                 </Button>
               )}
+            </Link>
+            <Link className="mr-7" href="/ai">
+              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-purple-100 text-purple-600 cursor-pointer">
+                <span className="font-semibold">AI</span>
+              </span>
             </Link>
             <FeedbackModal />
             <UserNav />
