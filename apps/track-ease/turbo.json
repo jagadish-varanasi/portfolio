@@ -2,7 +2,16 @@
   "extends": ["//"],
   "tasks": {
     "build": {
-      "passThroughEnv": ["DATABASE_URL", "DIRECT_URL", "AUTH_SECRET"]
+      "passThroughEnv": [
+        "DATABASE_URL",
+        "DIRECT_URL",
+        "AUTH_SECRET",
+        "TAVILY_API_KEY",
+        "OPENAI_API_KEY",
+        "DEEPSEEK_API_KEY",
+        "GOOGLE_API_KEY",
+        "CURRENT_LLM"
+      ]
     }
   }
 }
