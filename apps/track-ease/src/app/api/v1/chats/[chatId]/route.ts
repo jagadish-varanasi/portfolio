@@ -1,14 +1,16 @@
 import { auth } from "@/auth";
 import prisma from "@/lib/db";
-import { NextApiRequest, NextApiResponse } from "next";
-import { NextResponse } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
 
-export async function GET(request: NextApiRequest) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { chatId: string } }
+) {
   const session = await auth();
   if (!session?.user.id) {
     return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
   }
-  const chatId = request.query["chatId"];
+  const chatId = params.chatId;
 
   if (!chatId) {
     return NextResponse.json({ message: "ChatId missing" }, { status: 401 });
