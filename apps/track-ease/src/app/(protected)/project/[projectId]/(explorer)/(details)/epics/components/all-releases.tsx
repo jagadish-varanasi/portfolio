@@ -73,13 +73,6 @@ export function AllReleases({
                     Acceptance Criteria Document
                   </Badge>
                 </Link>
-                <Badge
-                  variant="outline"
-                  className="cursor-pointer hover:font-bold"
-                >
-                  <UsersRound className="h-4 w-4  mr-1" />
-                  Team
-                </Badge>
                 <ViewDetails type={ADD_EPIC} id={release?.id} />
               </div>
             )}
