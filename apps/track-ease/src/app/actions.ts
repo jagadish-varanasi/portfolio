@@ -648,3 +648,45 @@ export async function getHighLevelRequirements(
     throw Error("Something went wrong!");
   }
 }
+
+export async function releaseDetails(type: "drafts" | "saved", id: string) {
+  try {
+    if (type !== "drafts")
+      return await prisma.release.findFirst({
+        where: { id },
+        include: { sprints: true, EpicOnReleases: { include: { epic: true } } },
+      });
+
+    // return await prisma.releaseDraft.findFirst({
+    //   where: { id },
+    //   include: { EpicOnReleases: true, sprints: true },
+    // });
+  } catch (err) {
+    throw Error("Something went wrong!");
+  }
+}
+
+export async function getSprintBoardDetails(id: string) {
+  try {
+    return await prisma.sprint.findFirst({
+      where: { id },
+      include: {
+        release: { select: { name: true } },
+        tasks: {
+          select: {
+            status: true,
+            title: true,
+            id: true,
+            Epic: { select: { title: true, id: true } },
+            childTasks: { select: { title: true, id: true, status: true } },
+          },
+          where: {
+            issueType: "USERSTORY",
+          },
+        },
+      },
+    });
+  } catch (err) {
+    throw Error("Something went wrong!");
+  }
+}

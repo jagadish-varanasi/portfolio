@@ -3,6 +3,7 @@ import { getHighLevelRequirements } from "@/app/actions";
 import { useQuery } from "@tanstack/react-query";
 import { Skeleton } from "@repo/ui/components/skeleton";
 import React from "react";
+import { InboxIcon } from "lucide-react";
 
 function HighLevelRequirements({
   useCase,
@@ -31,6 +32,15 @@ function HighLevelRequirements({
 
   if (isError) {
     return <div>Something went wrong!</div>;
+  }
+
+  if (!data?.highLevelRequirements.length) {
+    return (
+      <div className="flex items-center">
+        <InboxIcon className="w-5 h-5 mr-1" />
+        No epics mapped
+      </div>
+    );
   }
 
   return (

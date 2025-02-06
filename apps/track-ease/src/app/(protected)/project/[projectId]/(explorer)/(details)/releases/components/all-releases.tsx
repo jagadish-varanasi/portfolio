@@ -9,6 +9,7 @@ import Link from "next/link";
 import Alert from "./alert-dialog";
 import { format } from "date-fns";
 import { DeleteIcon, Edit2Icon, InboxIcon, RocketIcon } from "lucide-react";
+import EpicsSprints from "./epics-sprints";
 
 export function AllReleases({ data, type, projectId, openedTab }: any) {
   console.log(data, type);
@@ -67,39 +68,7 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                 </Link>
               </div>
             )}
-            <div className="grid gap-2 mt-4">
-              <h4 className="font-medium">Epics</h4>
-              {release?.EpicOnReleases?.length ? (
-                <ul className="list-disc pl-6 space-y-2">
-                  {release?.EpicOnReleases?.map((data: any) => (
-                    <li
-                      key={data?.epic.id}
-                      className="break-all"
-                    >{`${data.epic.title}`}</li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="flex items-center">
-                  <InboxIcon className="w-5 h-5 mr-1" />
-                  No epics mapped
-                </div>
-              )}
-            </div>
-            <div className="grid gap-2 mt-4">
-              <h4 className="font-medium">Sprints</h4>
-              {release?.sprints?.length ? (
-                <ul className="list-disc pl-6 space-y-2">
-                  {release?.sprints?.map((data: any) => (
-                    <li key={data?.id}>{`${data.name}`}</li>
-                  ))}
-                </ul>
-              ) : (
-                <div className="flex items-center">
-                  <InboxIcon className="w-5 h-5 mr-1" />
-                  No sprints created
-                </div>
-              )}
-            </div>
+            <EpicsSprints id={release?.id} type={type} />
           </AccordionContent>
         </AccordionItem>
       ))}
