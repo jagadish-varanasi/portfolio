@@ -7,7 +7,7 @@ import { revalidatePath } from "next/cache";
 import { ReleaseFormValues } from "./(protected)/project/[projectId]/(explorer)/releases/components/release-form";
 import { ProjectFormValues } from "./(protected)/admin/project/create/page";
 import { InitiationFormValues } from "./(protected)/project/[projectId]/(explorer)/requirement-gathering/components/initiation-form";
-import { InitiationDraftFormValues } from "./(protected)/project/[projectId]/(explorer)/epics/components/initiation-form";
+import { InitiationDraftFormValues } from "./(protected)/project/[projectId]/(explorer)/(details)/epics/components/initiation-form";
 import { redirect } from "next/navigation";
 
 export async function deleteTask(taskId: number) {

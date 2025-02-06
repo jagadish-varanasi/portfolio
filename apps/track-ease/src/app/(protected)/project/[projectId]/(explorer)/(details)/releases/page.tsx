@@ -109,61 +109,45 @@ async function Page({
 
   return (
     <SheetWrapper projectId={projectId}>
-      <div className="flex w-full gap-4 h-full">
-        <div className="w-[50%]">
-          <Tabs value={openedTab} className="h-full space-y-6">
-            <div className="space-between flex items-center">
-              <TabsList>
-                {["current", "upcoming", "completed", "saved", "drafts"].map(
-                  (tab, index) => (
-                    <Link href={`?tab=${tab}`} key={index}>
-                      <TabsTrigger value={tab} className="capitalize">
-                        {tab}
-                      </TabsTrigger>
-                    </Link>
-                  )
-                )}
-              </TabsList>
-              <div className="ml-auto">
-                <Link href={`?tab=${openedTab}&create=true`}>
-                  <Button className="ml-auto h-9 mr-4" variant="outline">
-                    <PlusCircledIcon className="h-4 w-4" />
-                    Create
-                  </Button>
+      <Tabs value={openedTab} className="h-full space-y-6">
+        <div className="space-between flex items-center">
+          <TabsList>
+            {["current", "upcoming", "completed", "saved", "drafts"].map(
+              (tab, index) => (
+                <Link href={`?tab=${tab}`} key={index}>
+                  <TabsTrigger value={tab} className="capitalize">
+                    {tab}
+                  </TabsTrigger>
                 </Link>
-              </div>
-            </div>
-            <TabsContent value="current">
-              <AllReleases
-                data={current}
-                type="current"
-                projectId={projectId}
-              />
-            </TabsContent>
-            <TabsContent value="upcoming">
-              <AllReleases
-                data={upcoming}
-                type="upcoming"
-                projectId={projectId}
-              />
-            </TabsContent>
-            <TabsContent value="completed">
-              <AllReleases
-                data={completed}
-                type="completed"
-                projectId={projectId}
-              />
-            </TabsContent>
-            <TabsContent value="drafts">
-              <AllReleases data={drafts} type="drafts" projectId={projectId} />
-            </TabsContent>
-          </Tabs>
+              )
+            )}
+          </TabsList>
+          <div className="ml-auto">
+            <Link href={`?tab=${openedTab}&create=true`}>
+              <Button className="ml-auto h-9 mr-4" variant="outline">
+                <PlusCircledIcon className="h-4 w-4" />
+                Create
+              </Button>
+            </Link>
+          </div>
         </div>
-        <Separator orientation="vertical" className="mx-3" />
-        <div className="w-[50%] space-x-2">
-          <h5 className="text-lg font-semibold tracking-tight">Details</h5>
-        </div>
-      </div>
+        <TabsContent value="current">
+          <AllReleases data={current} type="current" projectId={projectId} />
+        </TabsContent>
+        <TabsContent value="upcoming">
+          <AllReleases data={upcoming} type="upcoming" projectId={projectId} />
+        </TabsContent>
+        <TabsContent value="completed">
+          <AllReleases
+            data={completed}
+            type="completed"
+            projectId={projectId}
+          />
+        </TabsContent>
+        <TabsContent value="drafts">
+          <AllReleases data={drafts} type="drafts" projectId={projectId} />
+        </TabsContent>
+      </Tabs>
       <ReleaseForm
         projectId={projectId}
         draft={draft as any}

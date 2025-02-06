@@ -37,7 +37,7 @@ export function SidebarNav({
       <Separator className="my-4" />
       <nav
         className={cn(
-          "flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1",
+          "flex space-x-2 lg:flex-col lg:space-x-0 lg:space-y-1 flex-wrap",
           className
         )}
         {...props}
@@ -61,7 +61,7 @@ export function SidebarNav({
       <Button
         variant="outline"
         size="icon"
-        className="mt-4 ml-2"
+        className="hidden md:flex mt-4 ml-2"
         onClick={() => {
           route.push(`/dashboard`);
         }}
