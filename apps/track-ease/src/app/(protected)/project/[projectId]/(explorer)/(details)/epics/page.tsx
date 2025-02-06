@@ -35,7 +35,7 @@ async function Page({
 }) {
   const saved = await prisma.epic.findMany({
     where: { projectId },
-    include: { highLevelRequirements: true },
+    select: { title: true, id: true, description: true, document: true },
   });
 
   const drafts = await prisma.epicDraft.findMany({

@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import prisma from "@/lib/db";
 import { Separator } from "@repo/ui/components/separator";
-
+import DetailsCards from "./components/details-cards";
+import DetailsContextProvider from "@/context/DetailsContext";
 
 export const metadata: Metadata = {
   title: "Home",
@@ -22,12 +23,14 @@ export default async function DetailsLayout({
   });
   return (
     <div className="md:flex w-full gap-4 h-full">
-      <div className="md:w-[50%]">{children}</div>
-      <Separator orientation="horizontal" className="mt-6 md:hidden" />
-      <Separator orientation="vertical" className="mx-3" />
-      <div className="md:w-[50%] mt-4 md:mt-0 space-x-2">
-        <h5 className="text-lg font-semibold tracking-tight">Details</h5>
-      </div>
+      <DetailsContextProvider>
+        <div className="md:w-[50%]">{children}</div>
+        <Separator orientation="horizontal" className="mt-6 md:hidden" />
+        <Separator orientation="vertical" className="mx-3" />
+        <div className="md:w-[50%] mt-4 md:mt-0 space-x-2">
+          <DetailsCards />
+        </div>
+      </DetailsContextProvider>
     </div>
   );
 }

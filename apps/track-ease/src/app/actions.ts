@@ -594,3 +594,57 @@ export async function AddMessage({
 
   return { id: message };
 }
+
+export async function getHighLevelRequirements(
+  useCase: "epics" | "requirements",
+  type: "saved" | "drafts",
+  id: string
+) {
+  try {
+    let data;
+    if (useCase === "requirements") {
+      if (type === "saved") {
+        data = await prisma.initiation.findFirst({
+          where: { id },
+          include: {
+            highLevelRequirements: {
+              select: { id: true, requirement: true, priority: true },
+            },
+          },
+        });
+        return data;
+      }
+      data = await prisma.initiationDraft.findFirst({
+        where: { id },
+        include: {
+          highLevelRequirements: {
+            select: { id: true, requirement: true, priority: true },
+          },
+        },
+      });
+    } else if (useCase === "epics") {
+      if (type === "saved") {
+        const data = await prisma.epic.findFirst({
+          where: { id },
+          include: {
+            highLevelRequirements: {
+              select: { id: true, requirement: true, priority: true },
+            },
+          },
+        });
+        return data;
+      }
+      data = await prisma.epicDraft.findFirst({
+        where: { id },
+        include: {
+          highLevelRequirements: {
+            select: { id: true, requirement: true, priority: true },
+          },
+        },
+      });
+    }
+    return data;
+  } catch (err) {
+    throw Error("Something went wrong!");
+  }
+}

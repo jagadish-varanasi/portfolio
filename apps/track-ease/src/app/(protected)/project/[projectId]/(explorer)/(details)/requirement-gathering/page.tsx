@@ -31,11 +31,11 @@ async function Page({
 }) {
   const upcoming = await prisma.initiation.findMany({
     where: { projectId },
-    include: { highLevelRequirements: true },
+    select: { id: true, name: true, description: true },
   });
   const drafts = await prisma.initiationDraft.findMany({
     where: { projectId },
-    include: { highLevelRequirements: true },
+    select: { id: true, name: true, description: true },
   });
 
   const isDraftFlow = searchParams?.draftId as string;
@@ -52,7 +52,7 @@ async function Page({
       },
     });
   }
-  console.log(isDraftFlow, draft, "sDID");
+
   return (
     <SheetWrapper projectId={projectId}>
       <Tabs value={openedTab} className="h-full space-y-6">
