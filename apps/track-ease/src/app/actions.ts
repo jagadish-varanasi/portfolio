@@ -4,9 +4,9 @@ import { auth } from "@/auth";
 import prisma from "@/lib/db";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
-import { ReleaseFormValues } from "./(protected)/project/[projectId]/(explorer)/releases/components/release-form";
+import { ReleaseFormValues } from "./(protected)/project/[projectId]/(explorer)/(details)/releases/components/release-form";
 import { ProjectFormValues } from "./(protected)/admin/project/create/page";
-import { InitiationFormValues } from "./(protected)/project/[projectId]/(explorer)/requirement-gathering/components/initiation-form";
+import { InitiationFormValues } from "./(protected)/project/[projectId]/(explorer)/(details)/requirement-gathering/components/initiation-form";
 import { InitiationDraftFormValues } from "./(protected)/project/[projectId]/(explorer)/(details)/epics/components/initiation-form";
 import { redirect } from "next/navigation";
 
