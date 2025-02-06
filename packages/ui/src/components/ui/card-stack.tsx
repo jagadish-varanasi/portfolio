@@ -1,8 +1,6 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
-
-let interval: any;
 
 type Card = {
   id: number;
@@ -27,19 +25,13 @@ export const CardStack = ({
   const SCALE_FACTOR = scaleFactor || 0.04;
   const [cards, setCards] = useState<Card[]>(items);
 
-  useEffect(() => {
-    startFlipping();
-    return () => clearInterval(interval);
-  }, []);
-
-  const startFlipping = () => {
-    interval = setInterval(() => {
-      setCards((prevCards: Card[]) => {
-        const newArray = [...prevCards]; // create a copy of the array
-        newArray.unshift(newArray.pop()!); // move the last element to the front
-        return newArray;
-      });
-    }, 5000);
+  const handleCardSelect = (index: number) => {
+    setCards((prevCards: Card[]) => {
+      const newArray = [...prevCards]; // create a copy of the array
+      const selectedCard = newArray.splice(index, 1);
+      newArray.unshift(selectedCard[0]!); // move the last element to the front
+      return newArray;
+    });
   };
 
   const header: Record<string, string> = {
@@ -54,6 +46,7 @@ export const CardStack = ({
       {cards.map((card, index) => {
         return (
           <motion.div
+            onClick={() => handleCardSelect(index)}
             key={card.id}
             className="absolute dark:bg-black h-[80vh] w-full bg-white shadow-xl border border-neutral-200 dark:border-white/[0.1]  shadow-black/[0.1] dark:shadow-white/[0.05] flex flex-col"
             style={{
@@ -66,22 +59,12 @@ export const CardStack = ({
             }}
           >
             <div
-              className={`p-1 ${header[card.name]} text-center font-semibold`}
+              className={`p-1 ${header[card.name]} text-center font-semibold cursor-pointer`}
             >
               {card.name}
             </div>
             <div className="p-4 flex-1 flex flex-col">
-              <div className="font-normal text-neutral-700 dark:text-neutral-200 flex-1">
-                {card.content(data[card.key].data[data[card.key].currentId])}
-              </div>
-              <div>
-                <p className="text-neutral-500 font-medium dark:text-white">
-                  {card.name}
-                </p>
-                <div className="text-neutral-400 font-normal dark:text-neutral-200">
-                  {card.designation}
-                </div>
-              </div>
+              {card.content(data[card.key].currentId)}
             </div>
           </motion.div>
         );

@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import HighLevelRequirements from "./highlevel-requirments";
 import ViewDetails from "../../components/view-details";
+import { ADD_REQUIREMENT } from "@/context/DetailsContext";
 
 export function AllReleases({ data, type, projectId, openedTab }: any) {
   console.log(data, type);
@@ -68,7 +69,7 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                     Groom as user story
                   </Badge>
                 </Link>
-                <ViewDetails type="requirements" id={release.id} />
+                <ViewDetails type={ADD_REQUIREMENT} id={release.id} />
               </div>
             )}
             <div className="grid gap-2 mt-4 ">

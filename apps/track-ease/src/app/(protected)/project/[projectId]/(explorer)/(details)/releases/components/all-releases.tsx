@@ -10,6 +10,8 @@ import Alert from "./alert-dialog";
 import { format } from "date-fns";
 import { DeleteIcon, Edit2Icon, InboxIcon, RocketIcon } from "lucide-react";
 import EpicsSprints from "./epics-sprints";
+import ViewDetails from "../../components/view-details";
+import { ADD_RELEASE } from "@/context/DetailsContext";
 
 export function AllReleases({ data, type, projectId, openedTab }: any) {
   console.log(data, type);
@@ -66,6 +68,7 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                     Groom
                   </Badge>
                 </Link>
+                <ViewDetails type={ADD_RELEASE} id={release?.id} />
               </div>
             )}
             <EpicsSprints id={release?.id} type={type} />

@@ -10,6 +10,8 @@ import Alert from "./alert-dialog";
 import { useSearchParams } from "next/navigation";
 import { ClipboardList, FileSpreadsheet, Plus, UsersRound } from "lucide-react";
 import HighLevelRequirements from "../../requirement-gathering/components/highlevel-requirments";
+import ViewDetails from "../../components/view-details";
+import { ADD_EPIC } from "@/context/DetailsContext";
 
 export function AllReleases({
   data,
@@ -78,6 +80,7 @@ export function AllReleases({
                   <UsersRound className="h-4 w-4  mr-1" />
                   Team
                 </Badge>
+                <ViewDetails type={ADD_EPIC} id={release?.id} />
               </div>
             )}
             <div className="grid gap-2 mt-4">

@@ -690,3 +690,35 @@ export async function getSprintBoardDetails(id: string) {
     throw Error("Something went wrong!");
   }
 }
+
+export async function getInitiationDetails(id: string) {
+  try {
+    return await prisma.initiation.findFirst({ where: { id } });
+  } catch {
+    throw Error("Something went wrong!");
+  }
+}
+
+export async function getEpicCompleteDetails(id: string) {
+  try {
+    return await prisma.epic.findFirst({ where: { id } });
+  } catch {
+    throw Error("Something went wrong!");
+  }
+}
+
+export async function getReleaseDetails(id: string) {
+  try {
+    return await prisma.release.findFirst({ where: { id } });
+  } catch {
+    throw Error("Something went wrong!");
+  }
+}
+
+export async function getPinnedSprintDetails(id: string) {
+  try {
+    return await prisma.sprint.findFirst({ where: { id } });
+  } catch {
+    throw Error("Something went wrong!");
+  }
+}

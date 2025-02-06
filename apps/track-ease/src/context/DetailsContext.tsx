@@ -1,10 +1,10 @@
 "use client";
 import React from "react";
 
-const ADD_RELEASE = "ADD_RELEASE";
-const ADD_SPRINT = "ADD_SPRINT";
-const ADD_REQUIREMENT = "ADD_REQUIREMENT";
-const ADD_EPIC = "ADD_EPIC";
+export const ADD_RELEASE = "ADD_RELEASE";
+export const ADD_SPRINT = "ADD_SPRINT";
+export const ADD_REQUIREMENT = "ADD_REQUIREMENT";
+export const ADD_EPIC = "ADD_EPIC";
 
 function reducer(state: any, action: any) {
   switch (action.type) {
@@ -31,7 +31,6 @@ function reducer(state: any, action: any) {
         },
       };
     case ADD_REQUIREMENT:
-      console.log(action, "AAAAAAAAAAAAA");
       return {
         ...state,
         requirements: {
@@ -65,27 +64,7 @@ const initialState = {
   epics: { currentId: "", data: {} },
 };
 
-const addRelease = (id: string, data: string) => ({
-  type: ADD_RELEASE,
-  payload: { id, data },
-});
-const addSprint = (id: string, data: string) => ({
-  type: ADD_SPRINT,
-  payload: { id, data },
-});
-const addRequirement = (id: string, data: string) => ({
-  type: ADD_REQUIREMENT,
-  payload: { id, data },
-});
-const addEpic = (id: string, data: string) => ({
-  type: ADD_EPIC,
-  payload: { id, data },
-});
 
-export const addDetails = (type: string, id: string, data: string) => ({
-  type: type,
-  payload: { id, data },
-});
 
 export const DetailsContext = React.createContext<
   | {

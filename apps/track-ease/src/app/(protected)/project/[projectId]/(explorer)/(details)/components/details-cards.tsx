@@ -11,6 +11,7 @@ function DetailsCards() {
     throw new Error("NestedComponent must be used within a ThemeProvider");
   }
 
+
   return (
     <div className="mt-8">
       <CardStack data={detailsContext.state} items={CARDS} />
