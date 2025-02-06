@@ -4,6 +4,8 @@ import Link from "next/link";
 import { auth } from "@/auth";
 import { Button } from "@repo/ui/components/button";
 import { FeedbackModal } from "./components/feedback-modal";
+import { Sparkles } from "lucide-react";
+import { BackgroundGradient } from "@repo/ui/components/background-gradiant";
 
 async function layout({
   children,
@@ -36,15 +38,19 @@ async function layout({
           <div className="ml-auto flex items-center gap-2 space-x-4">
             <Link className="mr-7" href="/admin/dashboard">
               {session?.user?.role === "ADMIN" && (
-                <Button variant="outline" className="h-7">
+                <Button variant="outline" className="h-8">
                   Admin
                 </Button>
               )}
             </Link>
             <Link className="mr-7" href="/ai">
-              <span className="flex items-center justify-center w-8 h-8 rounded-full bg-purple-100 text-purple-600 cursor-pointer">
-                <span className="font-semibold">AI</span>
-              </span>
+              <BackgroundGradient
+                containerClassName="rounded-full"
+                className="flex text-purple-600 items-center bg-white rounded-full py-1 px-2 text-sm"
+              >
+                <Sparkles className="h-4 w-4 mr-2" />
+                AI Assistant
+              </BackgroundGradient>
             </Link>
             <FeedbackModal />
             <UserNav />
