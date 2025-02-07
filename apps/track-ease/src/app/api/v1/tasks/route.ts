@@ -22,12 +22,12 @@ export async function POST(req: NextRequest, res: NextResponse) {
         ...task,
         ...(task.parentTaskId && { parentTaskId: Number(task.parentTaskId) }),
         ...(task.storyPoints && { storyPoints: Number(task.storyPoints) }),
-        userId: session?.user?.id,
+        userId: task.userId,
         discussions: {
           createMany: {
             data: task.discussions.map((d: { content: any }) => ({
               content: d.content,
-              userId: session?.user?.id,
+              userId: task.userId,
             })),
           },
         },

@@ -176,7 +176,6 @@ function CreateTask() {
 
   const mutation = useMutation({
     mutationFn: (newTask: z.infer<typeof taskFormSchema>) => {
-      console.log("PUT TASK", newTask);
       return fetch("/api/v1/tasks", {
         method: "POST",
         body: JSON.stringify({
