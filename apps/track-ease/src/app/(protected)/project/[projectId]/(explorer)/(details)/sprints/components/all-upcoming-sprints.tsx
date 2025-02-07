@@ -17,7 +17,7 @@ import {
   Kanban,
   Rocket,
 } from "lucide-react";
-import { Sprint } from "../page";
+import { Sprint } from "./sprint-details";
 
 export function AllUpcomingSprint({
   data,
