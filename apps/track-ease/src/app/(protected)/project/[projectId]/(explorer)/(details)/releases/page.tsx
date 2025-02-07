@@ -39,7 +39,13 @@ async function Page({
         gte: new Date(),
       },
     },
-    include: { sprints: true, EpicOnReleases: { include: { epic: true } } },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      startDate: true,
+      endDate: true,
+    },
   });
   const upcoming = await prisma.release.findMany({
     where: {
@@ -48,9 +54,12 @@ async function Page({
         gt: new Date(),
       },
     },
-    include: {
-      sprints: true,
-      EpicOnReleases: { include: { epic: true } },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      startDate: true,
+      endDate: true,
     },
   });
   const completed = await prisma.release.findMany({
@@ -60,7 +69,13 @@ async function Page({
         lt: new Date(),
       },
     },
-    include: { sprints: true, EpicOnReleases: { include: { epic: true } } },
+    select: {
+      id: true,
+      name: true,
+      description: true,
+      startDate: true,
+      endDate: true,
+    },
   });
   const drafts = await prisma.releaseDraft.findMany({
     where: { projectId },

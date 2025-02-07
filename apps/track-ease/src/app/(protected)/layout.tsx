@@ -6,6 +6,7 @@ import { Button } from "@repo/ui/components/button";
 import { FeedbackModal } from "./components/feedback-modal";
 import { Sparkles } from "lucide-react";
 import { BackgroundGradient } from "@repo/ui/components/background-gradiant";
+import DetailsContextProvider from "@/context/DetailsContext";
 
 async function layout({
   children,
@@ -57,7 +58,7 @@ async function layout({
           </div>
         </div>
       </div>
-      {children}
+      <DetailsContextProvider>{children}</DetailsContextProvider>
     </div>
   );
 }

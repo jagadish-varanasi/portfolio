@@ -247,7 +247,7 @@ function InitiationForm({
                     })
                   }
                 >
-                  Add URL
+                  Add
                 </Button>
               </div>
             </div>

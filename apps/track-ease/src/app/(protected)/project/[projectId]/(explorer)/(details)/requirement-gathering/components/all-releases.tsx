@@ -13,6 +13,9 @@ import {
   DeleteIcon,
   ListCheck,
 } from "lucide-react";
+import HighLevelRequirements from "./highlevel-requirments";
+import ViewDetails from "../../components/view-details";
+import { ADD_REQUIREMENT } from "@/context/DetailsContext";
 
 export function AllReleases({ data, type, projectId, openedTab }: any) {
   console.log(data, type);
@@ -66,18 +69,16 @@ export function AllReleases({ data, type, projectId, openedTab }: any) {
                     Groom as user story
                   </Badge>
                 </Link>
+                <ViewDetails type={ADD_REQUIREMENT} id={release.id} />
               </div>
             )}
             <div className="grid gap-2 mt-4 ">
               <h4 className="font-medium">High-level requirements</h4>
-              <ul className="list-disc pl-6 space-y-2">
-                {release?.highLevelRequirements?.map((data: any) => (
-                  <li
-                    className="break-all"
-                    key={data?.id}
-                  >{`#P${data.priority} ${data?.requirement}`}</li>
-                ))}
-              </ul>
+              <HighLevelRequirements
+                useCase="requirements"
+                id={release.id}
+                type={type}
+              />
             </div>
           </AccordionContent>
         </AccordionItem>
