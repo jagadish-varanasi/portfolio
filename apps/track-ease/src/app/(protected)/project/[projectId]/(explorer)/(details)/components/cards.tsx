@@ -227,7 +227,7 @@ function MyTasksCard({ id, projectId }: { id: string; projectId: string }) {
     error,
     data: tasks,
   } = useQuery({
-    queryKey: ["sprints-details", id],
+    queryKey: ["my-tasks", id, projectId],
     queryFn: async () => await getMyTasks(projectId),
   });
 
