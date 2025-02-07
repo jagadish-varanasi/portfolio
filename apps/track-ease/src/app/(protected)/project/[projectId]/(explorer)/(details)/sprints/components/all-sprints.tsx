@@ -10,9 +10,6 @@ import Link from "next/link";
 import Alert from "./alert-dialog";
 import { BookCheckIcon, DeleteIcon, Edit2Icon, Kanban } from "lucide-react";
 import SprintDetails from "./sprint-details";
-import { SelectRangeProviderInternal } from "react-day-picker";
-import ViewDetails from "../../components/view-details";
-import { ADD_SPRINT } from "@/context/DetailsContext";
 
 export interface FormattedSprint {
   id: string;
@@ -91,7 +88,6 @@ export function AllSprints({
                   <BookCheckIcon className="h-4 w-4 mr-1" />
                   {sprint.release.name}
                 </Badge>
-                <ViewDetails type={ADD_SPRINT} id={sprint.id} />
               </div>
             )}
             <h4 className="font-medium mt-4">Overview</h4>

@@ -1,22 +1,25 @@
 "use client";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { ScrollArea } from "./scroll-area";
 
 type Card = {
   id: number;
   name: string;
   key: string;
   designation: React.ReactNode;
-  content: (data: string) => React.ReactNode;
+  content: (data: string, projectId: string) => React.ReactNode;
 };
 
 export const CardStack = ({
   data,
+  projectId,
   items,
   offset,
   scaleFactor,
 }: {
   data: any;
+  projectId: string;
   items: Card[];
   offset?: number;
   scaleFactor?: number;
@@ -35,10 +38,10 @@ export const CardStack = ({
   };
 
   const header: Record<string, string> = {
-    Requirement: "bg-green-100 text-green-700",
-    Epic: "bg-purple-100 text-purple-700",
-    Release: "bg-yellow-100 text-yellow-700",
-    Sprint: "bg-blue-100 text-blue-700",
+    requirements: "bg-green-100/50 text-green-700",
+    epics: "bg-purple-100/50 text-purple-700",
+    releases: "bg-yellow-100/50 text-yellow-700",
+    mytasks: "bg-blue-100/50 text-blue-700",
   };
 
   return (
@@ -59,13 +62,16 @@ export const CardStack = ({
             }}
           >
             <div
-              className={`p-1 ${header[card.name]} text-center font-semibold cursor-pointer`}
+              className={`p-1 ${header[card.key]} text-center font-semibold cursor-pointer`}
             >
               {card.name}
             </div>
-            <div className="p-4 flex-1 flex flex-col">
-              {card.content(data[card.key].currentId)}
-            </div>
+            <ScrollArea className="p-4 flex-1 flex flex-col">
+              {card.content(
+                data.projects?.[projectId]?.[card.key]?.currentId,
+                projectId
+              )}
+            </ScrollArea>
           </motion.div>
         );
       })}

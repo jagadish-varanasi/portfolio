@@ -2,10 +2,12 @@
 import { DetailsContext } from "@/context/DetailsContext";
 import { Badge } from "@repo/ui/components/badge";
 import { View } from "lucide-react";
+import { useParams } from "next/navigation";
 import React, { useContext } from "react";
 
 function ViewDetails({ type, id }: { type: string; id: string }) {
   const detailsContext = useContext(DetailsContext);
+  const params = useParams();
 
   if (!detailsContext) {
     throw new Error("NestedComponent must be used within a ThemeProvider");
@@ -16,7 +18,7 @@ function ViewDetails({ type, id }: { type: string; id: string }) {
   function handleClick() {
     dispatch({
       type: type,
-      payload: { id, data: id },
+      payload: { id, projectId: params["projectId"] as string },
     });
   }
   return (

@@ -23,14 +23,14 @@ export default async function DetailsLayout({
   });
   return (
     <div className="md:flex w-full gap-4 h-full">
-      <DetailsContextProvider>
+   
         <div className="md:w-[50%]">{children}</div>
         <Separator orientation="horizontal" className="mt-6 md:hidden" />
         <Separator orientation="vertical" className="mx-3" />
         <div className="md:w-[50%] mt-4 md:mt-0 space-x-2">
           <DetailsCards />
         </div>
-      </DetailsContextProvider>
+  
     </div>
   );
 }

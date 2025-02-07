@@ -693,7 +693,10 @@ export async function getSprintBoardDetails(id: string) {
 
 export async function getInitiationDetails(id: string) {
   try {
-    return await prisma.initiation.findFirst({ where: { id } });
+    return await prisma.initiation.findFirst({
+      where: { id },
+      include: { highLevelRequirements: true },
+    });
   } catch {
     throw Error("Something went wrong!");
   }
@@ -701,7 +704,10 @@ export async function getInitiationDetails(id: string) {
 
 export async function getEpicCompleteDetails(id: string) {
   try {
-    return await prisma.epic.findFirst({ where: { id } });
+    return await prisma.epic.findFirst({
+      where: { id },
+      include: { highLevelRequirements: true },
+    });
   } catch {
     throw Error("Something went wrong!");
   }
@@ -709,15 +715,33 @@ export async function getEpicCompleteDetails(id: string) {
 
 export async function getReleaseDetails(id: string) {
   try {
-    return await prisma.release.findFirst({ where: { id } });
+    return await prisma.release.findFirst({
+      where: { id },
+      include: {
+        EpicOnReleases: { select: { epic: { select: { title: true } } } },
+        sprints: true,
+      },
+    });
   } catch {
     throw Error("Something went wrong!");
   }
 }
 
-export async function getPinnedSprintDetails(id: string) {
+export async function getMyTasks(projectId: string) {
+  const session = await auth();
+  if (!session?.user?.id || !projectId) {
+    throw Error("Something went wrong!");
+  }
   try {
-    return await prisma.sprint.findFirst({ where: { id } });
+    return await prisma.task.findMany({
+      where: { userId: session?.user.id, projectId },
+      select: {
+        id: true,
+        title: true,
+        status: true,
+        storyPoints: true,
+      },
+    });
   } catch {
     throw Error("Something went wrong!");
   }
