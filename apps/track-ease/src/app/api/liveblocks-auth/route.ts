@@ -30,7 +30,7 @@ export async function POST(req: Request, res: Response) {
   const liveBlockSession = liveBlocks.prepareSession(userId, {
     userInfo: {
       name: session.user.name ?? "Anonymous",
-      avatar: session.user.image,
+      avatar: session.user.image ?? "",
     },
   });
 

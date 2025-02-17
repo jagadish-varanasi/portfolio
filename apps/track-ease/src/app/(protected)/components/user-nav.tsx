@@ -1,8 +1,5 @@
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@repo/ui/components/avatar";
+"use client";
+import { Avatar, AvatarFallback } from "@repo/ui/components/avatar";
 import { Button } from "@repo/ui/components/button";
 import {
   DropdownMenu,
@@ -14,15 +11,10 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@repo/ui/components/dropdown-menu";
-import { auth, signOut } from "@/auth";
+import { useSession, signOut } from "next-auth/react";
 
-export async function UserNav() {
-  const session = await auth();
-
-  const logout = async () => {
-    "use server";
-    await signOut({ redirectTo: "/login" });
-  };
+export function UserNav() {
+  const { data: session } = useSession();
 
   return (
     <DropdownMenu>
@@ -64,11 +56,13 @@ export async function UserNav() {
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
-          <form action={logout} className="w-full">
-            <button type="submit" className="w-full text-left">
-              Logout
-            </button>
-          </form>
+          <button
+            type="submit"
+            className="w-full text-left"
+            onClick={() => signOut()}
+          >
+            Logout
+          </button>
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -33,15 +33,14 @@ import {
 } from "lucide-react";
 import { BsFilePdf } from "react-icons/bs";
 import { Avatars } from "./avatars";
+import { UserNav } from "@/app/(protected)/components/user-nav";
 
 function Navbar() {
   return (
     <nav className="flex item-center justify-between">
       <div className="flex gap-32 items-center">
         <div className="flex flex-col">
-          {/* DocumentInput */}
           <DocumentInput />
-          {/* MenuBar */}
           <div className="flex">
             <Menubar className="border-none bg-transparent shadow-none h-auto p-0">
               <MenubarMenu>
@@ -169,7 +168,8 @@ function Navbar() {
         </div>
       </div>
       <div className="flex gap-3 items-center pl-6">
-        <Avatars/>
+        <Avatars />
+        <UserNav />
       </div>
     </nav>
   );

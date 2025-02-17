@@ -29,9 +29,9 @@ const AvatarStack = () => {
           </div>
         )}
       </div>
-      <div className="flex">
+      <div className="flex items-center">
         {users.map(({ connectionId, info }) => {
-          return <Avatar src={info.avatar} name={info.name} />;
+          return <Avatar src={info.avatar} name={info.name} key={info.name} />;
         })}
       </div>
       <Separator orientation="vertical" className="h-6" />

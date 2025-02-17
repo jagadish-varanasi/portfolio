@@ -10,6 +10,7 @@ import {
 import { cn } from "@repo/ui/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
+import BackButton from "@/app/(protected)/(user)/project/[projectId]/tasks/components/back-button";
 
 const templates = [
   {
@@ -69,7 +70,10 @@ function TemplateGallery({ projectId }: { projectId: string }) {
   return (
     <div className="bg-[#F1F3F4]">
       <div className="max-w-screen-xl mx-auto px-16 py-6 flex flex-col gap-y-4">
-        <h3 className="font-medium">Start a new document</h3>
+        <div className="flex items-center gap-2">
+          <BackButton />
+          <h3 className="font-medium">Start a new document</h3>
+        </div>
         <Carousel>
           <CarouselContent className="-ml-4">
             {templates.map((template) => (

@@ -1,12 +1,10 @@
 import React from "react";
-import { UserNav } from "./user-nav";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { Button } from "@repo/ui/components/button";
-import { FeedbackModal } from "./components/feedback-modal";
 import { Sparkles } from "lucide-react";
 import { BackgroundGradient } from "@repo/ui/components/background-gradiant";
-import DetailsContextProvider from "@/context/DetailsContext";
+import { UserNav } from "../../components/user-nav";
 
 async function layout({
   children,
@@ -32,17 +30,14 @@ async function layout({
               >
                 <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
               </svg>
-              TrackEase
+              TrackEase Admin
             </div>
           </Link>
-
           <div className="ml-auto flex items-center gap-2 space-x-4">
-            <Link className="mr-7" href="/admin/dashboard">
-              {session?.user?.role === "ADMIN" && (
-                <Button variant="outline" className="h-8">
-                  Admin
-                </Button>
-              )}
+            <Link className="mr-7" href="/dashboard">
+              <Button variant="outline" className="h-8">
+                User
+              </Button>
             </Link>
             <Link className="mr-7" href="/ai">
               <BackgroundGradient
@@ -53,12 +48,11 @@ async function layout({
                 AI Assistant
               </BackgroundGradient>
             </Link>
-            <FeedbackModal />
             <UserNav />
           </div>
         </div>
       </div>
-      <DetailsContextProvider>{children}</DetailsContextProvider>
+      {children}
     </div>
   );
 }

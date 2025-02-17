@@ -60,7 +60,7 @@ export function Room({ children }: { children: ReactNode }) {
       }}
       resolveRoomsInfo={() => []}
     >
-      <RoomProvider id={params.id as string}>
+      <RoomProvider id={params.documentId as string}>
         <ClientSideSuspense fallback={<FullScreenLoader />}>
           {children}
         </ClientSideSuspense>

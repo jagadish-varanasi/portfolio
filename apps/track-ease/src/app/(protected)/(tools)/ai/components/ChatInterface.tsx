@@ -2,13 +2,13 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@repo/ui/components/button";
-import { ChatRequestBody, StreamMessageType } from "../../../../lib/ai/types";
 import WelcomeMessage from "./WelcomeMessage";
-import { createSSEParser } from "../../../../lib/ai/SSEParser";
 import { MessageBubble } from "./MessageBubble";
 import { ArrowRight } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { AddMessage } from "@/app/actions";
+import { ChatRequestBody, StreamMessageType } from "@/lib/ai/types";
+import { createSSEParser } from "@/lib/ai/SSEParser";
 
 interface Message {
   createdAt?: Date;
@@ -45,8 +45,7 @@ export default function ChatInterface({
     mutationFn: (newMessage: { chatId: number; content: string }) => {
       return AddMessage(newMessage);
     },
-    onSuccess: () => {
-    },
+    onSuccess: () => {},
     onError: () => {},
   });
 
@@ -228,7 +227,7 @@ export default function ChatInterface({
   };
 
   return (
-    <main className="flex flex-col h-[calc(100vh-theme(spacing.28))]">
+    <main className="flex flex-col h-[calc(100vh-theme(spacing.14))]">
       {/* Messages container */}
       <section className="flex-1 overflow-y-auto bg-gray-50 p-2 md:p-0">
         <div className="max-w-4xl mx-auto p-4 space-y-3">

@@ -17,9 +17,7 @@ import Image from "@tiptap/extension-image";
 import TextStyle from "@tiptap/extension-text-style";
 import { useEditorStore } from "@/store/use-editor";
 import { Ruler } from "./ruler";
-import {
-  useLiveblocksExtension,
-} from "@liveblocks/react-tiptap";
+import { useLiveblocksExtension } from "@liveblocks/react-tiptap";
 import { Threads } from "./threads";
 
 function Editor() {

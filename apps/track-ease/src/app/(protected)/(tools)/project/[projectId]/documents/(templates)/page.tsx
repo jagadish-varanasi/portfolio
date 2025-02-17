@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import Navbar from "./(templates)/navbar";
-import TemplateGallery from "./(templates)/template-gallery";
-import DocumentsTable from "./(templates)/documents-table";
+import Navbar from "./components/navbar";
+import TemplateGallery from "./components/template-gallery";
+import DocumentsTable from "./components/documents-table";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSearchParam } from "@/hooks/use-search-params";
 
@@ -38,7 +38,11 @@ type Page = {
   nextCursor: string | null;
 };
 
-function Document({ params }: { params: { id: string; projectId: string } }) {
+function Document({
+  params,
+}: {
+  params: { documentId: string; projectId: string };
+}) {
   const [search] = useSearchParam();
   const take = 2;
 
