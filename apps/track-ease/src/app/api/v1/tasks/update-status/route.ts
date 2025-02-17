@@ -12,7 +12,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       data: { status: task.status },
       where: { id: task.id },
     });
-    return NextResponse.json(task);
+    return NextResponse.json(document);
   } catch (err) {
     return NextResponse.json(
       { error: "Something went wrong!" },

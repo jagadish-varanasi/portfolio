@@ -5,6 +5,9 @@ import { cn } from "@repo/ui/lib/utils";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import { Toaster } from "@repo/ui/components/toaster";
 import { TooltipProvider } from "@repo/ui/components/tooltip";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
+import "@liveblocks/react-ui/styles.css";
+import "@liveblocks/react-tiptap/styles.css";
 
 const fontSans = FontSans({
   subsets: ["latin"],
@@ -29,9 +32,11 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        <ReactQueryProvider>
-          <TooltipProvider>{children}</TooltipProvider>
-        </ReactQueryProvider>
+        <NuqsAdapter>
+          <ReactQueryProvider>
+            <TooltipProvider>{children}</TooltipProvider>
+          </ReactQueryProvider>
+        </NuqsAdapter>
         <Toaster />
       </body>
     </html>

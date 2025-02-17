@@ -746,3 +746,15 @@ export async function getMyTasks(projectId: string) {
     throw Error("Something went wrong!");
   }
 }
+
+export async function getAllUsers() {
+  const users = await prisma.user.findMany({});
+
+  const formattedUsers = users.map((user) => ({
+    id: user.id,
+    name: user.name ?? user.email ?? "Anonymous",
+    avatar: user.image ?? "",
+  }));
+
+  return formattedUsers;
+}
