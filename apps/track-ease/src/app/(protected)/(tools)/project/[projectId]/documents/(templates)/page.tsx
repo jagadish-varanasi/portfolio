@@ -55,7 +55,7 @@ function Document({
 
   return (
     <div className="min-h-screen flex flex-col">
-      <div className="flex top-0 left-0 right-0 z-10 h-16 bg-white p-4">
+      <div className="flex top-0 left-0 right-0 z-10 h-14 bg-white p-4">
         <Navbar />
       </div>
       <div>

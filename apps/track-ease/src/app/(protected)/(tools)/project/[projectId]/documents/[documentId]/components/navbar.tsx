@@ -38,7 +38,7 @@ import { UserNav } from "@/app/(protected)/components/user-nav";
 function Navbar() {
   return (
     <nav className="flex item-center justify-between">
-      <div className="flex gap-32 items-center">
+      <div className="flex gap-32 items-center justify-between w-full">
         <div className="flex flex-col">
           <DocumentInput />
           <div className="flex">
@@ -167,7 +167,7 @@ function Navbar() {
           </div>
         </div>
       </div>
-      <div className="flex gap-3 items-center pl-6">
+      <div className="flex gap-3 items-center">
         <Avatars />
         <UserNav />
       </div>
