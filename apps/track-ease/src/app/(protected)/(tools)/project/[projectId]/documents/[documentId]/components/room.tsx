@@ -8,11 +8,15 @@ import {
 } from "@liveblocks/react/suspense";
 import { useParams } from "next/navigation";
 import { getAllUsers } from "@/app/actions";
+import { LoaderIcon } from "lucide-react";
 
 function FullScreenLoader() {
   return (
     <div className="h-screen w-screen flex items-center justify-center">
-      <div>Loading...</div>
+      <div className="flex flex-col justify-center items-center gap-4">
+        <LoaderIcon className="animate-spin text-muted-foreground size-5" />
+        <p>Please wait ...</p>
+      </div>
     </div>
   );
 }
