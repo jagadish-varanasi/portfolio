@@ -6,13 +6,13 @@ import DocumentsTable from "./components/documents-table";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useSearchParam } from "@/hooks/use-search-params";
 
-export const fetchDocuments = async ({
+const fetchDocuments = async ({
   pageParam = "",
   queryKey,
 }: {
   pageParam: string;
   queryKey: (string | number)[];
-}) => {
+}): Promise<Page> => {
   const [_, search, take] = queryKey as string[];
   const params = new URLSearchParams({
     searchQuery: search,
@@ -34,7 +34,7 @@ type Document = {
 };
 
 type Page = {
-  documents: Document[] | undefined;
+  documents: Document[];
   nextCursor: string | null;
 };
 

@@ -8,12 +8,12 @@ import {
   SheetContent,
 } from "@repo/ui/components/sheet";
 import { Textarea } from "@repo/ui/components/textarea";
-import { CalendarIcon, TrashIcon } from "lucide-react";
+import { CalendarIcon } from "lucide-react";
 import { Input } from "@repo/ui/components/input";
 import React from "react";
 import { Button } from "@repo/ui/components/button";
 import { z } from "zod";
-import { useFieldArray, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Form,

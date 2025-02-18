@@ -1,7 +1,5 @@
-import { taskSchema } from "@/app/(protected)/project/[projectId]/tasks/data/schema";
 import { auth } from "@/auth";
 import prisma from "@/lib/db";
-import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest, res: NextResponse) {

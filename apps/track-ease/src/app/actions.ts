@@ -4,11 +4,10 @@ import { auth } from "@/auth";
 import prisma from "@/lib/db";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
-import { ReleaseFormValues } from "./(protected)/project/[projectId]/(explorer)/(details)/releases/components/release-form";
-import { ProjectFormValues } from "./(protected)/admin/project/create/page";
-import { InitiationFormValues } from "./(protected)/project/[projectId]/(explorer)/(details)/requirement-gathering/components/initiation-form";
-import { InitiationDraftFormValues } from "./(protected)/project/[projectId]/(explorer)/(details)/epics/components/initiation-form";
 import { redirect } from "next/navigation";
+import { ProjectFormValues } from "./(protected)/(admin)/admin/project/create/page";
+import { InitiationFormValues, InitiationDraftFormValues } from "./(protected)/(user)/project/[projectId]/(explorer)/(details)/epics/components/initiation-form";
+import { ReleaseFormValues } from "./(protected)/(user)/project/[projectId]/(explorer)/(details)/releases/components/release-form";
 
 export async function deleteTask(taskId: number) {
   try {
