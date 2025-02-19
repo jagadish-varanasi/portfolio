@@ -21,9 +21,6 @@ export function DataTableToolbar<TData>({
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
-        <SheetTrigger asChild>
-          <Button className="h-8 w-[150px]">Create Task</Button>
-        </SheetTrigger>
         <Input
           placeholder="Filter tasks..."
           value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
@@ -57,7 +54,9 @@ export function DataTableToolbar<TData>({
           </Button>
         )}
       </div>
-
+      <SheetTrigger asChild className="mr-2">
+        <Button className="h-8 w-[150px]">Create Task</Button>
+      </SheetTrigger>
       <DataTableViewOptions table={table} />
     </div>
   );

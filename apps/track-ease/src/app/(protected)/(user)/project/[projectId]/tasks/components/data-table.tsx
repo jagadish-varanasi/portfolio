@@ -27,15 +27,18 @@ import {
 
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
+import BackButton from "./back-button";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  projectName: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  projectName,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -71,7 +74,13 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="space-y-4">
-      <DataTableToolbar table={table} />
+      <div className="flex gap-2 items-center">
+        <BackButton />
+        <h4 className="font-medium mr-2">{projectName}</h4>
+        <div className="flex-1">
+          <DataTableToolbar table={table} />
+        </div>
+      </div>
       <div className="rounded-md border">
         <Table>
           <TableHeader>

@@ -37,13 +37,6 @@ export const CardStack = ({
     });
   };
 
-  const header: Record<string, string> = {
-    requirements: "bg-green-100/50 text-green-700",
-    epics: "bg-purple-100/50 text-purple-700",
-    releases: "bg-yellow-100/50 text-yellow-700",
-    mytasks: "bg-blue-100/50 text-blue-700",
-  };
-
   return (
     <div className="relative">
       {cards.map((card, index) => {
@@ -62,7 +55,7 @@ export const CardStack = ({
             }}
           >
             <div
-              className={`p-1 ${header[card.key]} text-center font-semibold cursor-pointer`}
+              className={`p-2 bg-muted font-medium text-sm cursor-pointer`}
             >
               {card.name}
             </div>

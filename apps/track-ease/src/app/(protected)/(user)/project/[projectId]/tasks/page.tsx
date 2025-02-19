@@ -81,7 +81,9 @@ export default async function TaskPage({
     },
   });
 
-  //console.log(tasks);
+  const projectDetails = await prisma.project.findFirst({
+    where: { id: params.projectId },
+  });
 
   //members in project.
   const members = await prisma.projectOnUsers.findMany({
@@ -147,24 +149,19 @@ export default async function TaskPage({
     revalidatePath("/dashboard");
   }
 
+  if (!projectDetails?.name) {
+    return <div>Project does not exists</div>;
+  }
+
   return (
     <>
       <Sheet>
-        <div className="hidden h-full flex-1 flex-col space-y-8 p-8 md:flex">
-          <div className="flex items-center justify-between space-y-2">
-            <div>
-              <div className="flex items-center">
-                <BackButton />
-                <h2 className="text-2xl font-bold tracking-tight">
-                  Welcome back!
-                </h2>
-              </div>
-              <p className="text-muted-foreground">
-                Here&apos;s a list of your tasks for this month!
-              </p>
-            </div>
-          </div>
-          <DataTable data={tasks} columns={columns} />
+        <div className="hidden h-full flex-1 flex-col space-y-8 p-8 pt-6 md:flex">
+          <DataTable
+            data={tasks}
+            columns={columns}
+            projectName={projectDetails.name}
+          />
         </div>
         <SheetContent className="xl:w-[500px] xl:max-w-none sm:w-[400px] sm:max-w-[540px]">
           <form action={createTask}>

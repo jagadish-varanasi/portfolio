@@ -249,7 +249,7 @@ function MyTasksCard({ id, projectId }: { id: string; projectId: string }) {
               <TableHead className="w-[80px]">ID</TableHead>
               <TableHead>Status</TableHead>
               <TableHead>Title</TableHead>
-              <TableHead className="text-right">Story Points</TableHead>
+              <TableHead className="text-right w-[120px]">Story Points</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -276,7 +276,7 @@ function MyTasksCard({ id, projectId }: { id: string; projectId: string }) {
               );
             })}
           </TableBody>
-          <TableFooter>
+          <TableFooter className="">
             <TableRow>
               <TableCell colSpan={3}>Total Story Points</TableCell>
               <TableCell className="text-right">
