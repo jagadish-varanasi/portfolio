@@ -139,7 +139,7 @@ async function Page({
           </TabsList>
           <div className="ml-auto">
             <Link href={`?tab=${openedTab}&create=true`}>
-              <Button className="ml-auto h-9 mr-4" variant="outline">
+              <Button className="ml-auto h-9" variant="outline">
                 <PlusCircledIcon className="h-4 w-4" />
                 Create
               </Button>
