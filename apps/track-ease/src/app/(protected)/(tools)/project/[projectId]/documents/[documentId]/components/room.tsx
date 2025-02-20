@@ -7,7 +7,7 @@ import {
   ClientSideSuspense,
 } from "@liveblocks/react/suspense";
 import { useParams } from "next/navigation";
-import { getAllUsers } from "@/app/actions";
+import { getAllDocumentsByIds, getAllUsers } from "@/app/actions";
 import { LoaderIcon } from "lucide-react";
 
 function FullScreenLoader() {
@@ -44,7 +44,15 @@ export function Room({ children }: { children: ReactNode }) {
 
   return (
     <LiveblocksProvider
-      authEndpoint={"/api/liveblocks-auth"}
+      authEndpoint={async () => {
+        const endpoint = "/api/liveblocks-auth";
+        const room = params.documentId as string;
+        const response = await fetch(endpoint, {
+          method: "POST",
+          body: JSON.stringify({ room }),
+        });
+        return await response.json();
+      }}
       throttle={16}
       resolveUsers={({ userIds }) => {
         return userIds.map(
@@ -53,18 +61,26 @@ export function Room({ children }: { children: ReactNode }) {
       }}
       resolveMentionSuggestions={({ text }) => {
         let filteredUsers = users;
-
         if (text) {
           filteredUsers = users.filter((user) => {
             user.name?.toLocaleLowerCase().includes(text.toLocaleLowerCase());
           });
         }
-
         return filteredUsers.map((user) => user.id);
       }}
-      resolveRoomsInfo={() => []}
+      resolveRoomsInfo={async ({ roomIds }) => {
+        const documents = await getAllDocumentsByIds(roomIds);
+        console.log(documents, roomIds, "documents");
+        return documents.map((document) => ({
+          id: document.id,
+          name: document.title,
+        }));
+      }}
     >
-      <RoomProvider id={params.documentId as string}>
+      <RoomProvider
+        id={params.documentId as string}
+        initialStorage={{ leftMargin: 56, rightMargin: 56 }}
+      >
         <ClientSideSuspense fallback={<FullScreenLoader />}>
           {children}
         </ClientSideSuspense>

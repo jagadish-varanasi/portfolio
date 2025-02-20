@@ -23,7 +23,7 @@ function DocumentRow({ document }: DocumentRowProps) {
   return (
     <TableRow>
       <TableCell className="w-[50px]">
-        <SiGoogledocs className="size-6 fill-blue-500" />
+        <SiGoogledocs className="size-6 fill-gray-500" />
       </TableCell>
       <TableCell className="font-medium md:w-[45%]">{document.title}</TableCell>
       <TableCell className="text-muted-foreground hidden md:flex items-center gap-2">

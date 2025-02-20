@@ -6,7 +6,10 @@ import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { ProjectFormValues } from "./(protected)/(admin)/admin/project/create/page";
-import { InitiationFormValues, InitiationDraftFormValues } from "./(protected)/(user)/project/[projectId]/(explorer)/(details)/epics/components/initiation-form";
+import {
+  InitiationFormValues,
+  InitiationDraftFormValues,
+} from "./(protected)/(user)/project/[projectId]/(explorer)/(details)/epics/components/initiation-form";
 import { ReleaseFormValues } from "./(protected)/(user)/project/[projectId]/(explorer)/(details)/releases/components/release-form";
 
 export async function deleteTask(taskId: number) {
@@ -756,4 +759,23 @@ export async function getAllUsers() {
   }));
 
   return formattedUsers;
+}
+
+export async function getAllDocumentsByIds(ids: string[]) {
+  const documents = await prisma.documents.findMany({
+    where: {
+      id: {
+        in: ids,
+      },
+    },
+    select: {
+      id: true,
+      title: true,
+    },
+  });
+  return documents;
+}
+
+export async function putDocumentTitle(id: string, title: string) {
+  return await prisma.documents.update({ where: { id }, data: { title } });
 }

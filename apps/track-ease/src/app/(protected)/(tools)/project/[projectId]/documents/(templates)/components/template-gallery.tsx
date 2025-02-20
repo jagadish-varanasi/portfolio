@@ -98,7 +98,7 @@ function TemplateGallery({ projectId }: { projectId: string }) {
                       backgroundPosition: "center",
                       backgroundRepeat: "no-repeat",
                     }}
-                    className="size-full hover:border-blue-500 rounded-s, border hover:bg-blue-50 transition flex flex-col items-center justify-center gap-y-4 bg-white"
+                    className="size-full hover:border-gray-500 rounded-s, border hover:bg-blue-50 transition flex flex-col items-center justify-center gap-y-4 bg-white"
                   />
                   <p className="text-sm font-medium truncate">
                     {template.label}

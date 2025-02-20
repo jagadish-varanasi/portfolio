@@ -34,13 +34,58 @@ import {
 import { BsFilePdf } from "react-icons/bs";
 import { Avatars } from "./avatars";
 import { UserNav } from "@/app/(protected)/components/user-nav";
+import Inbox from "./inbox";
+import { useEditorStore } from "@/store/use-editor";
 
-function Navbar() {
+function Navbar({ data }: { data: { title: string; id: string } }) {
+  const { editor } = useEditorStore();
+
+  const onDownload = (blob: Blob, filename: string) => {
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+  };
+
+  const saveJSON = () => {
+    if (!editor) return;
+
+    const content = editor.getJSON();
+    const blob = new Blob([JSON.stringify(content)], {
+      type: "application/json",
+    });
+    onDownload(blob, `${data.title}.json`);
+  };
+
+  const saveHTML = () => {
+    if (!editor) return;
+
+    const content = editor.getHTML();
+    const blob = new Blob([content], {
+      type: "text/html",
+    });
+
+    onDownload(blob, `${data.title}.html`);
+  };
+
+  const saveText = () => {
+    if (!editor) return;
+
+    const content = editor.getText();
+    const blob = new Blob([content], {
+      type: "text/plain",
+    });
+
+    onDownload(blob, `${data.title}.txt`);
+  };
+
+
   return (
     <nav className="flex item-center justify-between w-full h-full">
       <div className="flex gap-32 items-center justify-between w-full">
         <div className="flex flex-col">
-          <DocumentInput />
+          <DocumentInput title={data.title} id={data.id} />
           <div className="flex">
             <Menubar className="border-none bg-transparent shadow-none h-auto p-0">
               <MenubarMenu>
@@ -52,11 +97,11 @@ function Navbar() {
                       Save
                     </MenubarSubTrigger>
                     <MenubarSubContent>
-                      <MenubarItem>
+                      <MenubarItem onClick={saveJSON}>
                         <FileJsonIcon className="size-4 mr-2" />
                         JSON
                       </MenubarItem>
-                      <MenubarItem>
+                      <MenubarItem onClick={saveHTML}>
                         <GlobeIcon className="size-4 mr-2" />
                         HTML
                       </MenubarItem>
@@ -64,7 +109,7 @@ function Navbar() {
                         <BsFilePdf className="size-4 mr-2" />
                         PDF
                       </MenubarItem>
-                      <MenubarItem>
+                      <MenubarItem onClick={saveText}>
                         <FileTextIcon className="size-4 mr-2" />
                         Text
                       </MenubarItem>
@@ -169,6 +214,7 @@ function Navbar() {
       </div>
       <div className="flex gap-3 items-center">
         <Avatars />
+        <Inbox />
         <UserNav />
       </div>
     </nav>
