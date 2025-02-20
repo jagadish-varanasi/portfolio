@@ -22,7 +22,7 @@ function DocumentMenu({ documentId, title, onNewTabClick }: DocumentMenuProps) {
           <MoreVertical className="size-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+      <DropdownMenuContent align="start">
         <DropdownMenuItem onClick={() => onNewTabClick(documentId)}>
           <ExternalLinkIcon className="size-4 mr-2" />
           Open in a new tab

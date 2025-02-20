@@ -19,8 +19,6 @@ async function Page({
     throw new Error("Document not found");
   }
 
-  console.log(documentData, "DOC DATA");
-
   return (
     <Room>
       <div className="min-h-screen bg-[#FAFBFD]">

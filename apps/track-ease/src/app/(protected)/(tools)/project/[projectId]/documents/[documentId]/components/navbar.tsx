@@ -36,9 +36,13 @@ import { Avatars } from "./avatars";
 import { UserNav } from "@/app/(protected)/components/user-nav";
 import Inbox from "./inbox";
 import { useEditorStore } from "@/store/use-editor";
+import { useParams, useRouter } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
 
 function Navbar({ data }: { data: { title: string; id: string } }) {
   const { editor } = useEditorStore();
+  const params = useParams();
+  const router = useRouter();
 
   const onDownload = (blob: Blob, filename: string) => {
     const url = URL.createObjectURL(blob);
@@ -80,17 +84,30 @@ function Navbar({ data }: { data: { title: string; id: string } }) {
     onDownload(blob, `${data.title}.txt`);
   };
 
+  const mutation = useMutation({
+    mutationFn: async (newDocument: { title: string; content: string }) => {
+      const response = await fetch("/api/v1/documents", {
+        method: "POST",
+        body: JSON.stringify({ ...newDocument, projectId: params.projectId }),
+      });
+      const json = await response.json();
+      return json;
+    },
+    onSettled: (data) => {
+      router.push(`../documents/${data.id}`);
+    },
+  });
 
   return (
     <nav className="flex item-center justify-between w-full h-full">
       <div className="flex gap-32 items-center justify-between w-full">
         <div className="flex flex-col">
           <DocumentInput title={data.title} id={data.id} />
-          <div className="flex">
+          <div className="flex print:hidden">
             <Menubar className="border-none bg-transparent shadow-none h-auto p-0">
               <MenubarMenu>
                 <MenubarTrigger>File</MenubarTrigger>
-                <MenubarContent>
+                <MenubarContent className="print:hidden">
                   <MenubarSub>
                     <MenubarSubTrigger>
                       <FileIcon className="size-4 mr-2" />
@@ -115,7 +132,14 @@ function Navbar({ data }: { data: { title: string; id: string } }) {
                       </MenubarItem>
                     </MenubarSubContent>
                   </MenubarSub>
-                  <MenubarItem>
+                  <MenubarItem
+                    onClick={() =>
+                      mutation.mutate({
+                        title: "Untitled document",
+                        content: "",
+                      })
+                    }
+                  >
                     <FilePlusIcon className="size-4 mr-2" />
                     New Document
                   </MenubarItem>
@@ -140,7 +164,7 @@ function Navbar({ data }: { data: { title: string; id: string } }) {
                 <MenubarTrigger className="text-sm font-normal py-0.5 px-[7px] rounded-sm hover:bg-muted h-auto">
                   Edit
                 </MenubarTrigger>
-                <MenubarContent>
+                <MenubarContent className="print:hidden">
                   <MenubarItem>
                     <Undo2Icon className="size-4 mr-2" />
                     Undo
@@ -157,7 +181,7 @@ function Navbar({ data }: { data: { title: string; id: string } }) {
                 <MenubarTrigger className="text-sm font-normal py-0.5 px-[7px] rounded-sm hover:bg-muted h-auto">
                   Insert
                 </MenubarTrigger>
-                <MenubarContent>
+                <MenubarContent className="print:hidden">
                   <MenubarSub>
                     <MenubarSubTrigger>Table</MenubarSubTrigger>
                     <MenubarSubContent>
@@ -173,7 +197,7 @@ function Navbar({ data }: { data: { title: string; id: string } }) {
                 <MenubarTrigger className="text-sm font-normal py-0.5 px-[7px] rounded-sm hover:bg-muted h-auto">
                   Format
                 </MenubarTrigger>
-                <MenubarContent>
+                <MenubarContent className="print:hidden">
                   <MenubarSub>
                     <MenubarSubTrigger>
                       <TextIcon className="size-4 mr-2" />
