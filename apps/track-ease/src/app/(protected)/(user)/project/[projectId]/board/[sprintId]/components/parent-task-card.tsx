@@ -61,7 +61,7 @@ export function ParentTaskCard({
       <CardHeader className="p-4">
         <div className="flex flex-col gap-3">
           <div className="flex items-center justify-between">
-            <div className="space-y-2">
+            <div className="space-y-2 w-[90%]">
               <h3 className="text-base font-semibold truncate">
                 {task.content}
               </h3>
@@ -82,19 +82,21 @@ export function ParentTaskCard({
                 )}
               </div>
             </div>
-            <Dialog>
-              <DialogTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8">
-                  <Plus className="h-4 w-4" />
-                </Button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Add Child Task</DialogTitle>
-                </DialogHeader>
-                <AddChildTaskForm onSubmit={onAddChild} />
-              </DialogContent>
-            </Dialog>
+            <div className="w-[10%]">
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button variant="ghost" size="icon" className="h-8 w-8">
+                    <Plus className="h-4 w-4" />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Add Child Task</DialogTitle>
+                  </DialogHeader>
+                  <AddChildTaskForm onSubmit={onAddChild} />
+                </DialogContent>
+              </Dialog>
+            </div>
           </div>
           <div className="flex gap-2">
             <Badge variant="secondary">{task.storyPoints}</Badge>

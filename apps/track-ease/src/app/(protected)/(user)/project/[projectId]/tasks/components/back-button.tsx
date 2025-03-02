@@ -11,8 +11,17 @@ function BackButton({
 }>) {
   const router = useRouter();
   return (
-    <Button variant="ghost" size="icon" className={className} onClick={() => router.back()}>
-      <ArrowLeft/>
+    <Button
+      variant="ghost"
+      size="icon"
+      type="button"
+      className={className}
+      onClick={(e) => {
+        e.preventDefault();
+        router.back();
+      }}
+    >
+      <ArrowLeft />
     </Button>
   );
 }

@@ -19,12 +19,12 @@ model Task {
   issueType    String
   label        String?
   storyPoints  Int?
-  startDate    String?
-  endDate      String?
+  startDate    DateTime?
+  endDate      DateTime?
   Project      Project?     @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId    String?
   assignee     User?        @relation(fields: [userId], references: [id])
-  userId       String
+  userId       String?
   reporter     User?        @relation("reporter", fields: [reporterId], references: [id])
   reporterId   String?
   parentTaskId Int?
@@ -38,11 +38,12 @@ model Task {
   tag          String?
 }
 
+
 model Discussion {
   id      String   @id @default(cuid())
   date    DateTime @default(now())
-  user    User     @relation(fields: [userId], references: [id])
-  userId  String
+  user    User?    @relation(fields: [userId], references: [id])
+  userId  String?
   content Json
   Task    Task?    @relation(fields: [taskId], references: [id])
   taskId  Int?

@@ -84,7 +84,7 @@ function Editor({
           "px-2 prose-sm sm:prose-base lg:prose-sm xl:prose-md focus:outline-none h-full mb-12",
       },
     },
-    content: JSON.parse(value),
+    content: value ? JSON.parse(value) : undefined,
     onUpdate({ editor }) {
       onChange(JSON.stringify(editor?.getJSON()));
     },

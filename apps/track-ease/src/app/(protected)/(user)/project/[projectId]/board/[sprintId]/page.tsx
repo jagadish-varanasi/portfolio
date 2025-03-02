@@ -32,6 +32,11 @@ async function page({
           childTasks: {
             include: {
               childTasks: true,
+              assignee: {
+                select: {
+                  name: true,
+                },
+              },
             },
           },
         },

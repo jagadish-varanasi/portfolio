@@ -4,6 +4,7 @@ import { Badge } from "@repo/ui/components/badge";
 import { BookCheckIcon, ClipboardCheck, GripVertical } from "lucide-react";
 import type { ChildTask, ParentTask } from "./types";
 import ColorHash from "color-hash";
+import Link from "next/link";
 
 interface TaskCardProps {
   task: ChildTask;
@@ -45,7 +46,9 @@ export function TaskCard({ task, parentTask }: TaskCardProps) {
           >
             <GripVertical className="h-5 w-5 text-[#a9aaac]" />
           </div>
-          <div className="text-sm font-medium">{task.content}</div>
+          <Link href={`../tasks/create?taskId=${task.id}`}>
+            <div className="text-sm font-medium">{task.content}</div>
+          </Link>
         </div>
         <div className="flex gap-2">
           <Badge variant="secondary">{task.storyPoints}</Badge>

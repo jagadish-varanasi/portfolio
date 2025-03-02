@@ -43,15 +43,48 @@ function HighLevelRequirements({
     );
   }
 
+  console.log(data, "DATA");
+
   return (
-    <ul className="list-disc pl-6 space-y-2">
-      {data?.highLevelRequirements.map((data: any) => (
-        <li
-          className="break-all"
-          key={data?.id}
-        >{`#P${data.priority} ${data?.requirement}`}</li>
-      ))}
-    </ul>
+    <>
+      {useCase == "requirements" ? (
+        <ul className="list-disc pl-6 space-y-2">
+          {data?.highLevelRequirements.map((data: any) => (
+            <li
+              className="break-all"
+              key={data?.id}
+            >{`#P${data.priority} ${data?.requirement} - ( ${data?.Epic?.title ?? "Not Mapped"}) `}</li>
+          ))}
+        </ul>
+      ) : (
+        <ul className="list-disc pl-6 space-y-2">
+          {data?.highLevelRequirements.map((data: any) => (
+            <li
+              className="break-all"
+              key={data?.id}
+            >{`#P${data.priority} ${data?.requirement}`}</li>
+          ))}
+        </ul>
+      )}
+      {type === "saved" && useCase == "epics" && (
+        <>
+          <h4 className="font-medium">Releases</h4>
+          <ul className="list-disc pl-6 space-y-2">
+            {data?.EpicOnReleases?.map(({ release }: any) => (
+              <li key={release?.id}>{release?.name}</li>
+            ))}
+          </ul>
+          <h4 className="font-medium">User Stories</h4>
+          <ul className="list-disc pl-6 space-y-2">
+            {data?.tasks?.map((data: any) => (
+              <li className="break-all" key={data?.id}>
+                {`${data.title} - ( ${data.Sprint?.name ?? "Not Mapped"} )`}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
+    </>
   );
 }
 

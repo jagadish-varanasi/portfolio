@@ -187,8 +187,8 @@ function getInitialData(initial: any, sprint: any) {
       content: t.title,
       parentId: sp.id,
       status: t.status,
-      assignee: sp.assignee?.name,
-      storyPoints: sp.storyPoints,
+      assignee: t.assignee?.name,
+      storyPoints: t.storyPoints,
     })),
   }));
   return { ...initial, parentTasks };
@@ -457,7 +457,7 @@ export default function KanbanBoard({ sprint, sprintId, projectId }: any) {
           </Dialog> */}
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-[350px_1fr] gap-4">
         {/* Parent Tasks Column */}
         <div className="space-y-4">
           <Card>
