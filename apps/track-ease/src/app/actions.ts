@@ -769,6 +769,9 @@ export async function getMyTasks(projectId: string) {
         status: true,
         storyPoints: true,
       },
+      orderBy: {
+        updatedAt: "desc",
+      },
     });
   } catch {
     throw Error("Something went wrong!");

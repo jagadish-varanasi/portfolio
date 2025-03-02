@@ -255,6 +255,9 @@ function CreateTask() {
           ["taskData", searchParams.get("taskId")],
           data
         );
+        queryClient.invalidateQueries({
+          queryKey: ["my-tasks", data?.epicId, data?.projectId],
+        });
       }
     },
     onError(error, variables, context) {
@@ -450,44 +453,16 @@ function CreateTask() {
                   </FormItem>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="parentTaskId"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Parent Issue</FormLabel>
-                    <FormControl>
-                      <div>
-                        {(watchIssueType === "USERSTORY" ||
-                          watchIssueType === "") &&
-                          Array.isArray(parentData) && (
-                            <Select
-                              {...field}
-                              onValueChange={field.onChange}
-                              defaultValue={field.value}
-                            >
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select Parent" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                {parentData?.map((item) => (
-                                  <SelectItem key={item.id} value={item.id}>
-                                    {`${item?.title} - #${item?.id}`}
-                                  </SelectItem>
-                                ))}
-                              </SelectContent>
-                            </Select>
-                          )}
-                        {!Array.isArray(parentData) && epicType && (
-                          <Input
-                            {...field}
-                            readOnly
-                            value={`${parentData?.title} - #${parentData?.id.slice(-5)}`}
-                          />
-                        )}
-                        {watchIssueType === "TASK" &&
-                          !epicType &&
-                          Array.isArray(parentUserStoriesData) && (
+              {watchIssueType === "TASK" && !epicType && (
+                <FormField
+                  control={form.control}
+                  name="parentTaskId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Parent Issue</FormLabel>
+                      <FormControl>
+                        <div>
+                          {Array.isArray(parentUserStoriesData) && (
                             <Select
                               {...field}
                               onValueChange={field.onChange}
@@ -508,12 +483,54 @@ function CreateTask() {
                               </SelectContent>
                             </Select>
                           )}
-                      </div>
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
+              {(watchIssueType === "USERSTORY" || watchIssueType === "") && (
+                <FormField
+                  control={form.control}
+                  name="epicId"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Parent Issue</FormLabel>
+                      <FormControl>
+                        <div>
+                          {Array.isArray(parentData) && (
+                            <Select
+                              {...field}
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select Parent" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {parentData?.map((item) => (
+                                  <SelectItem key={item.id} value={item.id}>
+                                    {`${item?.title} - #${item?.id}`}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          )}
+                          {!Array.isArray(parentData) && epicType && (
+                            <Input
+                              {...field}
+                              readOnly
+                              value={`${parentData?.title} - #${parentData?.id.slice(-5)}`}
+                            />
+                          )}
+                        </div>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              )}
               <FormField
                 control={form.control}
                 name="userId"

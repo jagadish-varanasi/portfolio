@@ -109,7 +109,7 @@ export function ParentTaskCard({
               <Badge
                 variant="secondary"
                 className="text-xs"
-                style={{ backgroundColor: colorHash.hex(task.epicId) }}
+                style={{ backgroundColor: colorHash.hex(task?.epicId) }}
               >
                 <BookCheckIcon className="w-3 h-3 mr-1" />
                 <span className="truncate max-w-[160px]">{task.epic}</span>

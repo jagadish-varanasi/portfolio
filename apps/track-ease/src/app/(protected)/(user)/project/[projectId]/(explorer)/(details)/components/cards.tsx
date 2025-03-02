@@ -24,6 +24,7 @@ import {
   QuestionMarkCircledIcon,
   StopwatchIcon,
 } from "@radix-ui/react-icons";
+import Link from "next/link";
 
 function RequirementCard({ id }: { id: string }) {
   const { isLoading, data: card } = useQuery({
@@ -246,10 +247,12 @@ function MyTasksCard({ id, projectId }: { id: string; projectId: string }) {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-[80px]">ID</TableHead>
-              <TableHead>Status</TableHead>
+              <TableHead className="w-[70px]">ID</TableHead>
+              <TableHead className="w-[135px]">Status</TableHead>
               <TableHead>Title</TableHead>
-              <TableHead className="text-right w-[120px]">Story Points</TableHead>
+              <TableHead className="text-right w-[110px]">
+                Story Points
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -268,7 +271,11 @@ function MyTasksCard({ id, projectId }: { id: string; projectId: string }) {
                       <span>{status.label}</span>
                     </div>
                   </TableCell>
-                  <TableCell>{task.title}</TableCell>
+                  <TableCell className="hover:underline">
+                    <Link href={`./tasks/create?taskId=${task.id}`}>
+                      {task.title}
+                    </Link>
+                  </TableCell>
                   <TableCell className="text-right">
                     {task.storyPoints ?? "NA"}
                   </TableCell>
