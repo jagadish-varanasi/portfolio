@@ -1,7 +1,5 @@
-import { taskSchema } from "@/app/(protected)/project/[projectId]/tasks/data/schema";
 import { auth } from "@/auth";
 import prisma from "@/lib/db";
-import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest, res: NextResponse) {
@@ -12,7 +10,7 @@ export async function POST(req: NextRequest, res: NextResponse) {
       data: { status: task.status },
       where: { id: task.id },
     });
-    return NextResponse.json(task);
+    return NextResponse.json({ message: "Status updated!" }, { status: 200 });
   } catch (err) {
     return NextResponse.json(
       { error: "Something went wrong!" },

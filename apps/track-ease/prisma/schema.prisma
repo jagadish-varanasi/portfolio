@@ -19,12 +19,12 @@ model Task {
   issueType    String
   label        String?
   storyPoints  Int?
-  startDate    String?
-  endDate      String?
+  startDate    DateTime?
+  endDate      DateTime?
   Project      Project?     @relation(fields: [projectId], references: [id], onDelete: Cascade)
   projectId    String?
   assignee     User?        @relation(fields: [userId], references: [id])
-  userId       String
+  userId       String?
   reporter     User?        @relation("reporter", fields: [reporterId], references: [id])
   reporterId   String?
   parentTaskId Int?
@@ -36,13 +36,15 @@ model Task {
   Sprint       Sprint?      @relation(fields: [sprintId], references: [id])
   sprintId     String?
   tag          String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
 }
 
 model Discussion {
   id      String   @id @default(cuid())
   date    DateTime @default(now())
-  user    User     @relation(fields: [userId], references: [id])
-  userId  String
+  user    User?    @relation(fields: [userId], references: [id])
+  userId  String?
   content Json
   Task    Task?    @relation(fields: [taskId], references: [id])
   taskId  Int?
@@ -95,6 +97,7 @@ model User {
   Sprint         Sprint[]
   feedbacks      Feedback[]
   Chats          Chat[]
+  Documents      Documents[]
 }
 
 model VerificationToken {
@@ -121,6 +124,7 @@ model Project {
   Epic            Epic[]
   EpicDraft       EpicDraft[]
   Sprint          Sprint[]
+  Documents       Documents[]
 }
 
 model Initiation {
@@ -285,6 +289,17 @@ model Message {
   role      ChatRole
   createdAt DateTime @default(now())
   chatId    Int
+}
+
+model Documents {
+  id             String  @id @default(cuid())
+  title          String
+  initialContent String?
+  owner          User    @relation(fields: [ownerId], references: [id])
+  ownerId        String
+  roomId         String?
+  project        Project @relation(fields: [projectId], references: [id])
+  projectId      String
 }
 
 enum ChatRole {

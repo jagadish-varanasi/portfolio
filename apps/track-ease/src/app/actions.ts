@@ -4,11 +4,13 @@ import { auth } from "@/auth";
 import prisma from "@/lib/db";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
-import { ReleaseFormValues } from "./(protected)/project/[projectId]/(explorer)/(details)/releases/components/release-form";
-import { ProjectFormValues } from "./(protected)/admin/project/create/page";
-import { InitiationFormValues } from "./(protected)/project/[projectId]/(explorer)/(details)/requirement-gathering/components/initiation-form";
-import { InitiationDraftFormValues } from "./(protected)/project/[projectId]/(explorer)/(details)/epics/components/initiation-form";
 import { redirect } from "next/navigation";
+import { ProjectFormValues } from "./(protected)/(admin)/admin/project/create/page";
+import {
+  InitiationFormValues,
+  InitiationDraftFormValues,
+} from "./(protected)/(user)/project/[projectId]/(explorer)/(details)/epics/components/initiation-form";
+import { ReleaseFormValues } from "./(protected)/(user)/project/[projectId]/(explorer)/(details)/releases/components/release-form";
 
 export async function deleteTask(taskId: number) {
   try {
@@ -439,19 +441,27 @@ export async function getEpicDetails(
 
 export async function getUserStoriesForSprint(sprintId: string | null) {
   console.log(sprintId, "SPRINT-ID-DATA");
-  if (sprintId) {
-    const tasks = await prisma.sprint.findUnique({
-      select: { tasks: true },
-      where: { id: sprintId },
-    });
-    return tasks?.tasks
-      .filter((task) => task.issueType === "USERSTORY")
-      .map((task) => ({
-        id: task.id,
-        title: task.title,
-      }));
+  try {
+    if (sprintId) {
+      const tasks = await prisma.sprint.findUnique({
+        select: { tasks: true },
+        where: { id: sprintId },
+      });
+      return tasks?.tasks
+        .filter((task) => task.issueType === "USERSTORY")
+        .map((task) => ({
+          id: task.id,
+          title: task.title,
+        }));
+    } else {
+      const userStories = await prisma.task.findMany({
+        select: { id: true, title: true },
+      });
+      return userStories;
+    }
+  } catch (err) {
+    throw new Error("Something went wrong!");
   }
-  throw new Error("Something went wrong!");
 }
 
 export async function getSprintDetails(sprintId: string | null) {
@@ -608,7 +618,12 @@ export async function getHighLevelRequirements(
           where: { id },
           include: {
             highLevelRequirements: {
-              select: { id: true, requirement: true, priority: true },
+              select: {
+                id: true,
+                requirement: true,
+                priority: true,
+                Epic: { select: { title: true } },
+              },
             },
           },
         });
@@ -630,6 +645,18 @@ export async function getHighLevelRequirements(
             highLevelRequirements: {
               select: { id: true, requirement: true, priority: true },
             },
+            tasks: {
+              include: {
+                Sprint: {
+                  select: {
+                    name: true,
+                  },
+                },
+              },
+            },
+            EpicOnReleases: {
+              select: { release: { select: { id: true, name: true } } },
+            },
           },
         });
         return data;
@@ -645,6 +672,7 @@ export async function getHighLevelRequirements(
     }
     return data;
   } catch (err) {
+    console.log(err);
     throw Error("Something went wrong!");
   }
 }
@@ -741,8 +769,46 @@ export async function getMyTasks(projectId: string) {
         status: true,
         storyPoints: true,
       },
+      orderBy: {
+        updatedAt: "desc",
+      },
     });
   } catch {
     throw Error("Something went wrong!");
   }
+}
+
+export async function getAllUsers() {
+  const users = await prisma.user.findMany({});
+
+  const formattedUsers = users.map((user) => ({
+    id: user.id,
+    name: user.name ?? user.email ?? "Anonymous",
+    avatar: user.image ?? "",
+  }));
+
+  return formattedUsers;
+}
+
+export async function getAllDocumentsByIds(ids: string[]) {
+  const documents = await prisma.documents.findMany({
+    where: {
+      id: {
+        in: ids,
+      },
+    },
+    select: {
+      id: true,
+      title: true,
+    },
+  });
+  return documents;
+}
+
+export async function putDocumentTitle(id: string, title: string) {
+  return await prisma.documents.update({ where: { id }, data: { title } });
+}
+
+export async function getTaskData(id: number) {
+  return await prisma.task.findUnique({ where: { id } });
 }
