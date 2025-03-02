@@ -53,6 +53,7 @@ import {
   FormItem,
   FormLabel,
 } from "@repo/ui/components/form";
+import Loading from "./loading";
 
 export type TaskFormValues = z.infer<typeof taskFormSchema>;
 
@@ -294,11 +295,7 @@ function CreateTask() {
   });
 
   useEffect(() => {
-    if (
-      taskData &&
-      parentUserStoriesData &&
-      taskType
-    ) {
+    if (taskData && parentUserStoriesData && taskType) {
       const taskSet = {
         projectId: params.projectId,
         discussions: [{ content: "" }],
@@ -311,13 +308,7 @@ function CreateTask() {
       reset(taskSet);
       setIsDone(true);
     }
-  }, [
-    taskData,
-    reset,
-    params.projectId,
-    parentUserStoriesData,
-    taskType,
-  ]);
+  }, [taskData, reset, params.projectId, parentUserStoriesData, taskType]);
 
   useEffect(() => {
     if (initiationType) {
@@ -352,7 +343,7 @@ function CreateTask() {
     taskDataIsPending ||
     parentUserStoriesPending
   ) {
-    return <span>Loading...</span>;
+    return <Loading />;
   }
 
   if (isError) {
