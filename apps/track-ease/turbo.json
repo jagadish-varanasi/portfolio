@@ -10,7 +10,8 @@
         "OPENAI_API_KEY",
         "DEEPSEEK_API_KEY",
         "GOOGLE_API_KEY",
-        "CURRENT_LLM"
+        "CURRENT_LLM",
+        "LIVEBLOCKS_SECRET_KEY"
       ]
     }
   }
