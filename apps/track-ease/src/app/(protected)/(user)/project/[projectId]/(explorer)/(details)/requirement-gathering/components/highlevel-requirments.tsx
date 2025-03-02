@@ -70,13 +70,13 @@ function HighLevelRequirements({
         <>
           <h4 className="font-medium">Releases</h4>
           <ul className="list-disc pl-6 space-y-2">
-            {data?.EpicOnReleases?.map(({ release }: any) => (
+            {(data as any)?.EpicOnReleases?.map(({ release }: any) => (
               <li key={release?.id}>{release?.name}</li>
             ))}
           </ul>
           <h4 className="font-medium">User Stories</h4>
           <ul className="list-disc pl-6 space-y-2">
-            {data?.tasks?.map((data: any) => (
+            {(data as any)?.tasks?.map((data: any) => (
               <li className="break-all" key={data?.id}>
                 {`${data.title} - ( ${data.Sprint?.name ?? "Not Mapped"} )`}
               </li>
