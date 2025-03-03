@@ -26,7 +26,7 @@ export default async function DetailsLayout({
       <div className="md:w-[50%]">{children}</div>
       <Separator orientation="horizontal" className="mt-6 md:hidden" />
       <Separator orientation="vertical" className="mx-3" />
-      <div className="md:w-[50%] mt-[12px] space-x-2">
+      <div className="mt-24 md:w-[50%] md:mt-[12px] space-x-2">
         <DetailsCards />
       </div>
     </div>
