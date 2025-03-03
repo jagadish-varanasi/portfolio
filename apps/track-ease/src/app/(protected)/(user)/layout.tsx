@@ -3,7 +3,7 @@ import { UserNav } from "../components/user-nav";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { Button } from "@repo/ui/components/button";
-import { Sparkles } from "lucide-react";
+import { Shield, Sparkles } from "lucide-react";
 import { BackgroundGradient } from "@repo/ui/components/background-gradiant";
 import DetailsContextProvider from "@/context/DetailsContext";
 import { FeedbackModal } from "./components/feedback-modal";
@@ -36,23 +36,29 @@ async function layout({
             </div>
           </Link>
           <div className="ml-auto flex items-center gap-2 space-x-4">
-            <Link className="mr-7" href="/admin/dashboard">
+            <FeedbackModal />
+            <Link className="hidden md:block mr-2" href="/admin/dashboard">
               {session?.user?.role === "ADMIN" && (
-                <Button variant="outline" className="h-8">
-                  Admin
-                </Button>
+                <button className="relative">
+                  <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-6 h-6 bg-amber-400 rounded-full flex items-center justify-center shadow-md">
+                    <Shield className="h-3 w-3 text-white" />
+                  </div>
+                  <div className="pl-5 pr-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-gray-800 hover:bg-gray-200 transition-colors">
+                    Admin
+                  </div>
+                </button>
               )}
             </Link>
-            <Link className="mr-7" href="/ai">
-              <BackgroundGradient
-                containerClassName="rounded-full"
-                className="flex text-purple-600 items-center bg-white rounded-full py-1 px-2 text-sm"
-              >
-                <Sparkles className="h-4 w-4 mr-2" />
-                AI Assistant
-              </BackgroundGradient>
+            <Link className="hidden md:block mr-7" href="/ai">
+              <button className="relative">
+                <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-6 h-6 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-full flex items-center justify-center shadow-md">
+                  <Sparkles className="h-3 w-3 text-white" />
+                </div>
+                <div className="pl-5 pr-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-gray-800 hover:bg-gray-200 transition-colors">
+                  AI Assistant
+                </div>
+              </button>
             </Link>
-            <FeedbackModal />
             <UserNav />
           </div>
         </div>

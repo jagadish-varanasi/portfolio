@@ -12,9 +12,12 @@ import {
   DropdownMenuTrigger,
 } from "@repo/ui/components/dropdown-menu";
 import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 export function UserNav() {
   const { data: session } = useSession();
+
+  const router = useRouter();
 
   return (
     <DropdownMenu modal={false}>
@@ -40,19 +43,28 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/profile")}>
             Profile
             <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            Billing
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
           </DropdownMenuItem>
           <DropdownMenuItem>
             Settings
             <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
           </DropdownMenuItem>
-          <DropdownMenuItem>New Team</DropdownMenuItem>
+          <DropdownMenuItem
+            className="md:hidden"
+            onClick={() => router.push("/ai")}
+          >
+            AI Assistant
+          </DropdownMenuItem>
+          {session?.user?.role === "ADMIN" && (
+            <DropdownMenuItem
+              className="md:hidden"
+              onClick={() => router.push("/admin/dashboard")}
+            >
+              Admin
+            </DropdownMenuItem>
+          )}
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem>

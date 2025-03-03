@@ -23,6 +23,7 @@ import React, { useEffect, useState } from "react";
 import Color from "@tiptap/extension-color";
 import { ScrollArea, ScrollBar } from "@repo/ui/components/scroll-area";
 import { Button } from "@repo/ui/components/button";
+import TimeAgo from "react-timeago";
 import {
   BoldIcon,
   ItalicIcon,
@@ -30,7 +31,7 @@ import {
   StrikethroughIcon,
   UnderlineIcon,
 } from "lucide-react";
-import { Label } from "@repo/ui/components/label";
+
 
 function Editor({
   label,
@@ -115,12 +116,12 @@ function Editor({
       }}
     >
       {data && (
-        <div className="flex items-center">
-          <div className="p-2 font-semibold text-sm text-gray-500">
+        <div className="flex  md:items-center flex-col md:flex-row">
+          <div className="pl-2 pt-2 md:p-2 font-semibold text-sm text-gray-500">
             {data?.name}
           </div>
-          <div className="py-2 font-light text-xs text-gray-400">
-            commented on {data?.date}
+          <div className="px-2 md:py-2 md:px-0 font-light text-xs text-gray-400">
+            commented on  <TimeAgo date={data?.date} />
           </div>
         </div>
       )}
