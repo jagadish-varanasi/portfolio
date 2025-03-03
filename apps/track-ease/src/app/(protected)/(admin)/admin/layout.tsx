@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { auth } from "@/auth";
 import { Button } from "@repo/ui/components/button";
-import { Sparkles } from "lucide-react";
+import { Sparkles, User } from "lucide-react";
 import { BackgroundGradient } from "@repo/ui/components/background-gradiant";
 import { UserNav } from "../../components/user-nav";
 
@@ -34,19 +34,25 @@ async function layout({
             </div>
           </Link>
           <div className="ml-auto flex items-center gap-2 space-x-4">
-            <Link className="mr-7" href="/dashboard">
-              <Button variant="outline" className="h-8">
-                User
-              </Button>
+            <Link className="hidden md:block mr-2" href="/dashboard">
+              <button className="relative">
+                <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-6 h-6 bg-green-400 rounded-full flex items-center justify-center shadow-md">
+                  <User className="h-3 w-3 text-white" />
+                </div>
+                <div className="pl-5 pr-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-gray-800 hover:bg-gray-200 transition-colors">
+                  User
+                </div>
+              </button>
             </Link>
-            <Link className="mr-7" href="/ai">
-              <BackgroundGradient
-                containerClassName="rounded-full"
-                className="flex text-purple-600 items-center bg-white rounded-full py-1 px-2 text-sm"
-              >
-                <Sparkles className="h-4 w-4 mr-2" />
-                AI Assistant
-              </BackgroundGradient>
+            <Link className="hidden md:block mr-7" href="/ai">
+              <button className="relative">
+                <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-6 h-6 bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-500 rounded-full flex items-center justify-center shadow-md">
+                  <Sparkles className="h-3 w-3 text-white" />
+                </div>
+                <div className="pl-5 pr-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-gray-800 hover:bg-gray-200 transition-colors">
+                  AI Assistant
+                </div>
+              </button>
             </Link>
             <UserNav />
           </div>

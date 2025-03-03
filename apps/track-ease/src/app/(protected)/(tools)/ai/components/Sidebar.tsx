@@ -123,7 +123,9 @@ export default function Sidebar() {
           isMobileNavOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="h-[52px] flex items-center gap-2 ml-2">
+        <div
+          className={`h-[52px] flex items-center gap-2 ml-2 ${isMobileNavOpen ? "mt-4" : ""}`}
+        >
           <BackButton />
           <Link href="/dashboard">
             <div className="relative z-20 flex items-center text-lg font-medium">
@@ -144,7 +146,7 @@ export default function Sidebar() {
           </Link>
         </div>
         <div
-          className={` ${isMobileNavOpen ? "mt-14" : ""} p-2 border-b border-gray-200/50`}
+          className={` ${isMobileNavOpen ? "mt-2" : ""} p-2 border-b border-gray-200/50`}
         >
           <Button
             onClick={handleNewChat}

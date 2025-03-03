@@ -363,9 +363,9 @@ function CreateTask() {
     <div>
       <Form {...form}>
         <form key={isDone ? 0 : 1} onSubmit={handleSubmit(onSubmit)}>
-          <div className="m-8 border p-8 border-1 grid md:grid-cols-[1.1fr_1fr] gap-x-8 gap-y-4 items-start rounded-md">
-            <div className="col-span-2 font-bold flex justify-between items-center border-b pb-6">
-              <div className="flex gap-2 items-center">
+          <div className="m-8 border p-8 border-1 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4 items-start rounded-md">
+            <div className="md:col-span-2 font-bold flex flex-col gap-4 md:gap-0 md:flex-row justify-center md:justify-between items-center border-b pb-6">
+              <div className="flex flex-col md:flex-row gap-2 items-center justify-center md:justify-start">
                 <BackButton />
                 <h2 className="text-xl font-bold tracking-tight">
                   Create Task
@@ -400,7 +400,7 @@ function CreateTask() {
                 </Button>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4 py-4">
+            <div className="col-span-1 grid grid-cols-2 gap-4 py-4">
               <FormField
                 control={form.control}
                 name="title"
@@ -778,8 +778,7 @@ function CreateTask() {
                 )}
               />
             </div>
-
-            <div className="grid items-start">
+            <div className="col-span-1 grid items-start">
               <FormField
                 control={form.control}
                 name="description"
@@ -797,7 +796,6 @@ function CreateTask() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="discussions"
