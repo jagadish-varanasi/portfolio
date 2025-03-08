@@ -124,7 +124,7 @@ export default function Sidebar() {
         )}
       >
         <div
-          className={`h-[52px] flex items-center gap-2 ml-2 ${isMobileNavOpen ? "mt-4" : ""}`}
+          className={`h-[52px] flex items-center gap-2 ml-2 ${isMobileNavOpen ? "mt-4" : "mt-2"}`}
         >
           <BackButton />
           <Link href="/dashboard">

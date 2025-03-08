@@ -2,6 +2,7 @@ import React from "react";
 import Promotion from "../components/promotions";
 import HobbyCard from "../components/hobby-card";
 import WorkExperience from "../components/work-experience";
+import { JSBlitzInfo } from "../components/js-blitz";
 
 function About() {
   return (
@@ -129,6 +130,7 @@ function About() {
       <aside className="md:w-[240px] lg:w-[300px] shrink-0">
         <div className="space-y-6">
           <Promotion />
+          <JSBlitzInfo />
           <HobbyCard />
         </div>
       </aside>

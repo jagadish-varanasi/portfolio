@@ -3,6 +3,7 @@
 import { Button } from "@repo/ui/components/button";
 import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { useNavigation } from "@/context/Navigation";
+import { UserNav } from "@/app/(protected)/components/user-nav";
 
 export default function Header() {
   const { setIsMobileNavOpen } = useNavigation();
@@ -23,7 +24,9 @@ export default function Header() {
             Chat with an AI Agent
           </div>
         </div>
-        <div className="flex items-center"></div>
+        <div className="flex items-center">
+          <UserNav />
+        </div>
       </div>
     </header>
   );

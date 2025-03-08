@@ -41,9 +41,8 @@ function Promotion() {
           renderSubmitButton={() => {
             return (
               <Button
-                className="btn-sm w-full mt-2 h-8"
+                className="btn-sm w-full mt-2 h-8 bg-yellow-400 hover:bg-yellow-500 text-background font-semibold"
                 type="submit"
-                variant="gold"
               >
                 Subscribe
               </Button>
