@@ -45,7 +45,7 @@ function WorkExperience() {
               HashedIn By Deloitte
             </div>
             <div className="text-sm font-medium text-slate-800 dark:text-slate-100">
-              3yrs 7 mos
+              3yrs 9 mos
             </div>
             <div className="text-sm text-slate-500 dark:text-slate-400">
               Tech stack: React, Javascript, Typescript, React Native, Angular
