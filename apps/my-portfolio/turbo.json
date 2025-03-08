@@ -9,7 +9,9 @@
         "DRAW_IT",
         "STORYBOOK",
         "RESUME_DOWNLOAD_LINK",
-        "RESUME_FILE_NAME"
+        "RESUME_FILE_NAME",
+        "JSBLITZ",
+        "CODEX"
       ]
     }
   }
