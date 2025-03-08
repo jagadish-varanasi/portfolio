@@ -7,7 +7,7 @@ import { ArrowRight, Code2, Zap, Terminal } from "lucide-react";
 function JSBlitz() {
   return (
     <Card className="w-[300px] hover:shadow-lg transition-shadow  dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30">
-      <CardContent className="p-4">
+      <CardContent className="p-5">
         <div className="flex items-center gap-3 mb-3">
           <div className="relative w-8 h-8 shrink-0">
             <div className="absolute inset-0 bg-yellow-400 rounded-lg rotate-12"></div>
@@ -52,7 +52,7 @@ export const JSBlitzInfo = () => {
   return (
     <Card className="w-[300px] overflow-hidden hover:shadow-lg transition-all group  dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30">
       <CardContent className="p-0">
-        <div className="bg-yellow-400/10 p-4">
+        <div className="bg-yellow-400/10 p-5">
           <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <Code2 className="w-5 h-5 text-yellow-500" />
@@ -62,18 +62,18 @@ export const JSBlitzInfo = () => {
           </div>
           <div className="font-mono text-sm bg-background/50 rounded-md p-2 overflow-hidden">
             <span className="text-muted-foreground">
-              // Your code journey begins here
+              {"// Your code journey begins here"}
             </span>
             <div className="text-yellow-500">
               console.log(
-              <span className="text-green-500">"Hello, JSBlitz!"</span>);
+              <span className="text-green-500">&quot;Hello, JSBlitz!&quot;</span>);
             </div>
           </div>
         </div>
-        <div className="p-4 pt-3">
+        <div className="p-5 pt-3">
           <div className="flex items-center gap-2 mb-3 text-sm text-muted-foreground">
             <Terminal className="w-4 h-4" />
-            <span>Ready to transform your ideas into code?</span>
+            <span>Ready to practice JS in local editor?</span>
           </div>
           <Button
             className="w-full bg-gradient-to-r h-8 rounded-2xl from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-background font-semibold group-hover:shadow-md transition-all"

@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { ChevronRightIcon } from 'lucide-react';
-import { ScrollArea } from '@repo/ui/components/scroll-area';
-import { todoExample } from './examples/todo-app';
-import { debounceThrottleExample } from './examples/debounce-throttle';
-import { tictactoeExample } from './examples/tictactoe';
-import { vanillaCounterExample } from './examples/vanilla-counter';
+import { useState } from "react";
+import { ChevronRightIcon } from "lucide-react";
+import { ScrollArea } from "@repo/ui/components/scroll-area";
+import { todoExample } from "./examples/todo-app";
+import { debounceThrottleExample } from "./examples/debounce-throttle";
+import { tictactoeExample } from "./examples/tictactoe";
+import { vanillaCounterExample } from "./examples/vanilla-counter";
 
 export interface File {
   name: string;
-  type: 'file' | 'folder';
+  type: "file" | "folder";
   content?: string;
   children?: File[];
   isOpen?: boolean;
@@ -16,98 +16,98 @@ export interface File {
 
 export const defaultFiles: File[] = [
   {
-    name: 'Machine Coding Problems',
-    type: 'folder',
+    name: "Machine Coding Problems",
+    type: "folder",
     isOpen: true,
     children: [
       {
-        name: 'Todo App',
-        type: 'folder',
+        name: "Todo App",
+        type: "folder",
         isOpen: true,
         children: [
           {
-            name: 'index.jsx',
-            type: 'file',
-            content: todoExample.js
+            name: "index.jsx",
+            type: "file",
+            content: todoExample.js,
           },
           {
-            name: 'styles.css',
-            type: 'file',
-            content: todoExample.css
-          }
-        ]
+            name: "styles.css",
+            type: "file",
+            content: todoExample.css,
+          },
+        ],
       },
       {
-        name: 'Debounce & Throttle',
-        type: 'folder',
+        name: "Debounce & Throttle",
+        type: "folder",
         isOpen: false,
         children: [
           {
-            name: 'index.jsx',
-            type: 'file',
-            content: debounceThrottleExample.js
+            name: "index.jsx",
+            type: "file",
+            content: debounceThrottleExample.js,
           },
           {
-            name: 'styles.css',
-            type: 'file',
-            content: debounceThrottleExample.css
-          }
-        ]
+            name: "styles.css",
+            type: "file",
+            content: debounceThrottleExample.css,
+          },
+        ],
       },
       {
-        name: 'Tic Tac Toe',
-        type: 'folder',
+        name: "Tic Tac Toe",
+        type: "folder",
         isOpen: false,
         children: [
           {
-            name: 'index.jsx',
-            type: 'file',
-            content: tictactoeExample.js
+            name: "index.jsx",
+            type: "file",
+            content: tictactoeExample.js,
           },
           {
-            name: 'styles.css',
-            type: 'file',
-            content: tictactoeExample.css
-          }
-        ]
-      }
-    ]
+            name: "styles.css",
+            type: "file",
+            content: tictactoeExample.css,
+          },
+        ],
+      },
+    ],
   },
   {
-    name: 'Vanilla JavaScript',
-    type: 'folder',
+    name: "Vanilla JavaScript",
+    type: "folder",
     isOpen: true,
     children: [
       {
-        name: 'Counter',
-        type: 'folder',
+        name: "Counter",
+        type: "folder",
         isOpen: false,
         children: [
           {
-            name: 'index.js',
-            type: 'file',
-            content: vanillaCounterExample.js
+            name: "index.js",
+            type: "file",
+            content: vanillaCounterExample.js,
           },
           {
-            name: 'styles.css',
-            type: 'file',
-            content: vanillaCounterExample.css
-          }
-        ]
-      }
-    ]
-  }
+            name: "styles.css",
+            type: "file",
+            content: vanillaCounterExample.css,
+          },
+        ],
+      },
+    ],
+  },
 ];
 
 const FileIcon = ({ fileName }: { fileName: string }) => {
   const getIconClass = () => {
-    if (fileName.endsWith('.jsx')) {
+    if (fileName.endsWith(".jsx")) {
       return "icon icon-react";
     }
-    if (fileName.endsWith('.js')) {
+    if (fileName.endsWith(".js")) {
       return "icon icon-javascript";
     }
-    if (fileName.endsWith('.css')) {
+    if (fileName.endsWith(".css")) {
       return "icon icon-css";
     }
     return "icon icon-file";
@@ -117,7 +117,9 @@ const FileIcon = ({ fileName }: { fileName: string }) => {
 };
 
 const FolderIcon = ({ isOpen }: { isOpen: boolean }) => {
-  return <div className={`icon ${isOpen ? 'icon-folder-open' : 'icon-folder'}`} />;
+  return (
+    <div className={`icon ${isOpen ? "icon-folder-open" : "icon-folder"}`} />
+  );
 };
 
 interface FileExplorerProps {
@@ -127,13 +129,17 @@ interface FileExplorerProps {
   path?: number[];
 }
 
-export function FileExplorer({ items, selectedFile, onFileSelect, path = [] }: FileExplorerProps) {
+export function FileExplorer({
+  items,
+  selectedFile,
+  onFileSelect,
+}: FileExplorerProps) {
   const [expandedFolders, setExpandedFolders] = useState<Set<string>>(
-    new Set(items.filter(item => item.isOpen).map(item => item.name))
+    new Set(items.filter((item) => item.isOpen).map((item) => item.name))
   );
 
   const toggleFolder = (folderName: string) => {
-    setExpandedFolders(prev => {
+    setExpandedFolders((prev) => {
       const next = new Set(prev);
       if (next.has(folderName)) {
         next.delete(folderName);
@@ -145,7 +151,7 @@ export function FileExplorer({ items, selectedFile, onFileSelect, path = [] }: F
   };
 
   const handleFileClick = (file: File) => {
-    if (file.type === 'file') {
+    if (file.type === "file") {
       onFileSelect(file);
     }
   };
@@ -155,18 +161,24 @@ export function FileExplorer({ items, selectedFile, onFileSelect, path = [] }: F
       <div key={`${level}-${index}-${item.name}`}>
         <div
           className={`flex items-center gap-2 hover:bg-accent/50 rounded px-2 py-1 cursor-pointer transition-colors ${
-            selectedFile?.name === item.name ? 'bg-accent text-accent-foreground' : ''
+            selectedFile?.name === item.name
+              ? "bg-accent text-accent-foreground"
+              : ""
           }`}
           style={{ paddingLeft: `${level * 16 + 8}px` }}
-          onClick={() => item.type === 'folder' ? toggleFolder(item.name) : handleFileClick(item)}
+          onClick={() =>
+            item.type === "folder"
+              ? toggleFolder(item.name)
+              : handleFileClick(item)
+          }
         >
           <div className="flex items-center gap-1">
-            {item.type === 'folder' && (
-              <ChevronRightIcon 
-                className={`h-3 w-3 transition-transform ${expandedFolders.has(item.name) ? 'rotate-90' : ''}`}
+            {item.type === "folder" && (
+              <ChevronRightIcon
+                className={`h-3 w-3 transition-transform ${expandedFolders.has(item.name) ? "rotate-90" : ""}`}
               />
             )}
-            {item.type === 'folder' ? (
+            {item.type === "folder" ? (
               <FolderIcon isOpen={expandedFolders.has(item.name)} />
             ) : (
               <FileIcon fileName={item.name} />
@@ -174,11 +186,9 @@ export function FileExplorer({ items, selectedFile, onFileSelect, path = [] }: F
           </div>
           <span className="text-sm select-none">{item.name}</span>
         </div>
-        {item.type === 'folder' && expandedFolders.has(item.name) && item.children && (
-          <div>
-            {renderItems(item.children, level + 1)}
-          </div>
-        )}
+        {item.type === "folder" &&
+          expandedFolders.has(item.name) &&
+          item.children && <div>{renderItems(item.children, level + 1)}</div>}
       </div>
     ));
   };

@@ -144,7 +144,6 @@ export function Preview({
   const [consoleHistory, setConsoleHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [lastContent, setLastContent] = useState('');
   const [editableContent, setEditableContent] = useState(content);
   const [consoleHeight, setConsoleHeight] = useState(() => {
     const saved = localStorage.getItem(CONSOLE_HEIGHT_KEY);
@@ -188,7 +187,6 @@ export function Preview({
     setIsRefreshing(true);
     setKey(prev => prev + 1);
     onReload();
-    setLastContent(content || '');
     setTimeout(() => setIsRefreshing(false), 750);
   };
 

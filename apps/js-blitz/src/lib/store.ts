@@ -31,7 +31,7 @@ interface EditorState {
   openFolder: (folderId: string) => void;
 }
 
-const getLanguageFromFileName = (fileName: string): string => {
+export const getLanguageFromFileName = (fileName: string): string => {
   const ext = fileName.split('.').pop()?.toLowerCase();
   switch (ext) {
     case 'html': return 'html';

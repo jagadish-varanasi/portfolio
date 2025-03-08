@@ -5,6 +5,7 @@ import { motion, useScroll } from "framer-motion";
 import Promotion from "@/app/components/promotions";
 import React from "react";
 import SliderDesign from "@/app/components/tech-ani";
+import JSBlitz from "@/app/components/js-blitz";
 
 function BlogDetails({
   children,
@@ -24,6 +25,7 @@ function BlogDetails({
       <aside className="md:w-[240px] lg:w-[300px] shrink-0">
         <div className="space-y-6">
           <SliderDesign showTitle={true} />
+          <JSBlitz />
           <Promotion />
           <HobbyCard />
           <CodingProfile />
