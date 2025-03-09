@@ -1,10 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from '@repo/ui/components/resizable';
-import { Button } from '@repo/ui/components/button';
-import { RefreshCw, Trash2, ChevronRight, ChevronDown, SendHorizontal } from 'lucide-react';
-import { ScrollArea } from '@repo/ui/components/scroll-area';
-import { cn } from '@/lib/utils';
-import { useEditorStore } from '@/lib/store';
+import { useEffect, useRef, useState } from "react";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@repo/ui/components/resizable";
+import { Button } from "@repo/ui/components/button";
+import {
+  RefreshCw,
+  Trash2,
+  ChevronRight,
+  ChevronDown,
+  SendHorizontal,
+} from "lucide-react";
+import { ScrollArea } from "@repo/ui/components/scroll-area";
+import { cn } from "@/lib/utils";
+import { useEditorStore } from "@/lib/store";
 
 interface PreviewProps {
   logs?: string[];
@@ -30,24 +40,34 @@ interface ConsoleLogProps {
 
 const ConsoleLog = ({ log }: ConsoleLogProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  
+
   const getLogStyle = (type: string) => {
     switch (type) {
-      case 'error': return 'text-red-500 bg-red-500/10';
-      case 'warn': return 'text-yellow-500 bg-yellow-500/10';
-      case 'info': return 'text-blue-500 bg-blue-500/10';
-      case 'debug': return 'text-purple-500 bg-purple-500/10';
-      case 'input': return 'text-green-500 bg-green-500/10';
-      default: return 'text-foreground';
+      case "error":
+        return "text-red-500 bg-red-500/10";
+      case "warn":
+        return "text-yellow-500 bg-yellow-500/10";
+      case "info":
+        return "text-blue-500 bg-blue-500/10";
+      case "debug":
+        return "text-purple-500 bg-purple-500/10";
+      case "input":
+        return "text-green-500 bg-green-500/10";
+      default:
+        return "text-foreground";
     }
   };
 
   const formatValue = (value: any): JSX.Element => {
     if (value === null) return <span className="text-gray-500">null</span>;
-    if (value === undefined) return <span className="text-gray-500">undefined</span>;
-    if (typeof value === 'string') return <span className="text-green-500">"{value}"</span>;
-    if (typeof value === 'number') return <span className="text-blue-500">{value}</span>;
-    if (typeof value === 'boolean') return <span className="text-purple-500">{String(value)}</span>;
+    if (value === undefined)
+      return <span className="text-gray-500">undefined</span>;
+    if (typeof value === "string")
+      return <span className="text-green-500">"{value}"</span>;
+    if (typeof value === "number")
+      return <span className="text-blue-500">{value}</span>;
+    if (typeof value === "boolean")
+      return <span className="text-purple-500">{String(value)}</span>;
     if (Array.isArray(value)) {
       return (
         <div className="pl-4">
@@ -56,7 +76,9 @@ const ConsoleLog = ({ log }: ConsoleLogProps) => {
             {value.map((item, i) => (
               <div key={i}>
                 {formatValue(item)}
-                {i < value.length - 1 && <span className="text-gray-500">,</span>}
+                {i < value.length - 1 && (
+                  <span className="text-gray-500">,</span>
+                )}
               </div>
             ))}
           </div>
@@ -64,10 +86,10 @@ const ConsoleLog = ({ log }: ConsoleLogProps) => {
         </div>
       );
     }
-    if (typeof value === 'object') {
+    if (typeof value === "object") {
       return (
         <div className="pl-4">
-          <span className="text-gray-500">{'{'}</span>
+          <span className="text-gray-500">{"{"}</span>
           <div className="pl-4">
             {Object.entries(value).map(([key, val], i, arr) => (
               <div key={key}>
@@ -78,7 +100,7 @@ const ConsoleLog = ({ log }: ConsoleLogProps) => {
               </div>
             ))}
           </div>
-          <span className="text-gray-500">{'}'}</span>
+          <span className="text-gray-500">{"}"}</span>
         </div>
       );
     }
@@ -86,9 +108,11 @@ const ConsoleLog = ({ log }: ConsoleLogProps) => {
   };
 
   return (
-    <div className={`py-1 px-2 font-mono text-sm border-b border-border ${getLogStyle(log.type)}`}>
+    <div
+      className={`py-1 px-2 font-mono text-sm border-b border-border ${getLogStyle(log.type)}`}
+    >
       <div className="flex items-start gap-2">
-        {log.content.length > 0 && typeof log.content[0] === 'object' && (
+        {log.content.length > 0 && typeof log.content[0] === "object" && (
           <button
             onClick={() => setIsExpanded(!isExpanded)}
             className="mt-1 p-0.5 hover:bg-muted rounded"
@@ -101,18 +125,22 @@ const ConsoleLog = ({ log }: ConsoleLogProps) => {
           </button>
         )}
         <div className="flex-1">
-          {log.type === 'input' ? (
-            <span className="text-green-500">{'>'} {log.content[0]}</span>
+          {log.type === "input" ? (
+            <span className="text-green-500">
+              {">"} {log.content[0]}
+            </span>
           ) : (
             log.content.map((item, i) => (
               <span key={i}>
                 {isExpanded ? formatValue(item) : JSON.stringify(item, null, 2)}
-                {i < log.content.length - 1 && ' '}
+                {i < log.content.length - 1 && " "}
               </span>
             ))
           )}
           {log.stack && isExpanded && (
-            <div className="mt-2 text-xs text-gray-500 whitespace-pre-wrap">{log.stack}</div>
+            <div className="mt-2 text-xs text-gray-500 whitespace-pre-wrap">
+              {log.stack}
+            </div>
           )}
         </div>
         <span className="text-xs text-gray-500 whitespace-nowrap">
@@ -123,23 +151,23 @@ const ConsoleLog = ({ log }: ConsoleLogProps) => {
   );
 };
 
-const CONSOLE_HEIGHT_KEY = 'jsblitz-console-height';
+const CONSOLE_HEIGHT_KEY = "jsblitz-console-height";
 
-export function Preview({ 
-  logs = [], 
-  onLog = () => {}, 
-  onClearLogs = () => {}, 
+export function Preview({
+  logs = [],
+  onLog = () => {},
+  onClearLogs = () => {},
   onReload = () => {},
-  fileName = '',
-  filePath = '',
-  content = '',
-  isTutorial = false
+  fileName = "",
+  filePath = "",
+  content = "",
+  isTutorial = false,
 }: PreviewProps) {
   const { files } = useEditorStore();
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const consoleEndRef = useRef<HTMLDivElement>(null);
   const [key, setKey] = useState(0);
-  const [consoleInput, setConsoleInput] = useState('');
+  const [consoleInput, setConsoleInput] = useState("");
   const inputRef = useRef<HTMLTextAreaElement>(null);
   const [consoleHistory, setConsoleHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
@@ -149,6 +177,10 @@ export function Preview({
     const saved = localStorage.getItem(CONSOLE_HEIGHT_KEY);
     return saved ? parseInt(saved, 10) : 30;
   });
+  const getPreviewContentRef = useRef(getPreviewContent);
+  const [data, setData] = useState({ html: "", css: "", js: "" });
+
+  const { html, css, js } = data;
 
   useEffect(() => {
     setEditableContent(content);
@@ -156,64 +188,112 @@ export function Preview({
 
   useEffect(() => {
     const handleMessage = (event: MessageEvent) => {
-      if (event.data?.type === 'console') {
+      if (event.data?.type === "console") {
         onLog(JSON.stringify(event.data.log));
       }
     };
 
-    window.addEventListener('message', handleMessage);
-    return () => window.removeEventListener('message', handleMessage);
+    window.addEventListener("message", handleMessage);
+    return () => window.removeEventListener("message", handleMessage);
   }, [onLog]);
 
   useEffect(() => {
     if (consoleEndRef.current) {
-      consoleEndRef.current.scrollIntoView({ behavior: 'smooth' });
+      consoleEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
   }, [logs]);
 
+  function getPreviewContent() {
+    if (isTutorial) {
+      if (fileName?.endsWith(".js")) {
+        return {
+          html: '<div style="padding: 20px; text-align: center;"><h2 style="color: #666;">Open the console to see the output</h2><p style="color: #888;">Click the "Run" button or press Ctrl+S to execute the code</p></div>',
+          css: "",
+          js: editableContent || content,
+        };
+      }
+      if (fileName?.endsWith(".html")) {
+        return {
+          html: editableContent || content,
+          css: "",
+          js: "",
+        };
+      }
+      return { html: "", css: "", js: editableContent || content };
+    }
+
+    if (!fileName || !filePath) return { html: "", css: "", js: "" };
+
+    const fileId = filePath;
+    const currentFile = files.find((f) => f.id === fileId);
+
+    if (!currentFile) return { html: "", css: "", js: "" };
+
+    const folderFiles = files.filter(
+      (f) => f.folderId === currentFile.folderId
+    );
+
+    return {
+      html: folderFiles.find((f) => f.name === "index.html")?.content || "",
+      css: folderFiles.find((f) => f.name === "styles.css")?.content || "",
+      js: folderFiles.find((f) => f.name === "script.js")?.content || "",
+    };
+  }
+
+  useEffect(() => {
+    getPreviewContentRef.current = getPreviewContent;
+  }, [getPreviewContent]);
+
+  const handleRun = () => {
+    setIsRefreshing(true);
+    setKey((prev) => prev + 1);
+    // onReload();
+    const data = getPreviewContentRef.current();
+    setData(data);
+    setTimeout(() => setIsRefreshing(false), 750);
+  };
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      if ((e.ctrlKey || e.metaKey) && e.key === "s") {
         e.preventDefault();
         handleRun();
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
-
-  const handleRun = () => {
-    setIsRefreshing(true);
-    setKey(prev => prev + 1);
-    onReload();
-    setTimeout(() => setIsRefreshing(false), 750);
-  };
 
   const executeCode = (code: string) => {
     const iframe = iframeRef.current;
     if (iframe && iframe.contentWindow) {
-      onLog(JSON.stringify({
-        type: 'input',
-        content: [code],
-        timestamp: Date.now()
-      }));
+      onLog(
+        JSON.stringify({
+          type: "input",
+          content: [code],
+          timestamp: Date.now(),
+        })
+      );
 
       try {
-        setConsoleHistory(prev => [...prev, code]);
+        setConsoleHistory((prev) => [...prev, code]);
         setHistoryIndex(-1);
 
-        iframe.contentWindow.postMessage({
-          type: 'execute',
-          code
-        }, '*');
+        iframe.contentWindow.postMessage(
+          {
+            type: "execute",
+            code,
+          },
+          "*"
+        );
       } catch (error) {
-        console.error('Execution error:', error);
+        console.error("Execution error:", error);
       }
 
-      setConsoleInput('');
+      setConsoleInput("");
       if (inputRef.current) {
-        inputRef.current.style.height = 'auto';
+        inputRef.current.style.height = "auto";
       }
     }
   };
@@ -226,17 +306,17 @@ export function Preview({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       handleConsoleSubmit(e);
-    } else if (e.key === 'ArrowUp') {
+    } else if (e.key === "ArrowUp") {
       e.preventDefault();
       if (historyIndex < consoleHistory.length - 1) {
         const newIndex = historyIndex + 1;
         setHistoryIndex(newIndex);
         setConsoleInput(consoleHistory[consoleHistory.length - 1 - newIndex]);
       }
-    } else if (e.key === 'ArrowDown') {
+    } else if (e.key === "ArrowDown") {
       e.preventDefault();
       if (historyIndex > 0) {
         const newIndex = historyIndex - 1;
@@ -244,53 +324,16 @@ export function Preview({
         setConsoleInput(consoleHistory[consoleHistory.length - 1 - newIndex]);
       } else if (historyIndex === 0) {
         setHistoryIndex(-1);
-        setConsoleInput('');
+        setConsoleInput("");
       }
     }
   };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setConsoleInput(e.target.value);
-    e.target.style.height = 'auto';
+    e.target.style.height = "auto";
     e.target.style.height = `${e.target.scrollHeight}px`;
   };
-
-  const getPreviewContent = () => {
-    if (isTutorial) {
-      if (fileName?.endsWith('.js')) {
-        return {
-          html: '<div style="padding: 20px; text-align: center;"><h2 style="color: #666;">Open the console to see the output</h2><p style="color: #888;">Click the "Run" button or press Ctrl+S to execute the code</p></div>',
-          css: '',
-          js: editableContent || content
-        };
-      }
-      if (fileName?.endsWith('.html')) {
-        return {
-          html: editableContent || content,
-          css: '',
-          js: ''
-        };
-      }
-      return { html: '', css: '', js: editableContent || content };
-    }
-
-    if (!fileName || !filePath) return { html: '', css: '', js: '' };
-
-    const fileId = filePath;
-    const currentFile = files.find(f => f.id === fileId);
-    
-    if (!currentFile) return { html: '', css: '', js: '' };
-
-    const folderFiles = files.filter(f => f.folderId === currentFile.folderId);
-    
-    return {
-      html: folderFiles.find(f => f.name === 'index.html')?.content || '',
-      css: folderFiles.find(f => f.name === 'styles.css')?.content || '',
-      js: folderFiles.find(f => f.name === 'script.js')?.content || ''
-    };
-  };
-
-  const { html, css, js } = getPreviewContent();
 
   const wrappedContent = `
 <!DOCTYPE html>
@@ -393,9 +436,9 @@ export function Preview({
   </body>
 </html>`.trim();
 
-  const isJavaScript = fileName?.endsWith('.js');
-  const isHtml = fileName?.endsWith('.html');
-  const parsedLogs = logs.map(log => JSON.parse(log));
+  const isJavaScript = fileName?.endsWith(".js");
+  const isHtml = fileName?.endsWith(".html");
+  const parsedLogs = logs.map((log) => JSON.parse(log));
 
   const handlePanelResize = (sizes: number[]) => {
     const newConsoleHeight = sizes[1];
@@ -409,14 +452,12 @@ export function Preview({
         <div className="flex items-center gap-2">
           <span className="text-sm font-medium">Result</span>
           {filePath && (
-            <span className="text-sm text-muted-foreground">
-              {filePath}
-            </span>
+            <span className="text-sm text-muted-foreground">{filePath}</span>
           )}
         </div>
         <div className="flex items-center gap-2">
           {(isJavaScript || isHtml) && (
-            <Button 
+            <Button
               variant="default"
               size="sm"
               onClick={handleRun}
@@ -426,11 +467,8 @@ export function Preview({
                 isRefreshing && "animate-none"
               )}
             >
-              <RefreshCw 
-                className={cn(
-                  "h-4 w-4",
-                  isRefreshing && "animate-spin"
-                )} 
+              <RefreshCw
+                className={cn("h-4 w-4", isRefreshing && "animate-spin")}
               />
               Run
             </Button>
@@ -438,8 +476,8 @@ export function Preview({
         </div>
       </div>
 
-      <ResizablePanelGroup 
-        direction="vertical" 
+      <ResizablePanelGroup
+        direction="vertical"
         className="flex-1"
         onLayout={handlePanelResize}
       >
@@ -456,10 +494,7 @@ export function Preview({
 
         <ResizableHandle withHandle />
 
-        <ResizablePanel 
-          defaultSize={consoleHeight}
-          className="bg-muted"
-        >
+        <ResizablePanel defaultSize={consoleHeight} className="bg-muted">
           <div className="h-full flex flex-col">
             <div className="border-b bg-muted px-2 py-1 flex items-center justify-between">
               <span className="text-sm font-medium">Console</span>
@@ -473,7 +508,7 @@ export function Preview({
                 <Trash2 className="h-4 w-4" />
               </Button>
             </div>
-            
+
             <ScrollArea className="flex-1">
               <div className="font-mono text-sm">
                 {parsedLogs.map((log, i) => (
@@ -483,7 +518,10 @@ export function Preview({
               </div>
             </ScrollArea>
 
-            <form onSubmit={handleConsoleSubmit} className="border-t p-2 flex gap-2 items-start">
+            <form
+              onSubmit={handleConsoleSubmit}
+              className="border-t p-2 flex gap-2 items-start"
+            >
               <textarea
                 ref={inputRef}
                 value={consoleInput}
@@ -493,7 +531,12 @@ export function Preview({
                 className="flex-1 bg-background rounded p-2 min-h-[36px] max-h-[200px] resize-none font-mono text-sm"
                 rows={1}
               />
-              <Button type="submit" size="icon" variant="ghost" className="mt-1">
+              <Button
+                type="submit"
+                size="icon"
+                variant="ghost"
+                className="mt-1"
+              >
                 <SendHorizontal className="h-4 w-4" />
               </Button>
             </form>

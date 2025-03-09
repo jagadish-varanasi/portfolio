@@ -1,10 +1,10 @@
 {
-  "name": "vite-react-typescript-starter",
+  "name": "code-x",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --port 3010",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"
