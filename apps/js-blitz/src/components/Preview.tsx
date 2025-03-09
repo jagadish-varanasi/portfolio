@@ -157,7 +157,6 @@ export function Preview({
   logs = [],
   onLog = () => {},
   onClearLogs = () => {},
-  onReload = () => {},
   fileName = "",
   filePath = "",
   content = "",
@@ -247,7 +246,6 @@ export function Preview({
   const handleRun = () => {
     setIsRefreshing(true);
     setKey((prev) => prev + 1);
-    // onReload();
     const data = getPreviewContentRef.current();
     setData(data);
     setTimeout(() => setIsRefreshing(false), 750);
