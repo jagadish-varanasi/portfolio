@@ -1,4 +1,3 @@
-"use client";
 import React from "react";
 import { Card, CardContent } from "@repo/ui/components/card";
 import { Button } from "@repo/ui/components/button";
@@ -13,7 +12,7 @@ import {
 import Link from "next/link";
 
 function JSBlitz() {
-  const JSBLITZURL = process.env.JSBLITZ;
+  const JSBLITZURL = process.env.JSBLITZ || "";
   return (
     <Card className="hover:shadow-lg transition-shadow  dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30 odd:rotate-1 even:-rotate-1">
       <CardContent className="p-5">
@@ -45,13 +44,12 @@ function JSBlitz() {
             </div>
           </div>
         </div>
-        <Button
-          className="w-full h-8 rounded-2xl bg-yellow-400 hover:bg-yellow-500 text-background font-semibold"
-          onClick={() => window.open(JSBLITZURL, "_blank")}
-        >
-          Try JSBlitz
-          <ArrowRight className="w-4 h-4 ml-2" />
-        </Button>
+        <Link href={JSBLITZURL} target="_blank">
+          <Button className="w-full h-8 rounded-2xl bg-yellow-400 hover:bg-yellow-500 text-background font-semibold">
+            Try JSBlitz
+            <ArrowRight className="w-4 h-4 ml-2" />
+          </Button>
+        </Link>
       </CardContent>
     </Card>
   );
@@ -75,9 +73,10 @@ export const CodeJsX = () => {
             </div>
             <Link
               href={codexURL}
+              target="_blank"
               className="text-xs text-muted-foreground flex gap-1 items-center hover:underline cursor-pointer"
             >
-              Machine coding in JS & JSX. <MoveRightIcon className="h-4"/>
+              Machine coding in JS & JSX. <MoveRightIcon className="h-4" />
             </Link>
           </div>
         </div>
@@ -87,7 +86,7 @@ export const CodeJsX = () => {
 };
 
 export const JSBlitzInfo = () => {
-  const JSBLITZURL = process.env.JSBLITZ;
+  const JSBLITZURL = process.env.JSBLITZ || "";
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-all group  dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30 odd:rotate-1 even:-rotate-1">
       <CardContent className="p-0">
@@ -117,13 +116,12 @@ export const JSBlitzInfo = () => {
             <Terminal className="w-4 h-4" />
             <span>Ready to practice JS in local editor?</span>
           </div>
-          <Button
-            className="w-full bg-gradient-to-r h-8 rounded-2xl from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-background font-semibold group-hover:shadow-md transition-all"
-            onClick={() => window.open(JSBLITZURL, "_blank")}
-          >
-            Launch Editor
-            <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-          </Button>
+          <Link href={JSBLITZURL} target="_blank">
+            <Button className="w-full bg-gradient-to-r h-8 rounded-2xl from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-background font-semibold group-hover:shadow-md transition-all">
+              Launch Editor
+              <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
+            </Button>
+          </Link>
         </div>
       </CardContent>
     </Card>
