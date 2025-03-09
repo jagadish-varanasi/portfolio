@@ -11,7 +11,7 @@ import { projects } from "./components/data/projects";
 import { TextGenerateEffect } from "@repo/ui/components/text-generate-effect";
 import { HeroCard } from "./home/components/hero-card";
 import SliderDesign from "./components/tech-ani";
-import JSBlitz from "./components/js-blitz";
+import JSBlitz, { CodeJsX } from "./components/js-blitz";
 const BIO =
   "Software Engineer, working at HashedIn by Deloitte. I play read, write and travel for fun.";
 function Home() {
@@ -50,6 +50,7 @@ function Home() {
             <SliderDesign />
             <JSBlitz />
             <Promotion />
+            <CodeJsX />
             <HobbyCard />
             <CodingProfile />
           </div>

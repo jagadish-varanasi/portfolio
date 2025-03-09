@@ -2,7 +2,15 @@
 import React from "react";
 import { Card, CardContent } from "@repo/ui/components/card";
 import { Button } from "@repo/ui/components/button";
-import { ArrowRight, Code2, Zap, Terminal } from "lucide-react";
+import {
+  ArrowRight,
+  Code2,
+  Zap,
+  Terminal,
+  TerminalIcon,
+  MoveRightIcon,
+} from "lucide-react";
+import Link from "next/link";
 
 function JSBlitz() {
   const JSBLITZURL = process.env.JSBLITZ;
@@ -48,6 +56,35 @@ function JSBlitz() {
     </Card>
   );
 }
+
+export const CodeJsX = () => {
+  const codexURL = process.env.CODEX || "";
+  return (
+    <Card className="hover:shadow-lg transition-shadow  dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30 odd:rotate-1 even:-rotate-1">
+      <CardContent className="p-5">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="relative w-8 h-8">
+            <TerminalIcon className="h-8 w-8 text-white bg-indigo-600 rounded-md dark:bg-white dark:text-indigo-600" />
+          </div>
+          <div>
+            <div className="font-bold text-lg leading-none">
+              <span className="text-indigo-600 dark:text-white">CodeJS</span>
+              <span className="font-black text-xl bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-orange-400">
+                X
+              </span>
+            </div>
+            <Link
+              href={codexURL}
+              className="text-xs text-muted-foreground flex gap-1 items-center hover:underline cursor-pointer"
+            >
+              Machine coding in JS & JSX. <MoveRightIcon className="h-4"/>
+            </Link>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
 
 export const JSBlitzInfo = () => {
   const JSBLITZURL = process.env.JSBLITZ;

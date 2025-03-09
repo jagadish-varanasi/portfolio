@@ -26,7 +26,7 @@ function App() {
           </div>
           <div className="flex items-center">
             <span className="font-bold text-xl bg-clip-text text-transparent bg-gradient-to-r from-white to-white/80">
-              Code
+              CodeJS
             </span>
             <span className="font-black text-xl bg-clip-text text-transparent bg-gradient-to-r from-yellow-300 to-orange-400">
               X
