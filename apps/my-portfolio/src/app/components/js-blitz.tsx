@@ -5,11 +5,12 @@ import { Button } from "@repo/ui/components/button";
 import { ArrowRight, Code2, Zap, Terminal } from "lucide-react";
 
 function JSBlitz() {
+  const JSBLITZURL = process.env.JSBLITZ;
   return (
-    <Card className="w-[300px] hover:shadow-lg transition-shadow  dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30">
+    <Card className="hover:shadow-lg transition-shadow  dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30 odd:rotate-1 even:-rotate-1">
       <CardContent className="p-5">
         <div className="flex items-center gap-3 mb-3">
-          <div className="relative w-8 h-8 shrink-0">
+          <div className="relative w-8 h-8">
             <div className="absolute inset-0 bg-yellow-400 rounded-lg rotate-12"></div>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -38,7 +39,7 @@ function JSBlitz() {
         </div>
         <Button
           className="w-full h-8 rounded-2xl bg-yellow-400 hover:bg-yellow-500 text-background font-semibold"
-          onClick={() => window.open(process.env.JSBLITZ, "_blank")}
+          onClick={() => window.open(JSBLITZURL, "_blank")}
         >
           Try JSBlitz
           <ArrowRight className="w-4 h-4 ml-2" />
@@ -49,8 +50,9 @@ function JSBlitz() {
 }
 
 export const JSBlitzInfo = () => {
+  const JSBLITZURL = process.env.JSBLITZ;
   return (
-    <Card className="w-[300px] overflow-hidden hover:shadow-lg transition-all group  dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30">
+    <Card className="overflow-hidden hover:shadow-lg transition-all group  dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30 odd:rotate-1 even:-rotate-1">
       <CardContent className="p-0">
         <div className="bg-yellow-400/10 p-5">
           <div className="flex items-center justify-between mb-3">
@@ -66,7 +68,10 @@ export const JSBlitzInfo = () => {
             </span>
             <div className="text-yellow-500">
               console.log(
-              <span className="text-green-500">&quot;Hello, JSBlitz!&quot;</span>);
+              <span className="text-green-500">
+                &quot;Hello, JSBlitz!&quot;
+              </span>
+              );
             </div>
           </div>
         </div>
@@ -77,7 +82,7 @@ export const JSBlitzInfo = () => {
           </div>
           <Button
             className="w-full bg-gradient-to-r h-8 rounded-2xl from-yellow-400 to-yellow-500 hover:from-yellow-500 hover:to-yellow-600 text-background font-semibold group-hover:shadow-md transition-all"
-            onClick={() => window.open(process.env.JSBLITZ, "_blank")}
+            onClick={() => window.open(JSBLITZURL, "_blank")}
           >
             Launch Editor
             <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
