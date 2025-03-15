@@ -3,6 +3,7 @@ import Promotion from "../components/promotions";
 import HobbyCard from "../components/hobby-card";
 import WorkExperience from "../components/work-experience";
 import { JSBlitzInfo } from "../components/js-blitz";
+import CodingProfile from "../components/coding-profile";
 
 function About() {
   return (
@@ -132,6 +133,7 @@ function About() {
           <Promotion />
           <JSBlitzInfo />
           <HobbyCard />
+          <CodingProfile />
         </div>
       </aside>
     </div>

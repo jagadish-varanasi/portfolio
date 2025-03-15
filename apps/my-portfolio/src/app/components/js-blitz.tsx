@@ -14,7 +14,7 @@ import Link from "next/link";
 function JSBlitz() {
   const JSBLITZURL = process.env.JSBLITZ || "";
   return (
-    <Card className="hover:shadow-lg transition-shadow  dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30 odd:rotate-1 even:-rotate-1">
+    <Card className=" dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30 odd:rotate-1 even:-rotate-1">
       <CardContent className="p-5">
         <div className="flex items-center gap-3 mb-3">
           <div className="relative w-8 h-8">
@@ -58,7 +58,7 @@ function JSBlitz() {
 export const CodeJsX = () => {
   const codexURL = process.env.CODEX || "";
   return (
-    <Card className="hover:shadow-lg transition-shadow  dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30 odd:rotate-1 even:-rotate-1">
+    <Card className=" dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30 odd:rotate-1 even:-rotate-1">
       <CardContent className="p-5">
         <div className="flex items-center gap-3 mb-3">
           <div className="relative w-8 h-8">
@@ -88,7 +88,7 @@ export const CodeJsX = () => {
 export const JSBlitzInfo = () => {
   const JSBLITZURL = process.env.JSBLITZ || "";
   return (
-    <Card className="overflow-hidden hover:shadow-lg transition-all group  dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30 odd:rotate-1 even:-rotate-1">
+    <Card className="overflow-hidden transition-all group  dark:border-slate-800 dark:bg-gradient-to-t dark:from-slate-800 dark:to-slate-800/30 odd:rotate-1 even:-rotate-1">
       <CardContent className="p-0">
         <div className="bg-yellow-400/10 p-5">
           <div className="flex items-center justify-between mb-3">
