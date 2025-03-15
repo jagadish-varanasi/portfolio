@@ -7,10 +7,10 @@ function BlogDetails({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
-      <ProgressBar />
-      {children}
-    </div>
+     <>
+        <ProgressBar />
+         {children}
+      </>
   );
 }
 
