@@ -42,7 +42,7 @@ pre {
   margin-left: -16px;
   margin-right: -16px;
   background-color: rgba(55, 65, 81, 0.5); /* Set highlight bg color */
-  border-left: 4px solid yellow; /* Set highlight accent border color */
+  border-left: 4px solid #E7B109; /* Set highlight accent border color */
 }
 
 .line-number::before {
