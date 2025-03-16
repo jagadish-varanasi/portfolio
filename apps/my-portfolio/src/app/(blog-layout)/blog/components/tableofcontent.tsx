@@ -4,7 +4,6 @@ import { ChevronRight } from "lucide-react";
 import React, { useState, useEffect } from "react";
 
 function TableOfContents({ content }: any) {
-  console.log(content, "CON");
   const [headings, setHeadings] = useState<
     { id: string; text: string; level: number }[]
   >([]);
@@ -15,17 +14,13 @@ function TableOfContents({ content }: any) {
 
   useEffect(() => {
     // Extract headings from the MDX content
-    const lines = content.split("\n");
-    const headingsList = lines
-      .filter((line: any) => line.startsWith("#"))
-      .map((line: any) => {
-        const level = line.match(/^#+/)[0].length;
-        const text = line.replace(/^#+\s+/, "").replaceAll("**", "");
-        const id = text.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-        return { id, text, level };
-      });
-
-    setHeadings(headingsList);
+    const headingElements = document.querySelectorAll("h1, h2, h3, h4, h5, h6");
+    const extractedHeadings = Array.from(headingElements).map((heading) => ({
+      id: heading.id,
+      text: heading.textContent || "",
+      level: parseInt(heading.tagName[1], 10),
+    }));
+    setHeadings(extractedHeadings);
   }, [content]);
 
   const [activeId, setActiveId] = useState<string>("");
@@ -52,20 +47,36 @@ function TableOfContents({ content }: any) {
       }
     });
 
+    console.log(headings, "HEAD");
+
     return () => observer.disconnect();
   }, [headings]);
 
+  const handleClick = (e: any, id: string) => {
+    e.preventDefault();
+    console.log(id);
+
+    console.log(document.getElementById(id.trim()), "docu");
+    console.log(id.trim() === "how-di-works-in-angular");
+    console.log(id.length, "how-di-works-in-angular".length);
+    console.log(document.getElementById("how-di-works-in-angular"), "docu");
+    document.getElementById(id.trim())?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  };
+
   return (
-    <div className="sticky top-40">
-      <div className="rounded-lg bg-card p-4">
+    <div className="sticky top-8">
+      <div className="rounded-lg p-4">
         <p className="font-semibold text-md text-foreground mb-4">
           On this page
         </p>
         <nav className="relative">
           <ul className="space-y-3">
-            {headings.map(({ id, text, level }) => (
+            {headings.map(({ id, text, level }, index) => (
               <li
-                key={id}
+                key={id + index}
                 style={{ paddingLeft: `${getIndentation(level)}px` }}
                 className={cn(
                   "flex items-start transition-all duration-200 ease-in-out",
@@ -84,11 +95,7 @@ function TableOfContents({ content }: any) {
                 <a
                   href={`#${id}`}
                   onClick={(e) => {
-                    e.preventDefault();
-                    document.getElementById(id)?.scrollIntoView({
-                      behavior: "smooth",
-                      block: "start",
-                    });
+                    handleClick(e, id);
                   }}
                   className={cn(
                     "transition-colors leading-tight",

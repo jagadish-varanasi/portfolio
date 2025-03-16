@@ -1,15 +1,22 @@
-import Header from "../../components/header";
-import MdxLayout from "@/app/components/mdx-layout";
+import Header from "../components/header";
+
 import { promises as fs } from "fs";
 import path from "path";
 import { compileMDX } from "next-mdx-remote/rsc";
-import { Article } from "@/app/components/data/types";
 import remarkGfm from "remark-gfm";
-import TableOfContents from "../../components/tableofcontent";
+import TableOfContents from "../components/tableofcontent";
+import MdxLayout from "@/app/(default-layout)/components/mdx-layout";
+import { Article } from "@/app/(default-layout)/components/data/types";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const content = await fs.readFile(
-    path.join(process.cwd(), "src/app/blog/markdown", `${params.id}.mdx`),
+    path.join(
+      process.cwd(),
+      "src/app/(blog-layout)/blog/markdown",
+      `${params.id}.mdx`
+    ),
     "utf-8"
   );
   const { frontmatter } = await compileMDX<{
@@ -28,20 +35,44 @@ export async function generateMetadata({ params }: { params: { id: string } }) {
 
 async function Page({ params }: { params: { id: string } }) {
   const content = await fs.readFile(
-    path.join(process.cwd(), "src/app/blog/markdown", `${params.id}.mdx`),
+    path.join(
+      process.cwd(),
+      "src/app/(blog-layout)/blog/markdown",
+      `${params.id}.mdx`
+    ),
     "utf-8"
   );
+
   const data = await compileMDX<Article>({
     source: content,
     options: {
       parseFrontmatter: true,
       mdxOptions: {
         remarkPlugins: [remarkGfm],
+        rehypePlugins: [
+          rehypeSlug,
+          [
+            rehypeAutolinkHeadings,
+            {
+              behaviour: "append",
+              properties: {
+                ariaHidden: true,
+                tabIndex: -1,
+                className: "hash-link",
+              },
+            },
+          ],
+        ],
       },
     },
   });
+
+
   return (
     <>
+      <aside className="hidden md:block md:w-[240px] lg:w-[300px] shrink-0 order-last">
+        <TableOfContents content={content} />
+      </aside>
       <div className="grow">
         <div className="max-w-[700px]">
           <Header image={data.frontmatter.url || ""} />
@@ -59,9 +90,6 @@ async function Page({ params }: { params: { id: string } }) {
           <MdxLayout>{data.content}</MdxLayout>
         </div>
       </div>
-      <aside className="md:w-[240px] lg:w-[300px] shrink-0">
-        <TableOfContents content={content} />
-      </aside>
     </>
   );
 }

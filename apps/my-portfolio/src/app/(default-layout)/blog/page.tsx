@@ -1,13 +1,14 @@
-import Articles from "@/app/components/articles";
-import HobbyCard from "@/app/components/hobby-card";
-import JSBlitz from "@/app/components/js-blitz";
-import Promotion from "@/app/components/promotions";
-import SliderDesign from "@/app/components/tech-ani";
+
+import Articles from "@/app/(default-layout)/components/articles";
+import HobbyCard from "@/app/(default-layout)/components/hobby-card";
+import JSBlitz from "@/app/(default-layout)/components/js-blitz";
+import Promotion from "@/app/(default-layout)/components/promotions";
+import SliderDesign from "@/app/(default-layout)/components/tech-ani";
 import React from "react";
 
 function Blog() {
   return (
-    <>
+    <div className="grow md:flex space-y-8 md:space-y-0 md:space-x-8 pt-12 md:pt-16 pb-16 md:pb-20">
       <div className="grow">
         <div className="max-w-[700px]">
           <section>
@@ -24,7 +25,7 @@ function Blog() {
           <HobbyCard />
         </div>
       </aside>
-    </>
+    </div>
   );
 }
 

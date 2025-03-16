@@ -42,13 +42,13 @@ const tabData = [
 
 async function Articles() {
   const filenames = await fs.readdir(
-    path.join(process.cwd(), "src/app/blog/markdown")
+    path.join(process.cwd(), "src/app/(blog-layout)/blog/markdown")
   );
 
   const articles = await Promise.all(
     filenames.map(async (filename) => {
       const content = await fs.readFile(
-        path.join(process.cwd(), "src/app/blog/markdown", filename),
+        path.join(process.cwd(), "src/app/(blog-layout)/blog/markdown", filename),
         "utf-8"
       );
       const { frontmatter } = await compileMDX<Article>({

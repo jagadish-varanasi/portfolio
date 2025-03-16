@@ -1,5 +1,7 @@
 import createMDX from "@next/mdx";
 import remarkGfm from "remark-gfm";
+import rehypeSlug from "rehype-slug";
+import rehypeAutolinkHeadings from "rehype-autolink-headings";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -20,7 +22,20 @@ const nextConfig = {
 const withMDX = createMDX({
   options: {
     remarkPlugins: [remarkGfm],
-    rehypePlugins: [],
+    rehypePlugins: [
+      rehypeSlug,
+      [
+        rehypeAutolinkHeadings,
+        {
+          behaviour: "append",
+          properties: {
+            ariaHidden: true,
+            tabIndex: -1,
+            className: "hash-link",
+          },
+        },
+      ],
+    ],
   },
 });
 
