@@ -74,7 +74,7 @@ async function Page({ params }: { params: { id: string } }) {
         <TableOfContents content={content} />
       </aside>
       <div className="grow">
-        <div className="max-w-[700px]">
+        <div className="max-w-[700px] pb-40">
           <Header image={data.frontmatter.url || ""} />
           <div className="flex items-center mb-1">
             <div className="text-xs text-slate-500 uppercase">

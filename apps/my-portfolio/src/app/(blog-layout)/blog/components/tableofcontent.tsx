@@ -1,4 +1,5 @@
 "use client";
+import ThemeToggle from "@/app/(default-layout)/components/theme-toggle";
 import { cn } from "@repo/ui/lib/utils";
 import { ChevronRight } from "lucide-react";
 import React, { useState, useEffect } from "react";
@@ -35,8 +36,8 @@ function TableOfContents({ content }: any) {
         });
       },
       {
-        rootMargin: "-100px 0% -80% 0%",
-        threshold: 1.0,
+        rootMargin: "0px 0% -80% 0%",
+        threshold: 0.5,
       }
     );
 
@@ -54,12 +55,6 @@ function TableOfContents({ content }: any) {
 
   const handleClick = (e: any, id: string) => {
     e.preventDefault();
-    console.log(id);
-
-    console.log(document.getElementById(id.trim()), "docu");
-    console.log(id.trim() === "how-di-works-in-angular");
-    console.log(id.length, "how-di-works-in-angular".length);
-    console.log(document.getElementById("how-di-works-in-angular"), "docu");
     document.getElementById(id.trim())?.scrollIntoView({
       behavior: "smooth",
       block: "start",
@@ -67,56 +62,61 @@ function TableOfContents({ content }: any) {
   };
 
   return (
-    <div className="sticky top-8">
-      <div className="rounded-lg p-4">
-        <p className="font-semibold text-md text-foreground mb-4">
-          On this page
-        </p>
-        <nav className="relative">
-          <ul className="space-y-3">
-            {headings.map(({ id, text, level }, index) => (
-              <li
-                key={id + index}
-                style={{ paddingLeft: `${getIndentation(level)}px` }}
-                className={cn(
-                  "flex items-start transition-all duration-200 ease-in-out",
-                  level === 1 ? "mt-2" : "mt-1"
-                )}
-              >
-                <ChevronRight
+    <>
+      <div className="flex items-center justify-end">
+        <ThemeToggle />
+      </div>
+      <div className="sticky top-8">
+        <div className="rounded-lg p-4">
+          <p className="font-semibold text-md text-foreground mb-4">
+            On this page
+          </p>
+          <nav className="relative">
+            <ul className="space-y-3">
+              {headings.map(({ id, text, level }, index) => (
+                <li
+                  key={id + index}
+                  style={{ paddingLeft: `${getIndentation(level)}px` }}
                   className={cn(
-                    "mr-1 h-4 w-4 mt-1 flex-shrink-0 transition-colors",
-                    activeId === id
-                      ? "text-foreground"
-                      : "text-muted-foreground",
-                    level === 1 ? "h-5 w-5" : "h-4 w-4"
-                  )}
-                />
-                <a
-                  href={`#${id}`}
-                  onClick={(e) => {
-                    handleClick(e, id);
-                  }}
-                  className={cn(
-                    "transition-colors leading-tight",
-                    activeId === id
-                      ? "text-foreground font-medium"
-                      : "text-muted-foreground hover:text-foreground",
-                    level === 1
-                      ? "text-base font-medium"
-                      : level === 2
-                        ? "text-sm font-medium"
-                        : "text-sm font-normal"
+                    "flex items-start transition-all duration-200 ease-in-out",
+                    level === 1 ? "mt-2" : "mt-1"
                   )}
                 >
-                  {text}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+                  <ChevronRight
+                    className={cn(
+                      "mr-1 h-4 w-4 mt-1 flex-shrink-0 transition-colors",
+                      activeId === id
+                        ? "text-foreground"
+                        : "text-muted-foreground",
+                      level === 1 ? "h-5 w-5" : "h-4 w-4"
+                    )}
+                  />
+                  <a
+                    href={`#${id}`}
+                    onClick={(e) => {
+                      handleClick(e, id);
+                    }}
+                    className={cn(
+                      "transition-colors leading-tight",
+                      activeId === id
+                        ? "text-foreground font-medium"
+                        : "text-muted-foreground hover:text-foreground",
+                      level === 1
+                        ? "text-base font-medium"
+                        : level === 2
+                          ? "text-sm font-medium"
+                          : "text-sm font-normal"
+                    )}
+                  >
+                    {text}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 
