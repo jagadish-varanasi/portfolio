@@ -22,7 +22,7 @@ The `useState` hook is a function that lets you add state to functional componen
 
 Let's start with a simple example to illustrate the basic usage of `useState`.
 
-```
+```js
 import React, { useState } from 'react';
 
 function Counter() {
@@ -52,7 +52,7 @@ In this example:
 
 The argument passed to `useState` is the initial state. It can be any type: number, string, object, array, etc.
 
-```
+```js
 const [name, setName] = useState('John Doe');
 const [isLoggedIn, setIsLoggedIn] = useState(false);
 const [items, setItems] = useState([]);
@@ -64,7 +64,7 @@ The state update function returned by `useState` can be used to update the state
 
 ##### **Updating with a New State Value**
 
-```
+```js
 const [count, setCount] = useState(0);
 
 setCount(5); // Sets count to 5
@@ -74,7 +74,7 @@ setCount(5); // Sets count to 5
 
 When the new state depends on the previous state, it's better to use a function.
 
-```
+```js
 const [count, setCount] = useState(0);
 
 setCount(prevCount => prevCount + 1); // Increments count by 1
@@ -86,7 +86,7 @@ When dealing with objects or arrays, you need to ensure that you update the stat
 
 ##### **Updating Objects**
 
-```
+```js
 const [user, setUser] = useState({ name: 'John', age: 30 });
 
 // Update the age property
@@ -95,7 +95,7 @@ setUser(prevUser => ({ ...prevUser, age: 31 }));
 
 ##### **Updating Arrays**
 
-```
+```js
 const [items, setItems] = useState(['Apple', 'Banana']);
 
 // Add a new item to the array
@@ -120,7 +120,7 @@ When you call the state update function returned by `useState`, React schedules 
 
 ##### **Example: Avoiding Unnecessary Re-renders**
 
-```
+```js
 
 import React, { useState } from 'react';
 
@@ -160,7 +160,7 @@ When using hooks, closures can sometimes lead to unexpected behavior if not unde
 
 ##### **Example: Closure Issue**
 
-```
+```js
 import React, { useState } from 'react';
 
 function Counter() {
@@ -189,7 +189,7 @@ In this example, the `increment` function uses a closure that captures the initi
 
 To fix this, you can use the functional form of the state update function, which provides the latest state value.
 
-```
+```js
 import React, { useState } from 'react';
 
 function Counter() {

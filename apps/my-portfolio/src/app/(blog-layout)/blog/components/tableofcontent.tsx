@@ -48,8 +48,6 @@ function TableOfContents({ content }: any) {
       }
     });
 
-    console.log(headings, "HEAD");
-
     return () => observer.disconnect();
   }, [headings]);
 
@@ -63,11 +61,17 @@ function TableOfContents({ content }: any) {
 
   return (
     <>
-      <div className="flex items-center justify-end">
-        <ThemeToggle />
-      </div>
-      <div className="sticky top-8">
-        <div className="rounded-lg p-4">
+      <div className="sticky top-10">
+        <div className="flex items-center justify-end mb-12">
+          {/* <span className="flex font-semibold text-xl items-center gap-2">
+          by
+          <span className="from-yellow-400 via-yellow-600 to-orange-600 bg-gradient-to-r bg-clip-text text-transparent font-bold text-2xl">
+            Jagadish V
+          </span>
+        </span> */}
+          <ThemeToggle />
+        </div>
+        <div>
           <p className="font-semibold text-md text-foreground mb-4">
             On this page
           </p>

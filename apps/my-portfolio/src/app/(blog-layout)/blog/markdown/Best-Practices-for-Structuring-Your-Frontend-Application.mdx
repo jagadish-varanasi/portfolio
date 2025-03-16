@@ -23,7 +23,7 @@ Before diving into coding, take the time to plan your application’s structure.
 
 A well-organized directory structure enhances readability and maintainability. Here’s a common structure:
 
-```
+```bash
 /src
   /assets
     /images
@@ -50,7 +50,7 @@ Modularity is key to maintainability. Break down your application into small, re
 
 **Example:**
 
-```
+```js
 // Button.js
 export const Button = ({ label, onClick }) => {
   return <button onClick={onClick}>{label}</button>;
@@ -79,7 +79,7 @@ Managing state efficiently is crucial for complex applications. Consider using a
 
 **Example:**
 
-```
+```js
 // store.js (using Redux)
 import { createStore } from 'redux';
 
@@ -109,7 +109,7 @@ Consistent naming conventions improve code readability. Adopt a naming conventio
 
 **Example:**
 
-```
+```js
 // File: user-profile.js
 export const UserProfile = ({ user }) => {
   const userName = user.name;
@@ -127,7 +127,7 @@ Styling can become chaotic if not managed properly. Consider these practices:
 
 **Example:**
 
-```
+```css
 /* Using BEM Methodology */
 .user-profile {
   &__name {
@@ -149,7 +149,7 @@ Maintain high code quality with the following practices:
 
 **Example:**
 
-```
+```json
 // .eslintrc.json
 {
   "extends": "eslint:recommended",
@@ -170,7 +170,7 @@ Document your code and provide comments where necessary. Good documentation help
 
 **Example:**
 
-```
+```js
 // UserProfile.js
 /**
  * UserProfile component displays the user's profile information.
@@ -190,7 +190,7 @@ Use a version control system like Git to manage your codebase. Follow best pract
 
 **Example:**
 
-```
+```bash
 # Branching
 git checkout -b feature/add-user-profile
 
@@ -204,7 +204,7 @@ Set up CI/CD pipelines to automate testing and deployment processes. This ensure
 
 **Example:**
 
-```
+```yaml
 # .github/workflows/ci.yml
 name: CI
 
@@ -218,7 +218,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: "14"
       - run: npm install
       - run: npm test
 ```

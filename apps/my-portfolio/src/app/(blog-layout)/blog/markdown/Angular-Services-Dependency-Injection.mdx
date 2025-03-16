@@ -28,13 +28,13 @@ In Angular, a service is a class with a specific purpose. It is a way to share d
 
 To create a service in Angular, you can use the Angular CLI:
 
-```
+```bash
 ng generate service my-service
 ```
 
 This command generates a service file `my-service.service.ts` with a basic structure:
 
-```
+```js
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -53,7 +53,7 @@ export class MyService {
 
 To use a service in a component, you need to inject it into the component's constructor:
 
-```
+```js {11}
 import { Component, OnInit } from '@angular/core';
 import { MyService } from './my-service.service';
 
@@ -93,7 +93,7 @@ Angular's DI system is hierarchical, meaning that injectors can be nested. This 
 
 Consider the following example where we have a `LoggerService` and a `HeroService`:
 
-```
+```js {2,11,14}
 @Injectable({
   providedIn: 'root',
 })
@@ -122,7 +122,7 @@ In this example, `LoggerService` is injected into `HeroService`, and both servic
 
 Services can also be provided in specific modules. This is useful for feature modules that require their own instances of a service.
 
-```
+```js
 @NgModule({
   providers: [MyService],
 })
@@ -135,7 +135,7 @@ export class MyModule {}
 
 Angular allows multiple providers for the same token using the `multi` property. This is useful for creating extensible frameworks.
 
-```
+```js
 const MY_TOKEN = new InjectionToken<string[]>('MyToken');
 
 @NgModule({
@@ -151,7 +151,7 @@ export class MyModule {}
 
 Injection tokens are used to provide non-class dependencies. They are useful for injecting configuration data or objects.
 
-```
+```js
 const API_URL = new InjectionToken<string>('apiUrl');
 
 @NgModule({
@@ -164,7 +164,7 @@ export class MyModule {}
 
 You can mark a dependency as optional using the `@Optional` decorator. If the dependency is not provided, Angular will inject `null`.
 
-```
+```js
 constructor(@Optional() private myService: MyService) {}
 ```
 

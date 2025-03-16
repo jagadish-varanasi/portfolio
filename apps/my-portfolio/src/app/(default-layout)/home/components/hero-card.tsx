@@ -1,11 +1,8 @@
 "use client";
 
-import Header from "@/app/components/header";
-import Promotion from "@/app/components/promotions";
 import { AuroraBackground } from "@repo/ui/components/aurora-background";
 import { TextGenerateEffect } from "@repo/ui/components/text-generate-effect";
 import { motion } from "framer-motion";
-import Image from "next/image";
 import React from "react";
 const BIO =
   "Software Engineer, working at HashedIn by Deloitte. I play read, write and travel for fun. Expertise in Javascript and React.";

@@ -26,7 +26,7 @@ Type conversion is straightforward and controlled by the developer. Here are som
 
 You can convert other data types to strings using the `String()` function or the `.toString()` method.
 
-```
+```js
 let num = 123;
 let str = String(num); // "123"
 let bool = true;
@@ -37,7 +37,7 @@ let strBool = bool.toString(); // "true"
 
 Convert strings or booleans to numbers using `Number()`, `parseInt()`, or `parseFloat()`.
 
-```
+```js
 let str = "456";
 let num = Number(str); // 456
 let strFloat = "3.14";
@@ -50,7 +50,7 @@ let numBool = Number(bool); // 0
 
 Convert other types to booleans using `Boolean()`.
 
-```
+```js
 let str = "hello";
 let bool = Boolean(str); // true
 let num = 0;
@@ -65,7 +65,7 @@ Type coercion happens automatically in JavaScript, often in ways that can be sur
 
 When you use the `+` operator with a string and another type, JavaScript converts the other type to a string.
 
-```
+```js
 let num = 5;
 let str = "The number is " + num; // "The number is 5"
 ```
@@ -74,7 +74,7 @@ let str = "The number is " + num; // "The number is 5"
 
 When you use arithmetic operators (other than `+`), JavaScript converts the operands to numbers.
 
-```
+```js
 let str = "6";
 let result = str * 2; // 12
 ```
@@ -83,7 +83,7 @@ let result = str * 2; // 12
 
 JavaScript converts values to booleans in logical contexts (e.g., `if` statements).
 
-```
+```js
 let str = "";
 if (str) {
   console.log("This won't run");
@@ -98,7 +98,7 @@ if (str) {
 
 Loose equality can lead to unexpected results due to type coercion.
 
-```
+```js
 console.log(0 == false); // true
 console.log('' == false); // true
 console.log(null == undefined); // true
@@ -108,7 +108,7 @@ console.log(null == undefined); // true
 
 Always use strict equality to avoid unintended type coercion.
 
-```
+```js
 console.log(0 === false); // false
 console.log('' === false); // false
 console.log(null === undefined); // false
@@ -120,7 +120,7 @@ To solidify your understanding, try these examples in your browser's console:
 
 1. **String Coercion with** `+` **Operator**:
 
-   ```
+   ```js
    let a = 10;
    let b = "20";
    console.log(a + b); // "1020"
@@ -129,7 +129,7 @@ To solidify your understanding, try these examples in your browser's console:
 
 2. **Number Coercion with Arithmetic Operators**:
 
-   ```
+   ```js
    let a = "5";
    let b = 10;
    console.log(a * b); // 50
@@ -138,7 +138,7 @@ To solidify your understanding, try these examples in your browser's console:
 
 3. **Boolean Coercion in Logical Contexts**:
 
-   ```
+   ```js
    let a = "hello";
    if (a) {
      console.log("This will run"); // This will run

@@ -31,7 +31,7 @@ Generators produce a sequence of values on demand. When a generator function is 
 
 ###### **Example 1: Basic Generator Function**
 
-```
+```js
 function* simpleGenerator() {
   yield 1;
   yield 2;
@@ -61,7 +61,7 @@ Generators are ideal for implementing lazy evaluation, where values are computed
 
 **Example: Lazy Evaluation**
 
-```
+```js
 function* infiniteSequence() {
   let i = 0;
   while (true) {
@@ -88,7 +88,7 @@ Generators can simplify asynchronous programming by allowing developers to write
 
 ###### **Example: Asynchronous Programming**
 
-```
+```js
 function* fetchData() {
   const response = yield fetch('https://api.example.com/data');
   const data = yield response.json();
@@ -114,7 +114,7 @@ Generators can be used to create custom iterators for complex data structures, p
 
 **Example: Custom Iterator**
 
-```
+```js
 class Node {
   constructor(value) {
     this.value = value;

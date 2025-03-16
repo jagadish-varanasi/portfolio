@@ -9,6 +9,9 @@ import MdxLayout from "@/app/(default-layout)/components/mdx-layout";
 import { Article } from "@/app/(default-layout)/components/data/types";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
+import rehypePrettyCode from "rehype-pretty-code";
+import rehypePrism from 'rehype-prism-plus'
+
 
 export async function generateMetadata({ params }: { params: { id: string } }) {
   const content = await fs.readFile(
@@ -50,6 +53,8 @@ async function Page({ params }: { params: { id: string } }) {
       mdxOptions: {
         remarkPlugins: [remarkGfm],
         rehypePlugins: [
+          rehypePrettyCode,
+          rehypePrism,
           rehypeSlug,
           [
             rehypeAutolinkHeadings,

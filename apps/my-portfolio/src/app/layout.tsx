@@ -2,6 +2,7 @@ import "@repo/ui/globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
+import "./global.css";
 
 export const metadata: Metadata = {
   title: "Jagadish V",

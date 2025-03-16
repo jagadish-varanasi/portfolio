@@ -19,7 +19,7 @@ The Call Stack is a data structure that keeps track of function calls. When a fu
 
 ###### **Example:**
 
-```
+```js
 function first() {
     console.log("First");
 }
@@ -34,7 +34,7 @@ second();
 
 ###### **Output:**
 
-```
+```bash
 First
 Second
 ```
@@ -56,7 +56,7 @@ The Message Queue (or Task Queue) holds messages (callbacks) that are waiting to
 
 ###### **Example:**
 
-```
+```js
 console.log("Start");
 
 setTimeout(() => {
@@ -68,7 +68,7 @@ console.log("End");
 
 ###### **Output:**
 
-```
+```bash
 Start
 End
 Callback
@@ -96,7 +96,7 @@ Microtasks include `Promise` callbacks and `process.nextTick` in Node.js. They a
 
 ###### **Example:**
 
-```
+```js
 console.log("Start");
 
 setTimeout(() => {
@@ -112,7 +112,7 @@ console.log("End");
 
 ###### **Output:**
 
-```
+```bash
 Start
 End
 Microtask
@@ -138,7 +138,7 @@ Long-running tasks can block the Call Stack, causing the application to become u
 
 ###### **Example:**
 
-```
+```js
 function longTask() {
     for (let i = 0; i < 1e9; i++) {
         // Simulate a long task
@@ -152,7 +152,7 @@ console.log("Start");
 
 ###### **Output:**
 
-```
+```bash
 Start
 Long Task Done
 ```
