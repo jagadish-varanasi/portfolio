@@ -2,22 +2,11 @@ import { ArrowRightIcon } from "@radix-ui/react-icons";
 import Link from "next/link";
 import React from "react";
 import { Article } from "./data/types";
-import Image from "next/image";
 
 function ArticleItem({ data }: { data: Article }) {
   return (
     <article className="py-5 border-b border-slate-100 dark:border-slate-800">
       <div className="flex items-center">
-        <div className="rounded w-16 h-16 sm:w-[98px] sm:h-[88px] object-cover mr-6 relative">
-          {data?.url && (
-            <Image
-              src={`${data.url}`}
-              alt={"blog-image"}
-              layout="fill"
-              style={{ height: "100%", width: "100%" }}
-            />
-          )}
-        </div>
         <div className="w-full">
           <div className="text-xs text-slate-500 uppercase mb-1">
             <span className="text-gold">—</span> <time>{data.date}</time>{" "}
@@ -27,7 +16,7 @@ function ArticleItem({ data }: { data: Article }) {
           <h3 className="text-lg font-[650] mb-1">
             <Link
               href={`/blog/${data.id}`}
-              className="inline-flex relative hover:text-gold duration-150 ease-out before:scale-x-0 before:origin-center before:absolute before:inset-0 before:bg-yellow-200 dark:before:bg-white before:opacity-30 before:-z-10 before:translate-y-1/4 before:-rotate-2 hover:before:scale-100 before:duration-150 before:ease-in-out"
+              className="inline-flex relative hover:text-gold hover:underline"
             >
               {data.title}
             </Link>

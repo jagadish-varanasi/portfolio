@@ -5,18 +5,16 @@ const techData = {
   heading: "Technical Skills",
   items: [
     "Javascript",
-    "React",
     "Typescript",
-    "T-3 Stack",
+    "React",
     "NextJS",
     "Angular",
-    "Java",
     "React Native",
-    "TailwindCSS",
+    "Java",
     "Python",
+    "TailwindCSS",
     "Material UI",
-    "Product Design",
-    "UI/UX",
+    "T-3 Stack",
   ],
 };
 

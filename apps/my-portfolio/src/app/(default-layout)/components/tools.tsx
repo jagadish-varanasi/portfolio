@@ -3,7 +3,16 @@ import ListCard from "./list-card";
 
 const toolsData = {
   heading: "Tools I know",
-  items: ["Git", "Github", "Figma", "VS Code", "Expo", "Azure"],
+  items: [
+    "Git",
+    "Github",
+    "Figma",
+    "VS Code",
+    "Expo",
+    "Docker",
+    "Azure",
+    "GCP",
+  ],
 };
 
 function Tools() {

@@ -18,7 +18,6 @@ import {
   SendHorizontal,
 } from "lucide-react";
 import { ScrollArea } from "@repo/ui/components/scroll-area";
-import { cn } from "@/lib/utils";
 import { useEditorStore } from "@/lib/store";
 
 interface PreviewProps {
@@ -207,7 +206,7 @@ export const Preview = forwardRef<ChildRef, PreviewProps>(
     const inputRef = useRef<HTMLTextAreaElement>(null);
     const [consoleHistory, setConsoleHistory] = useState<string[]>([]);
     const [historyIndex, setHistoryIndex] = useState(-1);
-    const [isRefreshing, setIsRefreshing] = useState(false);
+
     const [editableContent, setEditableContent] = useState(content);
     const [consoleHeight, setConsoleHeight] = useState(() => {
       const saved = localStorage.getItem(CONSOLE_HEIGHT_KEY);
@@ -281,11 +280,9 @@ export const Preview = forwardRef<ChildRef, PreviewProps>(
     }, [getPreviewContent]);
 
     const handleRun = () => {
-      setIsRefreshing(true);
       setKey((prev) => prev + 1);
       const data = getPreviewContentRef.current();
       setData(data);
-      setTimeout(() => setIsRefreshing(false), 750);
     };
 
     useImperativeHandle(ref, () => ({

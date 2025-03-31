@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import useTheme from "../hooks/use-theme";
+import useTheme from "../../hooks/use-theme";
 import { Button } from "@repo/ui/components/moving-border";
 import ThemeToggle from "./theme-toggle";
 

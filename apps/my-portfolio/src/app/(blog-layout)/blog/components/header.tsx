@@ -24,15 +24,7 @@ function Header({ image }: { image: string }) {
         </div>
       </div>
       <div className="w-full flex justify-end -translate-y-8">
-        <div className="w-[88px] h-[88px] relative">
-          <Image
-            src={image}
-            alt={"blog-image"}
-            layout="fill"
-            style={{ height: "100%", width: "100%" }}
-            className="rounded-2xl"
-          />
-        </div>
+        <div className="h-[88px] relative flex justify-center items-center"></div>
       </div>
     </div>
   );
